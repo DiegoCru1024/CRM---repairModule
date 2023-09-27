@@ -30,7 +30,7 @@ public class RepairRequestService: IRepairRequestService
         return createdRequest;
     }
 
-    public async Task<RepairRequest?> GetRequestById(Guid id)
+    public async Task<GetRepairRequest?> GetRequestById(Guid id)
     {
         var repairRequest = await _unitOfWork.RepairRequests.GetByIdAsync(id);
 
@@ -39,11 +39,13 @@ public class RepairRequestService: IRepairRequestService
             throw new AppException("No se encontró la solicitud de reparación");
         }
 
-        return repairRequest;
+        return  _mapper.Map<GetRepairRequest>(repairRequest);
     }
 
-    public async Task<IEnumerable<RepairRequest>> GetAllRequests()
+    public async Task<IEnumerable<GetRepairRequest>> GetAllRequests()
     {
-        return await _unitOfWork.RepairRequests.GetAllAsync();
+        var repairRequests = await _unitOfWork.RepairRequests.GetAllAsync();
+
+        return _mapper.Map<IEnumerable<GetRepairRequest>>(repairRequests);
     }
 }

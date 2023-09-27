@@ -42,6 +42,10 @@
     align-items: center;
 }
 
+.navBar li a:hover{
+    color: purple;
+}
+
 .navBarIcon {
     font-size: 30px;
     margin-right: 10px;

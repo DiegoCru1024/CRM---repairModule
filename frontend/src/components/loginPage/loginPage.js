@@ -9,7 +9,7 @@ export default function LoginPage() {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        console.log("Login")
+        console.log("Login") 
     }
     return (
         <div className={styles.mainContainer}>

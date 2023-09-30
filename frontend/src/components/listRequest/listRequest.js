@@ -1,12 +1,14 @@
 import SideBar from '../sideBarComponent/sideBar';
-import listRequest from './listRequest/listRequest'
 
-export default  listRequest = ()=>{
+export default  function RequestList(){
+
     return (
-        <>
-        <SideBar></SideBar>
-        <h1>Este es el listRequest</h1>
-        </>
+        <div>
+            <SideBar/>
+            <div class="primeros cambios">
+                <h1>Este es el listRequest</h1>
+            </div>
+        </div>
     )
 }
 

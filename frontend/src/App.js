@@ -1,7 +1,8 @@
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import LoginPage from "./components/loginPage/loginPage";
 import DashboardPage from "./components/dashboardPage/dashboardPage";
-import RequestList from "./components/listRequest/listRequest";
+import RequestList from "./components/requestList/requestList";
+
 function App() {
     return (
         <BrowserRouter>

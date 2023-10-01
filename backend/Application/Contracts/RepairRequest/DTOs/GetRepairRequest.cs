@@ -7,6 +7,7 @@ public class GetRepairRequest
     public string OrderId { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime? ClosedAt { get; set; }
+    public string Motive { get; set; }
     public string Description { get; set; }
     public int DeviceStatus { get; set; }
     public string? WarrantyId { get; set; }

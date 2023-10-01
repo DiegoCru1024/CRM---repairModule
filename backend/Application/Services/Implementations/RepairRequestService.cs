@@ -12,15 +12,18 @@ public class RepairRequestService: IRepairRequestService
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
+    private readonly IValidationService _validationService;
 
-    public RepairRequestService(IUnitOfWork unitOfWork, IMapper mapper)
+    public RepairRequestService(IUnitOfWork unitOfWork, IMapper mapper, IValidationService validationService)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
+        _validationService = validationService;
     }
 
     public async Task<RepairRequest> CreateRequest(NewRepairRequest model)
     {
+        _validationService.EnsureValid(model);
         var repairRequest = _mapper.Map<RepairRequest>(model);
         repairRequest.CreatedAt = DateTime.Now;
         repairRequest.StatusId = RequestStatuses.Pending.ToId();

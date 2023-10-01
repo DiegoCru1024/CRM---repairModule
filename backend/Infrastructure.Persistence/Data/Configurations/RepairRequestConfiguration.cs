@@ -26,8 +26,12 @@ public class RepairRequestConfiguration : IEntityTypeConfiguration<RepairRequest
 
         builder.Property(rr => rr.WarrantyId);
 
+        builder.Property(rr => rr.Motive)
+            .HasMaxLength(100)
+            .IsRequired();
+
         builder.Property(rr => rr.Description)
-            .HasMaxLength(200)
+            .HasMaxLength(500)
             .IsRequired();
 
         builder.Property(rr => rr.CreatedAt)

@@ -1,6 +1,5 @@
-using Application.Enums;
+using Infrastructure.Identity.Data.Seeds;
 using Infrastructure.Identity.Models;
-using Infrastructure.Identity.Seeds;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

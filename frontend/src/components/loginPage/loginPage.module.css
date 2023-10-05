@@ -3,7 +3,7 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: 1fr;
-    background: linear-gradient(90deg, rgba(193, 255, 114, 1) 0%, rgba(126, 217, 87, 1) 25%, rgba(0, 191, 99, 1) 100%);
+    background: linear-gradient(90deg, #2e5ed2 0%, #234fc0 25%, #002388 100%);
 }
 
 .infoContainer {
@@ -25,7 +25,7 @@
 
 .loginWrapper {
     padding: 10px;
-    background: #09be7c;
+    background: #002388;
     border: 1px solid white;
     border-radius: 10px;
 }
@@ -76,12 +76,12 @@
     font-weight: bold;
     padding: 15px 20px;
     margin-top: 25px;
-    background: #09be7c;
+    background: #002388;
     border: none;
     border-radius: 100px;
 }
 
 .loginForm button:hover {
-    background: #7ed957;
+    background: #2e5ed2;
     transition: ease-in 0.25s;
 }

@@ -3,7 +3,7 @@ import logo from '../../assets/logo.jpg'
 import vector from '../../assets/backgroundVector.png'
 import {BiUserCircle, BiLock} from 'react-icons/bi'
 
-const iconStyle = {color: "#09be7c", fontSize: 30, marginRight: 5}
+const iconStyle = {color: "#002388", fontSize: 30, marginRight: 5}
 
 export default function LoginPage() {
 

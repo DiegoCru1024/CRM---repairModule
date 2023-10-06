@@ -5,7 +5,6 @@ using Application.Contracts.User.DTOs;
 using Application.Exceptions;
 using Application.Services.Interfaces;
 using AutoMapper;
-using FluentValidation;
 using Infrastructure.Identity.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -50,9 +49,9 @@ public class UserService: IUserService
             throw new Exception(result.Errors.ToString());
         }
 
-        await _userManager.AddToRoleAsync(newUser, model.Role.ToString());
+        await _userManager.AddToRoleAsync(newUser, model.Role);
 
-        return GenerateJwtToken(newUser);
+        return GenerateJwtToken(newUser, model.Role);
 
     }
 
@@ -62,6 +61,8 @@ public class UserService: IUserService
 
         var user = await _userManager.FindByEmailAsync(model.Email);
 
+        var userRoles = await _userManager.GetRolesAsync(user);
+
         if(user == null)
             throw new AppException("Verifique sus credenciales");
 
@@ -70,17 +71,21 @@ public class UserService: IUserService
         if (!loginResult.Succeeded)
             throw new AppException("Verifique sus credenciales");
 
-        return GenerateJwtToken(user);
+        return GenerateJwtToken(user, userRoles.FirstOrDefault());
     }
-    private UserToken GenerateJwtToken(User user)
+    private UserToken GenerateJwtToken(User user, string? role)
     {
         var claims = new List<Claim>
         {
             new(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new(ClaimTypes.Email, user.Email),
             new(ClaimTypes.Name, $"{user.Name} {user.Surname}"),
-            new(ClaimTypes.Role, user.UserRoles!.First().Role!.Name)
         };
+
+        if (role != null)
+        {
+            claims.Add(new Claim(ClaimTypes.Role, role));
+        }
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:SecretKey"]!));
 

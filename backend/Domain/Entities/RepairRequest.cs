@@ -3,7 +3,6 @@ namespace Domain.Entities;
 
 public class RepairRequest
 {
-    // TODO: Create Motive attribute
     public Guid Id { get; set; }
     public string ClientId { get; set; }
     public string OrderId { get; set; }

@@ -26,6 +26,8 @@ public class NewRepairRequestValidator: AbstractValidator<NewRepairRequest>
 
         RuleFor(x => x.ContactEmailInfo)
             .NotEmpty()
-            .WithMessage("El email de contacto es requerido");
+            .WithMessage("El email de contacto es requerido")
+            .EmailAddress()
+            .WithMessage("El email de contacto no es válido");
     }
 }

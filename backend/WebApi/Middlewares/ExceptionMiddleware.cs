@@ -23,7 +23,6 @@ public class ExceptionMiddleware
         }
         catch (Exception e)
         {
-            _logger.LogError(e, e.Message);
             var response = context.Response;
             response.ContentType = "application/json";
             var errorResponse = new ErrorResponse(e.Message);
@@ -39,6 +38,7 @@ public class ExceptionMiddleware
                    break;
                default:
                    response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                   _logger.LogError(e, e.Message);
                    break;
             }
 

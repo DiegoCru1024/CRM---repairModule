@@ -12,15 +12,18 @@ public class RepairRequestService: IRepairRequestService
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
+    private readonly IValidationService _validationService;
 
-    public RepairRequestService(IUnitOfWork unitOfWork, IMapper mapper)
+    public RepairRequestService(IUnitOfWork unitOfWork, IMapper mapper, IValidationService validationService)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
+        _validationService = validationService;
     }
 
     public async Task<RepairRequest> CreateRequest(NewRepairRequest model)
     {
+        _validationService.EnsureValid(model);
         var repairRequest = _mapper.Map<RepairRequest>(model);
         repairRequest.CreatedAt = DateTime.Now;
         repairRequest.StatusId = RequestStatuses.Pending.ToId();
@@ -30,7 +33,7 @@ public class RepairRequestService: IRepairRequestService
         return createdRequest;
     }
 
-    public async Task<RepairRequest?> GetRequestById(Guid id)
+    public async Task<GetRepairRequest?> GetRequestById(Guid id)
     {
         var repairRequest = await _unitOfWork.RepairRequests.GetByIdAsync(id);
 
@@ -39,11 +42,13 @@ public class RepairRequestService: IRepairRequestService
             throw new AppException("No se encontró la solicitud de reparación");
         }
 
-        return repairRequest;
+        return  _mapper.Map<GetRepairRequest>(repairRequest);
     }
 
-    public async Task<IEnumerable<RepairRequest>> GetAllRequests()
+    public async Task<IEnumerable<GetRepairRequest>> GetAllRequests()
     {
-        return await _unitOfWork.RepairRequests.GetAllAsync();
+        var repairRequests = await _unitOfWork.RepairRequests.GetAllAsync();
+
+        return _mapper.Map<IEnumerable<GetRepairRequest>>(repairRequests);
     }
 }

@@ -79,7 +79,7 @@ public class UserService: IUserService
             new(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new(ClaimTypes.Email, user.Email),
             new(ClaimTypes.Name, $"{user.Name} {user.Surname}"),
-            //new(ClaimTypes.Role, user.UserRoles!.First().Role!.Name)
+            new(ClaimTypes.Role, user.UserRoles!.First().Role!.Name)
         };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:SecretKey"]!));

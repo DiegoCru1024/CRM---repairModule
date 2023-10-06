@@ -1,9 +1,7 @@
+namespace Application.Contracts.RepairRequest.DTOs;
 
-namespace Domain.Entities;
-
-public class RepairRequest
+public class GetRepairRequest
 {
-    // TODO: Create Motive attribute
     public Guid Id { get; set; }
     public string ClientId { get; set; }
     public string OrderId { get; set; }
@@ -14,6 +12,5 @@ public class RepairRequest
     public int DeviceStatus { get; set; }
     public string? WarrantyId { get; set; }
     public string ContactEmailInfo { get; set; }
-    public Guid StatusId { get; set; }
-    public RequestStatus Status { get; set; }
+    public string Status { get; set; }
 }

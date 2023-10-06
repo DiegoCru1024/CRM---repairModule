@@ -6,7 +6,6 @@ namespace Application.Services.Interfaces;
 public interface IRepairRequestService
 {
     Task<RepairRequest> CreateRequest(NewRepairRequest model);
-    Task<RepairRequest?> GetRequestById(Guid id);
-    Task<IEnumerable<RepairRequest>> GetAllRequests();
-
+    Task<GetRepairRequest?> GetRequestById(Guid id);
+    Task<IEnumerable<GetRepairRequest>> GetAllRequests();
 }

@@ -1,6 +1,5 @@
-using Application.Enums;
 using Domain.Entities;
-using Infrastructure.Persistence.Seeds;
+using Infrastructure.Persistence.Data.Seeds;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

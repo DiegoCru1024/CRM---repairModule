@@ -1,7 +1,7 @@
 using Application.Enums;
 using Infrastructure.Identity.Models;
 
-namespace Infrastructure.Identity.Seeds;
+namespace Infrastructure.Identity.Data.Seeds;
 
 public static class DefaultRoles
 {

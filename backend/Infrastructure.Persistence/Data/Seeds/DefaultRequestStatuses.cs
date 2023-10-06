@@ -1,7 +1,7 @@
 using Application.Enums;
 using Domain.Entities;
 
-namespace Infrastructure.Persistence.Seeds;
+namespace Infrastructure.Persistence.Data.Seeds;
 
 public static class DefaultRequestStatuses
 {

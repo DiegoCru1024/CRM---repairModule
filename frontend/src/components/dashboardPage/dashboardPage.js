@@ -45,7 +45,6 @@ export default function DashboardPage() {
         },
     ];
 
-    const COLORS = ['#FF8042', '#00C49F', '#FFBB28'];
     const data2 = [
         {
             name: 'Pendiente',
@@ -86,9 +85,9 @@ export default function DashboardPage() {
                         <PieChart width={400} height={400}>
                             <Pie data={data2} cx="50%" cy="50%" outerRadius={120} innerRadius={80} paddingAngle={5}
                                  dataKey="quantity">
-                                <Cell key={'cell-0'} fill={COLORS[0]}/>
-                                <Cell key={'cell-1'} fill={COLORS[1]}/>
-                                <Cell key={'cell-2'} fill={COLORS[2]}/>
+                                <Cell key={'cell-0'} fill={'#FF8042'}/>
+                                <Cell key={'cell-1'} fill={'#00C49F'}/>
+                                <Cell key={'cell-2'} fill={'#FFBB28'}/>
                             </Pie>
                             <Tooltip/>
                             <Legend/>

@@ -8,6 +8,7 @@ import jwtDecode from "jwt-decode";
 import {useDispatch} from "react-redux";
 import {setUser} from "../../store/userSlice";
 import {useNavigate} from "react-router-dom";
+import NotificationComponent from "../notificationComponent/notificacionComponent";
 
 
 const iconStyle = {color: "#002388", fontSize: 30, marginRight: 5}
@@ -15,6 +16,8 @@ const iconStyle = {color: "#002388", fontSize: 30, marginRight: 5}
 export default function LoginPage() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const [waitingResponse, setWaitingResponse] = useState(false)
+    const [errorMessage, setErrorMessage] = useState([])
     const [loginData, setLoginData] = useState({
         email: '',
         password: ''
@@ -31,7 +34,9 @@ export default function LoginPage() {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+
         try {
+            setWaitingResponse(true)
             const url = 'https://reapir-module-crm-230927095955.azurewebsites.net/api/User/Login'
             const response = await axios.post(url, loginData)
             const payload = jwtDecode(response.data.token)
@@ -44,11 +49,19 @@ export default function LoginPage() {
             dispatch(setUser(userData))
             navigate('/dashboard')
         } catch (e) {
-            console.log(e)
+            setWaitingResponse(false)
+            setErrorMessage(
+                {
+                    message: e.response.data.Message,
+                    type: 'error'
+                })
         }
     }
     return (
+
         <div className={styles.mainContainer}>
+            <NotificationComponent messageInput={errorMessage}/>
+
             <div className={styles.infoContainer}>
                 <img src={vector} alt={"vector"}/>
             </div>
@@ -73,7 +86,7 @@ export default function LoginPage() {
                                placeholder={'Ingrese su contraseña...'} onChange={handleChange}
                                value={loginData.password}/>
 
-                        <button type={"submit"}>Iniciar Sesión</button>
+                        <button type={"submit"} disabled={waitingResponse}>Iniciar Sesión</button>
                     </form>
                 </div>
             </div>

@@ -7,7 +7,7 @@ export default function SideBar() {
     const handleLogOut = () => {
         console.log('Log Out...')
     }
-
+ 
     return (
         <div className={styles.sideBarContainer}>
             <div className={styles.userContainer}>

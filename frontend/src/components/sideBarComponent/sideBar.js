@@ -27,7 +27,7 @@ export default function SideBar() {
                     <HiClipboardList className={styles.navBarIcon}/> Lista de Solicitudes</Link>
                 </li>
 
-                <li><Link to={'/platformRequest'}>
+                <li><Link to={'/RepairRequest'}>
                     <HiInformationCircle className={styles.navBarIcon}/> Solucitud por Plataforma</Link>
                 </li>
 

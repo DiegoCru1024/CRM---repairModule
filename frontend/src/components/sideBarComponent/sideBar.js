@@ -2,8 +2,10 @@ import styles from './sideBar.module.css'
 import {HiCalculator, HiChip, HiClipboardList, HiHome, HiInformationCircle} from "react-icons/hi";
 import {HiUserCircle} from "react-icons/hi2";
 import {Link} from "react-router-dom";
+import {useSelector} from "react-redux";
 
 export default function SideBar() {
+    const userData = useSelector((state) => state.userData)
     const handleLogOut = () => {
         console.log('Log Out...')
     }
@@ -13,8 +15,8 @@ export default function SideBar() {
             <div className={styles.userContainer}>
                 <HiUserCircle style={{fontSize: '50px'}}/>
                 <div className={styles.userInfo}>
-                    <h3>Nombre Apellido</h3>
-                    <p>Rol: Técnico</p>
+                    <h3>{userData.name}</h3>
+                    <p>Rol: {userData.role}</p>
                 </div>
             </div>
 

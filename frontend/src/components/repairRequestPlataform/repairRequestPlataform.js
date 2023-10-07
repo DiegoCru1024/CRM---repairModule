@@ -43,10 +43,10 @@ const RepairRequestPlataform = () => {
 
           {/* Solicitud */}
           <h2>Solicitud</h2>
-          <form action="/RepairRequest" method="post">
+          <form style={{position:"relative"}} action="/RepairRequest" method="post">
             <div className={styles.request}>
-              <div>
-                <div style={{ display: "flex" }}>
+              <div style={{marginTop:"1.5em"}}>
+                <div style={{ display: "flex" , justifyContent:"space-between",paddingBottom:"1.5em"}}>
                   <FormData
                     label="Fecha de ingreso *"
                     name="fecha_ingreso"
@@ -84,9 +84,10 @@ const RepairRequestPlataform = () => {
                 cols="18"
                 required
               />
+              <button type="submit" className={styles.btnEnviar}>Enviar</button>
             </div>
 
-            <button type="submit">Enviar</button>
+            
           </form>
         </div>
       </div>
@@ -108,9 +109,9 @@ const FormData = ({
 );
 
 const SelectData = ({ label, name, options, required = false }) => (
-  <div style={{ display: "flex", flexDirection: "column" }}>
+  <div style={{ display: "flex", flexDirection: "column", width:"10em",paddingtop:"1em" ,paddingBottom:"1.5em"}}>
     <label>{label}</label>
-    <select id={name} name={name} required={required}>
+    <select id={name} name={name} required={required} style={{height:"2.5em"}}>
       {options.map((option, index) => (
         <option key={index} value={option}>
           {option}

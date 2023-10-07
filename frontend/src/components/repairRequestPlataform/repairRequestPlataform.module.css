@@ -1,3 +1,53 @@
-.mainContainer{
-    display: flex;
+.mainContainer {
+  display: grid;
+  grid-template-columns: 20% 80%;
+  height: 100vh;
+  box-sizing: border-box;
+}
+.bodyContainer {
+  display: flex;
+  border: 2px solid #a3a3a3;
+  border-radius: 10px;
+  margin-top: 30px;
+  margin-right: 50px;
+  height: 90%;
+}
+
+.form {
+  margin-top: 30px;
+  margin-left: 30px;
+  margin-right: 30px;
+}
+
+.sale {
+  display: flex;
+  flex-direction: column;
+}
+
+.sale input {
+  width: 18rem;
+}
+
+.dataContainer {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  grid-gap: 10px;
+  grid-auto-rows: minmax(20px, auto);
+}
+
+.dataContainer input {
+  height: 25px;
+  width: 10rem;
+  border: 1px solid #a3a3a3;
+  border-radius: 5px;
+}
+.request {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 10px;
+  grid-auto-rows: minmax(50px, auto);
+}
+
+.request input {
+  width: 200px;
 }

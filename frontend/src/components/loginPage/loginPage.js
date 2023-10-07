@@ -6,7 +6,7 @@ import {useState} from "react";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
 import {useDispatch} from "react-redux";
-import {setUser} from "../../store/userSlice";
+import {setUser} from "../../redux/userSlice";
 import {useNavigate} from "react-router-dom";
 import NotificationComponent from "../notificationComponent/notificacionComponent";
 

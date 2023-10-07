@@ -12,6 +12,7 @@
 .userContainer {
     display: flex;
     align-items: center;
+    margin-bottom: 50px;
 }
 
 .userInfo {
@@ -43,7 +44,7 @@
 }
 
 .navBar li a:hover{
-    color: purple;
+    color: black;
 }
 
 .navBarIcon {

@@ -1,7 +1,8 @@
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import LoginPage from "./components/loginPage/loginPage";
 import DashboardPage from "./components/dashboardPage/dashboardPage";
-import RepairRequestPlataform from "./components/repairRequestPlataform/repairRequestPlataform";
+import RepairRequestPlataform from "./components/repairRequestPlatform/repairRequestPlataform";
+import RequestList from "./components/requestList/requestList";
 
 function App() {
     return (
@@ -9,9 +10,10 @@ function App() {
             <Routes>
                 <Route path={'/'} element={<LoginPage/>}/>
                 <Route path={'/dashboard'} element={<DashboardPage/>}/>
-                <Route path={'/RepairRequest'} element={<RepairRequestPlataform/>} />
+                <Route path={'requestList'} element={<RequestList/>}/>
+                <Route path={'/repairRequest'} element={<RepairRequestPlataform/>}/>
             </Routes>
-        </BrowserRouter>    
+        </BrowserRouter>
     );
 }
 

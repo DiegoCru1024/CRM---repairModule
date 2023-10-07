@@ -1,5 +1,5 @@
 import styles from './sideBar.module.css'
-import {HiCalculator, HiChip, HiClipboardList, HiHome, HiInformationCircle} from "react-icons/hi";
+import {HiClipboardList, HiHome, HiInformationCircle} from "react-icons/hi";
 import {HiUserCircle} from "react-icons/hi2";
 import {Link, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
@@ -34,16 +34,8 @@ export default function SideBar() {
                         <HiClipboardList className={styles.navBarIcon}/> Lista de Solicitudes</Link>
                     </li>
 
-                    <li><Link to={'/platformRequest'}>
+                    <li><Link to={'/repairRequest'}>
                         <HiInformationCircle className={styles.navBarIcon}/> Solucitud por Plataforma</Link>
-                    </li>
-
-                    <li><Link to={'/technicalForm'}>
-                        <HiChip className={styles.navBarIcon}/> Solicitud de Asistencia Técnica</Link>
-                    </li>
-
-                    <li><Link to={'/quoteForm'}>
-                        <HiCalculator className={styles.navBarIcon}/> Cotización</Link>
                     </li>
                 </ul>
             </div>

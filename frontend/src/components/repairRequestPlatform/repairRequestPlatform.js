@@ -1,8 +1,8 @@
 import React from "react";
 import SideBar from "../sideBarComponent/sideBar";
-import styles from "./repairRequestPlataform.module.css";
+import styles from "./repairRequestPlatform.module.css";
 
-const RepairRequestPlataform = () => {
+const RepairRequestPlatform = () => {
   return (
     <div className={styles.mainContainer}>
       <SideBar />
@@ -134,4 +134,4 @@ const TextareaData = ({ label, name, rows, cols, required = false }) => (
   </div>
 );
 
-export default RepairRequestPlataform;
+export default RepairRequestPlatform;

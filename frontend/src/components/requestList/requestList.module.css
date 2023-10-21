@@ -35,21 +35,20 @@
 /* Estilo para las celdas (sin bordes en las columnas) */
 .table td,
 .table th {
-    border-top: none; /* Elimina el borde superior de las celdas */
-    border-left: none; /* Elimina el borde izquierdo de las celdas */
-    border-right: none; /* Elimina el borde derecho de las celdas */
-    border-bottom: 1px solid black; /* Línea en la parte inferior de la cabecera si es necesario */
+    border-top: none; 
+    border-left: none; 
+    border-right: none; 
+    border-bottom: 1px solid black;
     padding: 8px 16px;
 }
 
-/* Estilo para los botones de estado en estado "Proceso" (anaranjado) */
 .anaranjado {
     background-color: #ffecd7;
     color: #ffa834; 
     
 }
 
-/* Estilo para los botones de estado en estado "Por Revisar" (verde) */
+
 .verde {
     background-color: #cbe8ba;
     color: #629c44; 
@@ -73,8 +72,7 @@
     border-right: none;
     border-bottom: 1px solid black;
     padding: 8px 16px;
-    text-align: center; /* Centra el contenido horizontalmente en la celda */
-    vertical-align: middle; /* Centra el contenido verticalmente en la celda */
+    vertical-align: middle; 
 }
 
 /* Estilo para el botón con el carácter de elipsis vertical */

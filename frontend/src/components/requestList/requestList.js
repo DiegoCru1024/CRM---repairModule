@@ -2,55 +2,61 @@ import React from 'react';
 import { useState } from 'react';
 import SideBar from '../sideBarComponent/sideBar';
 import styles from './requestList.module.css';
+import ListComponent from "../listComponent/listComponent";
 
 
 export default function RequestList() {
-
-    const [id, setId] = useState("");
-    const [fecha, setFecha] = useState();
-    const [cliente, setCliente] = useState("");
-    const [tenico, setTecnico] = useState("");
-    const [detalles, setDetalles] = useState(""); // por aclarar
-
-    const [employeesList, setEmployeesList] = useState([]);
-
     return (
         <div className={styles.mainContainer}>
-            <SideBar />
+            <SideBar/>
             <div className={styles.requestListContainer}>
                 <div className={styles.listContainer}>
                     <h2>Lista de solicitudes emitidas</h2>
                 </div>
                 <div className={styles.tableContainer}>
-                    <div className={styles.table}>
-                        <table >
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>FECHA</th>
-                                    <th>CLIENTE</th>
-                                    <th>TECNICO</th>
-                                    <th>DETALLES</th>
-                                    <th>ESTADO</th>
-                                    <th>ACCION</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {
-                                    employeesList.map((val,key) => {
-                                        return <tr key={val.id}>
-                                            <td>{val.id}</td>
-                                            <td>{val.fecha}</td>
-                                            <td>{val.cliente}</td>
-                                            <td>{val.tecnico}</td>
-                                            <td>{val.detalles}</td>
-                                            <td>{val.estado}</td>
-                                            <td>:</td>
-                                        </tr>
-                                    })
-                                }
-                            </tbody>
-                        </table>
+                    <div className={'cuadro'}>
+                        <div className={'busqueda'}></div>
+                        <div className={'barra-filtros'}></div>
+                        <div className={styles.table}>
+                            <table >
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>FECHA</th>
+                                        <th>CLIENTE</th>
+                                        <th>TECNICO</th>
+                                        <th>DETALLES</th>
+                                        <th>ESTADO</th>
+                                        <th>ACCION</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>#11223344L</td>
+                                        <td>2023-10-15</td>
+                                        <td>Juan Luis Guerra Seijas</td>
+                                        <td>Técnico A</td>
+                                        <td>Detalles del pedido</td>
+                                        <td>
+                                            <div className={styles.estadoButton + ' ' + styles.anaranjado}>Proceso</div>
+                                        </td>
+                                        <td><button>⋮</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td>#22334455p</td>
+                                        <td>2023-10-15</td>
+                                        <td>Jose Luis Perez Albela</td>
+                                        <td>Técnico B</td>
+                                        <td>Detalles del pedido</td>
+                                        <td>
+                                            <div className={styles.estadoButton + ' ' + styles.verde}>Pendiente</div>
+                                        </td>
+                                        <td><button>⋮</button></td>
+                                    </tr>
+                                    {/* Agrega más filas según sea necesario */}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

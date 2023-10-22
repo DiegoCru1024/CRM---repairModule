@@ -2,10 +2,17 @@ import React from 'react';
 import { useState } from 'react';
 import SideBar from '../sideBarComponent/sideBar';
 import styles from './requestList.module.css';
-import ListComponent from "../listComponent/listComponent";
-
 
 export default function RequestList() {
+    /*
+    const [id, setId] = useState();
+    const [fecha, setFecha] = useState();
+    const [cliente, setCliente] = useState("");
+    const [tecnico, setTecnico] = useState("");
+    const [detalles, setDetalles] = useState(); // por confirmar
+
+    const [employeesList, setEmployeesList] = useState([]);
+    */
     return (
         <div className={styles.mainContainer}>
             <SideBar/>
@@ -15,8 +22,6 @@ export default function RequestList() {
                 </div>
                 <div className={styles.tableContainer}>
                     <div className={'cuadro'}>
-                        <div className={'busqueda'}></div>
-                        <div className={'barra-filtros'}></div>
                         <div className={styles.table}>
                             <table >
                                 <thead>
@@ -32,29 +37,36 @@ export default function RequestList() {
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>#11223344L</td>
-                                        <td>2023-10-15</td>
-                                        <td>Juan Luis Guerra Seijas</td>
-                                        <td>Técnico A</td>
-                                        <td>Detalles del pedido</td>
+                                        <td>00001</td>
+                                        <td>21/10/2023</td>
+                                        <td>Juan Manuel Gonzales</td>
+                                        <td>Tecnico 01</td>
+                                        <td>PDF</td>
                                         <td>
-                                            <div className={styles.estadoButton + ' ' + styles.anaranjado}>Proceso</div>
+                                            <div className={styles.estadoButton + ' ' + styles.verde}>Proceso</div>
                                         </td>
-                                        <td><button>⋮</button></td>
+                                        <td>⋮</td>
                                     </tr>
-                                    <tr>
-                                        <td>#22334455p</td>
-                                        <td>2023-10-15</td>
-                                        <td>Jose Luis Perez Albela</td>
-                                        <td>Técnico B</td>
-                                        <td>Detalles del pedido</td>
-                                        <td>
-                                            <div className={styles.estadoButton + ' ' + styles.verde}>Pendiente</div>
-                                        </td>
-                                        <td><button>⋮</button></td>
-                                    </tr>
-                                    {/* Agrega más filas según sea necesario */}
                                 </tbody>
+                                {/*
+                                <tbody>
+                                    {
+                                        employeesList.map((val, key) => {
+                                            return <tr key={val.id}>
+                                                <td>{val.id}</td>
+                                                <td>{val.fecha}</td>
+                                                <td>{val.cliente}</td>
+                                                <td>{val.tecnico}</td>
+                                                <td>{val.detalles}</td>
+                                                <td>
+                                                    <div className={styles.estadoButton + ' ' + styles.anaranjado}>Proceso</div>
+                                                </td>
+                                                <td>:</td>
+                                            </tr>
+                                        })
+                                    }
+                                </tbody>
+                                */}
                             </table>
                         </div>
                     </div>

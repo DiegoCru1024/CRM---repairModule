@@ -3,7 +3,7 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: 1fr;
-    background: linear-gradient(90deg, #2e5ed2 0%, #234fc0 25%, #002388 100%);
+    background: linear-gradient(90deg, #2e5ed2 0%, #1741ad 25%, #002388 100%);
 }
 
 .infoContainer {

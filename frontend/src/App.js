@@ -3,6 +3,7 @@ import LoginPage from "./components/loginPage/loginPage";
 import DashboardPage from "./components/dashboardPage/dashboardPage";
 import RequestList from "./components/requestList/requestList";
 import RepairRequestPlataform from "./components/repairRequestPlataform/repairRequestPlataform";
+import "./assets/scss/app.scss";
 
 function App() {
   return (

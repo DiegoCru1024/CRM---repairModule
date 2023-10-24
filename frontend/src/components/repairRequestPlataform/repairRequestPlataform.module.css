@@ -6,17 +6,15 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  width: 80vw;
+  width: 100vw;
 }
 
 .form {
   display: flex;
   justify-content: center;
-  border: 1px solid #d6d6d6;
-  border-radius: 20px;
   width: 80%;
   overflow-y: auto;
-  max-height: 90vh;
+  max-height: 100vh;
 }
 .form::-webkit-scrollbar {
   width: 13px;
@@ -32,30 +30,28 @@
   flex-direction: column;
 }
 
-.sale input {
+/* .sale input {
   width: 18rem;
-}
+} */
 
 .dataContainer {
   display: grid;
-  grid-template-columns: repeat(2, auto);
-  grid-gap: 5px;
-  grid-auto-rows: minmax(20px, auto);
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 1.25rem;
 }
 
-.dataContainer input {
-  height: 25px;
-  width: 10rem;
-  border: 1px solid #a3a3a3;
-  border-radius: 5px;
+@media (min-width: 1024px) {
+  .dataContainer {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
+
 .request {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-gap: 5px;
   grid-auto-rows: minmax(50px, auto);
 }
 
-.request input {
+/* .request input {
   width: 200px;
-}
+} */

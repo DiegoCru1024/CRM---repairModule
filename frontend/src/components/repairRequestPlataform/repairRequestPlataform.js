@@ -18,36 +18,48 @@ const RepairRequestPlataform = () => {
             </div>
 
             {/* Datos */}
-            <div style={{ display: "block" }}>
+            <div>
+              {/* style={{ display: "block" }} */}
               <h2>Datos</h2>
               <div className={styles.dataContainer}>
                 <Textinput
                   label="Nombre y Apellidos"
                   name="nombre_apellidos"
+                  placeholder="Nombre y Apellidos"
                   readOnly
                 />
                 <Textinput
                   label="Telefono de contacto"
                   name="contacto"
                   type="number"
+                  placeholder="Telefono de contacto"
                   readOnly
                 />
                 <Textinput
                   label="Correo asociado"
                   name="email"
                   type="email"
+                  placeholder="Correo asociado"
                   readOnly
                 />
-                <Textinput label="DNI" name="dni" type="number" readOnly />
+                <Textinput
+                  label="DNI"
+                  name="dni"
+                  type="number"
+                  readOnly
+                  placeholder="DNI"
+                />
                 <Textinput
                   label="Servicio/Modelo"
                   name="servicio_modelo"
+                  placeholder="Servicio/Modelo"
                   readOnly
                 />
                 <Textinput
                   label="Garantía"
                   name="garantia"
                   type="number"
+                  placeholder="Garantia"
                   readOnly
                 />
               </div>
@@ -63,6 +75,7 @@ const RepairRequestPlataform = () => {
                         label="Fecha de ingreso *"
                         name="fecha_ingreso"
                         required
+                        placeholder="Ingrese fecha de ingreso"
                       />
                       <SelectData
                         label="Motivo *"
@@ -81,6 +94,7 @@ const RepairRequestPlataform = () => {
                       label="Correo alternativo"
                       name="correo_alternativo"
                       required
+                      placeholder="Ingrese un correo alternativo"
                     />
                     <div>
                       <label>
@@ -93,7 +107,7 @@ const RepairRequestPlataform = () => {
                     label="Descripcion *"
                     name="descripcion"
                     rows="8"
-                    cols="18"
+                    cols="12"
                     required
                   />
                 </div>

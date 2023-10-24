@@ -3,18 +3,32 @@ const Textinput = ({
   label,
   name,
   type = "text",
+  placeholder,
   readOnly = false,
   required = false,
 }) => {
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", position: "relative" }}>
+    <div className='formGroup'>
       {label && (
-        <label >{label}</label>
-      )}
+        <label className='form-label' >{label}</label>
+      )
+      }
+      <div >
+        {name && (
+          <input
+            type={type}
+            name={name}
+            readOnly={readOnly}
+            required={required}
+            placeholder={placeholder}
+            className='form-control' />
+        )
+        }
+      </div>
 
-      <input type={type} name={name} readOnly={readOnly} required={required} />
-    </div>)
+
+    </div >)
 }
 
 export default Textinput;

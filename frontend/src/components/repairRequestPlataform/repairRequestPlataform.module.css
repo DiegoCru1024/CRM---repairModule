@@ -24,7 +24,7 @@
 
 .form::-webkit-scrollbar-thumb {
   background-color: #d6d6d6;
-  border-radius: 10px;
+  border-radius: 12px;
 }
 
 .sale {

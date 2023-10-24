@@ -1,0 +1,7 @@
+.mainContainer {
+    display: flex;
+}
+
+.listContainer {
+    padding: 50px;
+}

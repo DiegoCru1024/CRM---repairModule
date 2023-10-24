@@ -1,6 +1,7 @@
 import React from "react";
 import SideBar from "../sideBarComponent/sideBar";
 import styles from "./repairRequestPlataform.module.css";
+import Textinput from "../../ui/Textinput";
 
 const RepairRequestPlataform = () => {
   return (
@@ -20,30 +21,30 @@ const RepairRequestPlataform = () => {
             <div style={{ display: "block" }}>
               <h2>Datos</h2>
               <div className={styles.dataContainer}>
-                <FormData
+                <Textinput
                   label="Nombre y Apellidos"
                   name="nombre_apellidos"
                   readOnly
                 />
-                <FormData
+                <Textinput
                   label="Telefono de contacto"
                   name="contacto"
                   type="number"
                   readOnly
                 />
-                <FormData
+                <Textinput
                   label="Correo asociado"
                   name="email"
                   type="email"
                   readOnly
                 />
-                <FormData label="DNI" name="dni" type="number" readOnly />
-                <FormData
+                <Textinput label="DNI" name="dni" type="number" readOnly />
+                <Textinput
                   label="Servicio/Modelo"
                   name="servicio_modelo"
                   readOnly
                 />
-                <FormData
+                <Textinput
                   label="Garantía"
                   name="garantia"
                   type="number"
@@ -58,7 +59,7 @@ const RepairRequestPlataform = () => {
                 <div className={styles.request}>
                   <div>
                     <div style={{ display: "flex" }}>
-                      <FormData
+                      <Textinput
                         label="Fecha de ingreso *"
                         name="fecha_ingreso"
                         required
@@ -76,7 +77,7 @@ const RepairRequestPlataform = () => {
                       options={["estado1", "estado2", "estado3"]}
                       required
                     />
-                    <FormData
+                    <Textinput
                       label="Correo alternativo"
                       name="correo_alternativo"
                       required
@@ -106,19 +107,6 @@ const RepairRequestPlataform = () => {
     </div>
   );
 };
-
-const FormData = ({
-  label,
-  name,
-  type = "text",
-  readOnly = false,
-  required = false,
-}) => (
-  <div style={{ display: "flex", flexDirection: "column" }}>
-    <label>{label}</label>
-    <input type={type} name={name} readOnly={readOnly} required={required} />
-  </div>
-);
 
 const SelectData = ({ label, name, options, required = false }) => (
   <div style={{ display: "flex", flexDirection: "column" }}>

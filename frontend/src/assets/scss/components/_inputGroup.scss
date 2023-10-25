@@ -1,23 +1,4 @@
-.formGroup {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-}
-
-.form-label {
-  margin-bottom: 0.5rem;
-  --tw-text-opacity: 1;
-  color: rgb(71 85 105 / var(--tw-text-opacity));
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  text-transform: capitalize;
-  cursor: pointer;
-  width: 100%;
-  font-weight: 500;
-  display: block;
-}
-
-.form-control {
+.input-group-control {
   height: 25px;
   display: block;
   width: 100%;
@@ -52,16 +33,30 @@
     font-weight: 400;
   }
 }
-/*En caso tenga el atributo solo lectura*/
-.form-control[readonly] {
-  --tw-bg-opacity: 1;
-  background-color: rgb(226 232 240 / var(--tw-bg-opacity));
-  --tw-text-opacity: 1;
-  color: rgb(148 163 184 / var(--tw-text-opacity));
-  cursor: pointer;
-  &::placeholder {
-    --tw-text-opacity: 1;
-    color: rgb(148 163 184 / var(--tw-text-opacity));
-  }
+.inputGroup {
+  display: flex;
+  align-items: stretch;
 }
 
+.inputGroup.has-append .input-group-control {
+  border-right-width: 0px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.inputGroup.has-append .input-group-addon.right {
+  margin-left: 10px;
+  border-top-right-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
+  border-bottom-left-radius: 0.25rem;
+}
+.input-group-text {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.append-slot > div {
+  height: 100%;
+  width: 100%;
+}

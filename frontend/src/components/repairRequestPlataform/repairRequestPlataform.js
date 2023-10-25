@@ -2,6 +2,8 @@ import React from "react";
 import SideBar from "../sideBarComponent/sideBar";
 import styles from "./repairRequestPlataform.module.css";
 import Textinput from "../../ui/Textinput";
+import InputGroup from "../../ui/InputGroup";
+import Icons from "../../ui/Icon";
 
 const RepairRequestPlataform = () => {
   return (
@@ -13,10 +15,15 @@ const RepairRequestPlataform = () => {
             {/* Venta Asociada */}
             <div className={styles.sale}>
               <h1>Generar solicitud</h1>
-              <label>Venta asociada*</label>
-              <input type="text" id="venta" name="venta" required />
+              <InputGroup
+                label="Venta Asociada"
+                type="text"
+                name="venta_asociada"
+                placeholder="Ingrese la venta asociada "
+                required
+                append={<Icons icon="heroicons-outline:search" />}
+              />
             </div>
-
             {/* Datos */}
             <div>
               {/* style={{ display: "block" }} */}
@@ -25,41 +32,30 @@ const RepairRequestPlataform = () => {
                 <Textinput
                   label="Nombre y Apellidos"
                   name="nombre_apellidos"
-                  placeholder="Nombre y Apellidos"
                   readOnly
                 />
                 <Textinput
                   label="Telefono de contacto"
                   name="contacto"
                   type="number"
-                  placeholder="Telefono de contacto"
                   readOnly
                 />
                 <Textinput
                   label="Correo asociado"
                   name="email"
                   type="email"
-                  placeholder="Correo asociado"
                   readOnly
                 />
-                <Textinput
-                  label="DNI"
-                  name="dni"
-                  type="number"
-                  readOnly
-                  placeholder="DNI"
-                />
+                <Textinput label="DNI" name="dni" type="number" readOnly />
                 <Textinput
                   label="Servicio/Modelo"
                   name="servicio_modelo"
-                  placeholder="Servicio/Modelo"
                   readOnly
                 />
                 <Textinput
                   label="Garantía"
                   name="garantia"
                   type="number"
-                  placeholder="Garantia"
                   readOnly
                 />
               </div>

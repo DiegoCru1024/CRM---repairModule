@@ -26,8 +26,6 @@ const Textinput = ({
         )
         }
       </div>
-
-
     </div >)
 }
 

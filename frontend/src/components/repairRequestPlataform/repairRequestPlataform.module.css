@@ -30,9 +30,6 @@
   flex-direction: column;
 }
 
-/* .sale input {
-  width: 18rem;
-} */
 
 .dataContainer {
   display: grid;
@@ -51,7 +48,3 @@
   grid-template-columns: repeat(2, 1fr);
   grid-auto-rows: minmax(50px, auto);
 }
-
-/* .request input {
-  width: 200px;
-} */

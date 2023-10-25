@@ -4,7 +4,21 @@ import styles from "./repairRequestPlataform.module.css";
 import Textinput from "../../ui/Textinput";
 import InputGroup from "../../ui/InputGroup";
 import Icons from "../../ui/Icon";
-
+import Select from "../../ui/Select";
+const options = [
+  {
+    value: "option1",
+    label: "Option 1",
+  },
+  {
+    value: "option2",
+    label: "Option 2",
+  },
+  {
+    value: "option3",
+    label: "Option 3",
+  },
+];
 const RepairRequestPlataform = () => {
   return (
     <div className={styles.mainContainer}>
@@ -66,31 +80,31 @@ const RepairRequestPlataform = () => {
               <form action="/RepairRequest" method="post">
                 <div className={styles.request}>
                   <div>
-                    <div style={{ display: "flex" }}>
+                    <div className="selectForm">
                       <Textinput
                         label="Fecha de ingreso *"
                         name="fecha_ingreso"
                         required
                         placeholder="Ingrese fecha de ingreso"
                       />
-                      <SelectData
-                        label="Motivo *"
-                        name="ciudad"
-                        options={["pantalla", "bateria", "otro"]}
+                      <Textinput
+                        label="Correo alternativo"
+                        name="correo_alternativo"
                         required
+                        placeholder="Ingrese un alternativo"
                       />
                     </div>
-                    <SelectData
+                    <Select
                       label="Estado del equipo *"
                       name="ciudad"
-                      options={["estado1", "estado2", "estado3"]}
+                      options={options.map((option) => option.label)}
                       required
                     />
-                    <Textinput
-                      label="Correo alternativo"
-                      name="correo_alternativo"
+                    <Select
+                      label="Motivo *"
+                      name="ciudad"
+                      options={options.map((option) => option.label)}
                       required
-                      placeholder="Ingrese un correo alternativo"
                     />
                     <div>
                       <label>
@@ -117,19 +131,6 @@ const RepairRequestPlataform = () => {
     </div>
   );
 };
-
-const SelectData = ({ label, name, options, required = false }) => (
-  <div style={{ display: "flex", flexDirection: "column" }}>
-    <label>{label}</label>
-    <select id={name} name={name} required={required}>
-      {options.map((option, index) => (
-        <option key={index} value={option}>
-          {option}
-        </option>
-      ))}
-    </select>
-  </div>
-);
 
 const TextareaData = ({ label, name, rows, cols, required = false }) => (
   <div style={{ display: "flex", flexDirection: "column" }}>

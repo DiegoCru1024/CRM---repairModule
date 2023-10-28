@@ -16,4 +16,5 @@ public class RepairRequest
     public string ContactEmailInfo { get; set; }
     public Guid StatusId { get; set; }
     public RequestStatus Status { get; set; }
+    public Guid CreatedById { get; set; }
 }

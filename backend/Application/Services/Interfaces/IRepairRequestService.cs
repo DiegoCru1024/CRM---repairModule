@@ -8,4 +8,5 @@ public interface IRepairRequestService
     Task<RepairRequest> CreateRequest(NewRepairRequest model);
     Task<GetRepairRequest?> GetRequestById(Guid id);
     Task<IEnumerable<GetRepairRequest>> GetAllRequests();
+    Task<RepairRequest> UpdateRequest(Guid id, UpdateRepairRequest model);
 }

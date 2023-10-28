@@ -11,5 +11,6 @@ public class RepairRequestProfile : Profile
         CreateMap<NewRepairRequest, RepairRequest>();
         CreateMap<RepairRequest, GetRepairRequest>()
             .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.Name));
+        CreateMap<UpdateRepairRequest, RepairRequest>();
     }
 }

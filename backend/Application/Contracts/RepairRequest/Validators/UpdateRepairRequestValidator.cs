@@ -1,21 +1,12 @@
 using Application.Contracts.RepairRequest.DTOs;
-using Application.Enums;
 using FluentValidation;
 
 namespace Application.Contracts.RepairRequest.Validators;
 
-public class NewRepairRequestValidator: AbstractValidator<NewRepairRequest>
+public class UpdateRepairRequestValidator : AbstractValidator<UpdateRepairRequest>
 {
-    public NewRepairRequestValidator()
+    public UpdateRepairRequestValidator()
     {
-        RuleFor(x => x.ClientId)
-            .NotEmpty()
-            .WithMessage("El id del cliente es requerido");
-
-        RuleFor(x => x.OrderId)
-            .NotEmpty()
-            .WithMessage("El id de la orden es requerido");
-
         RuleFor(x => x.Motive)
             .NotEmpty()
             .WithMessage("El motivo es requerido");
@@ -33,9 +24,5 @@ public class NewRepairRequestValidator: AbstractValidator<NewRepairRequest>
             .WithMessage("El email de contacto es requerido")
             .EmailAddress()
             .WithMessage("El email de contacto no es válido");
-
-        RuleFor(x => x.CreatedById)
-            .NotEmpty()
-            .WithMessage("El id del usuario que crea la solicitud es requerido");
     }
 }

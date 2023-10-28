@@ -48,5 +48,8 @@ public class RepairRequestConfiguration : IEntityTypeConfiguration<RepairRequest
         builder.HasOne(x => x.Status)
             .WithMany(x => x.RepairRequests)
             .IsRequired();
+
+        builder.Property(x => x.CreatedById)
+            .IsRequired();
     }
 }

@@ -51,4 +51,20 @@ public class RepairRequestService: IRepairRequestService
 
         return _mapper.Map<IEnumerable<GetRepairRequest>>(repairRequests);
     }
+
+    public async Task<RepairRequest> UpdateRequest(Guid id, UpdateRepairRequest model)
+    {
+        _validationService.EnsureValid(model);
+        var repairRequest = await _unitOfWork.RepairRequests.GetByIdAsync(id);
+        if (repairRequest == null)
+        {
+            throw new AppException("No se encontró la solicitud de reparación");
+        }
+
+        _mapper.Map(model, repairRequest);
+        await _unitOfWork.RepairRequests.UpdateAsync(repairRequest);
+        await _unitOfWork.CommitAsync();
+
+        return repairRequest;
+    }
 }

@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Application.Contracts.RepairRequest.DTOs;
 using Application.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -18,6 +19,12 @@ public class RepairRequestController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateRequest(NewRepairRequest model)
     {
+        if(User.Identity is not ClaimsIdentity user)
+        {
+            return Unauthorized();
+        }
+
+        model.CreatedById = Guid.Parse(user.FindFirst(ClaimTypes.NameIdentifier)!.Value);
         var repairRequest = await _repairRequestService.CreateRequest(model);
         return CreatedAtAction(nameof(GetRequestById), new{ id = repairRequest.Id}, repairRequest);
     }
@@ -36,5 +43,10 @@ public class RepairRequestController : ControllerBase
         return Ok(requests);
     }
 
-
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateRequest(Guid id, [FromBody]UpdateRepairRequest model)
+    {
+        var request = await _repairRequestService.UpdateRequest(id, model);
+        return Ok(request);
+    }
 }

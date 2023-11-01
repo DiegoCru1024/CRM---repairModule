@@ -63,7 +63,6 @@ export default function DashboardPage() {
     return (
         <div className={styles.mainContainer}>
             <SideBar/>
-
             <div className={styles.dashboardContainer}>
                 <div className={styles.chartContainer}>
                     <h3>Cantidad de solicitudes por día</h3>

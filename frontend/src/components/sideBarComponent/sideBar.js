@@ -13,7 +13,7 @@ export default function SideBar() {
         dispatch(clearUser())
         navigate('/')
     }
-
+ 
     return (
         <div className={styles.sideBarContainer}>
             <div>

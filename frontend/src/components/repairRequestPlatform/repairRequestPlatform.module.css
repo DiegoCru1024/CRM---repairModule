@@ -1,8 +1,8 @@
 .mainContainer {
   display: grid;
   grid-template-columns: 20% 80%;
-  height: 100vh;
   box-sizing: border-box;
+
 }
 .bodyContainer {
   display: flex;
@@ -10,13 +10,16 @@
   border-radius: 10px;
   margin-top: 30px;
   margin-right: 50px;
-  height: 90%;
+  justify-content: center;
+  height: 80vh;
+
 }
 
 .form {
   margin-top: 30px;
   margin-left: 30px;
   margin-right: 30px;
+  
 }
 
 .sale {
@@ -31,7 +34,7 @@
 .dataContainer {
   display: grid;
   grid-template-columns: repeat(2, auto);
-  grid-gap: 10px;
+  grid-gap: 2em;
   grid-auto-rows: minmax(20px, auto);
 }
 
@@ -44,10 +47,20 @@
 .request {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-gap: 10px;
+  grid-gap: 20px;
   grid-auto-rows: minmax(50px, auto);
 }
 
 .request input {
-  width: 200px;
+  height: 25px;
+  width: 10rem;
+  border: 1px solid #a3a3a3;
+  border-radius: 5px;
 }
+
+.btnEnviar{
+ position: absolute; 
+ right: 20px;
+ bottom: 60px;
+}
+

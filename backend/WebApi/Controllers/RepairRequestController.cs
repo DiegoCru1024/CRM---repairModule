@@ -49,4 +49,11 @@ public class RepairRequestController : ControllerBase
         var request = await _repairRequestService.UpdateRequest(id, model);
         return Ok(request);
     }
+
+    [HttpGet("Statuses")]
+    public async Task<IActionResult> GetRequestStatuses()
+    {
+        var statuses = await _repairRequestService.GetRequestStatuses();
+        return Ok(statuses);
+    }
 }

@@ -49,7 +49,7 @@ public class RepairRequestService: IRepairRequestService
     {
         var repairRequests = await _unitOfWork.RepairRequests.GetAllAsync();
 
-        return _mapper.Map<IEnumerable<GetRepairRequest>>(repairRequests);
+        return _mapper.Map<List<GetRepairRequest>>(repairRequests);
     }
 
     public async Task<RepairRequest> UpdateRequest(Guid id, UpdateRepairRequest model)
@@ -59,6 +59,9 @@ public class RepairRequestService: IRepairRequestService
         if (repairRequest == null)
         {
             throw new AppException("No se encontró la solicitud de reparación");
+        }else if (repairRequest.StatusId != RequestStatuses.Pending.ToId())
+        {
+            throw new AppException("No se puede actualizar una solicitud de reparación que no esté pendiente");
         }
 
         _mapper.Map(model, repairRequest);
@@ -66,5 +69,11 @@ public class RepairRequestService: IRepairRequestService
         await _unitOfWork.CommitAsync();
 
         return repairRequest;
+    }
+
+    public async Task<IEnumerable<RequestStatus>> GetRequestStatuses()
+    {
+        var statuses = await _unitOfWork.RequestStatuses.GetAllAsync();
+        return new List<RequestStatus>();
     }
 }

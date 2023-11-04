@@ -9,14 +9,14 @@
     grid-template-rows: repeat(2, 1fr);
 }
 
-.chartContainer{
+.chartContainer {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
-.listContainer{
+.listContainer {
     grid-area: 2 / 1 / 3 / 3;
     padding: 50px;
 }

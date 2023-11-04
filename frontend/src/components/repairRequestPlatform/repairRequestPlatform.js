@@ -1,6 +1,6 @@
 import React from "react";
 import SideBar from "../sideBarComponent/sideBar";
-import styles from "./repairRequestPlataform.module.css";
+import styles from "./repairRequestPlatform.module.css";
 import Textinput from "../../ui/Textinput";
 import InputGroup from "../../ui/InputGroup";
 import Icons from "../../ui/Icon";
@@ -19,7 +19,7 @@ const options = [
     label: "Option 3",
   },
 ];
-const RepairRequestPlataform = () => {
+const RepairRequestPlatform = () => {
   return (
     <div className={styles.mainContainer}>
       <SideBar />
@@ -145,4 +145,4 @@ const TextareaData = ({ label, name, rows, cols, required = false }) => (
   </div>
 );
 
-export default RepairRequestPlataform;
+export default RepairRequestPlatform;

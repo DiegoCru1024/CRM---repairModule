@@ -1,5 +1,4 @@
 import React from 'react';
-import { useState } from 'react';
 import SideBar from '../sideBarComponent/sideBar';
 import styles from './requestList.module.css';
 
@@ -23,30 +22,30 @@ export default function RequestList() {
                 <div className={styles.tableContainer}>
                     <div className={'cuadro'}>
                         <div className={styles.table}>
-                            <table >
+                            <table>
                                 <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>FECHA</th>
-                                        <th>CLIENTE</th>
-                                        <th>TECNICO</th>
-                                        <th>DETALLES</th>
-                                        <th>ESTADO</th>
-                                        <th>ACCION</th>
-                                    </tr>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>FECHA</th>
+                                    <th>CLIENTE</th>
+                                    <th>TECNICO</th>
+                                    <th>DETALLES</th>
+                                    <th>ESTADO</th>
+                                    <th>ACCION</th>
+                                </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>00001</td>
-                                        <td>21/10/2023</td>
-                                        <td>Juan Manuel Gonzales</td>
-                                        <td>Tecnico 01</td>
-                                        <td>PDF</td>
-                                        <td>
-                                            <div className={styles.estadoButton + ' ' + styles.verde}>Proceso</div>
-                                        </td>
-                                        <td>⋮</td>
-                                    </tr>
+                                <tr>
+                                    <td>00001</td>
+                                    <td>21/10/2023</td>
+                                    <td>Juan Manuel Gonzales</td>
+                                    <td>Tecnico 01</td>
+                                    <td>PDF</td>
+                                    <td>
+                                        <div className={styles.estadoButton + ' ' + styles.verde}>Proceso</div>
+                                    </td>
+                                    <td>⋮</td>
+                                </tr>
                                 </tbody>
                                 {/*
                                 <tbody>

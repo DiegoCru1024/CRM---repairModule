@@ -1,148 +1,85 @@
-import React from "react";
+import React, {useState} from "react";
 import SideBar from "../sideBarComponent/sideBar";
 import styles from "./repairRequestPlatform.module.css";
+import axios from "axios";
 import Textinput from "../../ui/Textinput";
-import InputGroup from "../../ui/InputGroup";
-import Icons from "../../ui/Icon";
 import Select from "../../ui/Select";
-const options = [
-  {
-    value: "option1",
-    label: "Option 1",
-  },
-  {
-    value: "option2",
-    label: "Option 2",
-  },
-  {
-    value: "option3",
-    label: "Option 3",
-  },
-];
+
 const RepairRequestPlatform = () => {
-  return (
-    <div className={styles.mainContainer}>
-      <SideBar />
-      <div className={styles.repairRequestContainer}>
-        <div className={styles.form}>
-          <div>
-            {/* Venta Asociada */}
-            <div className={styles.sale}>
-              <h1>Generar solicitud</h1>
-              <InputGroup
-                label="Venta Asociada"
-                type="text"
-                name="venta_asociada"
-                placeholder="Ingrese la venta asociada "
-                required
-                append={<Icons icon="heroicons-outline:search" />}
-              />
-            </div>
-            {/* Datos */}
-            <div>
-              {/* style={{ display: "block" }} */}
-              <h2>Datos</h2>
-              <div className={styles.dataContainer}>
-                <Textinput
-                  label="Nombre y Apellidos"
-                  name="nombre_apellidos"
-                  readOnly
-                />
-                <Textinput
-                  label="Telefono de contacto"
-                  name="contacto"
-                  type="number"
-                  readOnly
-                />
-                <Textinput
-                  label="Correo asociado"
-                  name="email"
-                  type="email"
-                  readOnly
-                />
-                <Textinput label="DNI" name="dni" type="number" readOnly />
-                <Textinput
-                  label="Servicio/Modelo"
-                  name="servicio_modelo"
-                  readOnly
-                />
-                <Textinput
-                  label="Garantía"
-                  name="garantia"
-                  type="number"
-                  readOnly
-                />
-              </div>
-            </div>
-            <div>
-              {/* Solicitud */}
-              <h2>Solicitud</h2>
-              <form action="/RepairRequest" method="post">
-                <div className={styles.request}>
-                  <div>
-                    <div className="selectForm">
-                      <Textinput
-                        label="Fecha de ingreso *"
-                        name="fecha_ingreso"
-                        required
-                        placeholder="Ingrese fecha de ingreso"
-                      />
-                      <Textinput
-                        label="Correo alternativo"
-                        name="correo_alternativo"
-                        required
-                        placeholder="Ingrese un alternativo"
-                      />
+    const [clientData, setClientData] = useState({
+        firstName: 'Test',
+        lastName: 'Apellido'
+    })
+    const [orderData, setOrderData] = useState([])
+    const [requestData, setRequestData] = useState({})
+
+    const searchClient = async () => {
+        try {
+            const url = 'URL CLiente'
+            const response = await axios.get(url)
+            setClientData(response.data)
+            console.log(response)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const sendRequest = async (e) => {
+        e.preventDefault()
+        try {
+            const url = 'https://reapir-module-crm-230927095955.azurewebsites.net/api/RepairRequest'
+            const response = await axios.post(url, requestData)
+            console.log(response)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const handleChange = (e) => {
+        setRequestData(...requestData,
+        )
+    }
+
+    return (
+        <div className={styles.mainContainer}>
+            <SideBar/>
+            <div className={styles.repairRequestContainer}>
+                <form onSubmit={sendRequest}>
+                    <h1>Generar Solicitud</h1>
+                    <div className={styles.mainDataContainer}>
+                        <div>
+                            <h2>Datos del Cliente</h2>
+                            <div>
+                                <Textinput name={'dni'} label={'DNI Cliente:'} readOnly={false}
+                                           onChange={handleChange}/>
+                            </div>
+                            <div className={styles.userDataInput}>
+                                <Textinput name={'nombres'} label={'Nombres:'} value={clientData.firstName}/>
+                                <Textinput name={'apellidos'} label={'Apellidos:'} value={clientData.lastName}/>
+                                <Textinput name={'telefono'} label={'Telefono de Contacto:'} value={clientData.phone}/>
+                                <Textinput name={'correo'} label={'Correo de Contacto:'} value={clientData.email}/>
+                            </div>
+                        </div>
+                        <div>
+                            <h2>Datos de Venta</h2>
+                            <div>
+                                <Select name={'venta'} options={orderData} label={'Venta Asociada:'}/>
+                            </div>
+                            <div className={styles.userDataInput}>
+                                <Textinput name={'equipo'} label={'Equipo:'}/>
+                                <Textinput name={'garantia'} label={'Garantía:'}/>
+                                <Textinput name={'fecha'} label={'Fecha de Compra:'}/>
+                                <Textinput name={'precio'} label={'Precio de Equipo:'}/>
+                            </div>
+                        </div>
                     </div>
-                    <Select
-                      label="Estado del equipo *"
-                      name="ciudad"
-                      options={options.map((option) => option.label)}
-                      required
-                    />
-                    <Select
-                      label="Motivo *"
-                      name="ciudad"
-                      options={options.map((option) => option.label)}
-                      required
-                    />
                     <div>
-                      <label>
-                        *Se enviará una notificación al correo asociado y/o
-                        alternativo
-                      </label>
+                        <h2>Información de Solicitud</h2>
                     </div>
-                  </div>
-                  <TextareaData
-                    label="Descripcion *"
-                    name="descripcion"
-                    rows="8"
-                    cols="12"
-                    required
-                  />
-                </div>
-
-                <button type="submit">Enviar</button>
-              </form>
+                </form>
             </div>
-          </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 };
-
-const TextareaData = ({ label, name, rows, cols, required = false }) => (
-  <div style={{ display: "flex", flexDirection: "column" }}>
-    <label>{label}</label>
-    <textarea
-      id={name}
-      name={name}
-      rows={rows}
-      cols={cols}
-      required={required}
-    ></textarea>
-  </div>
-);
 
 export default RepairRequestPlatform;

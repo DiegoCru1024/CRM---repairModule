@@ -1,49 +1,24 @@
 .mainContainer {
-  display: flex;
+    display: flex;
 }
+
 .repairRequestContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  width: 100vw;
+    width: 85vw;
+    padding: 50px;
+    box-sizing: border-box;
 }
 
-.form {
-  display: flex;
-  justify-content: center;
-  width: 80%;
-  overflow-y: auto;
-  max-height: 100vh;
-}
-.form::-webkit-scrollbar {
-  width: 13px;
+.mainDataContainer {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 100px;
 }
 
-.form::-webkit-scrollbar-thumb {
-  background-color: #d6d6d6;
-  border-radius: 12px;
-}
-
-.sale {
-  display: flex;
-  flex-direction: column;
-}
-
-.dataContainer {
-  display: grid;
-  grid-template-columns: repeat(1, minmax(0, 1fr));
-  gap: 1.25rem;
-}
-
-@media (min-width: 1024px) {
-  .dataContainer {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-.request {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1.25rem;
+.userDataInput {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    column-gap: 50px;
+    row-gap: 25px;
+    padding-top: 25px;
 }

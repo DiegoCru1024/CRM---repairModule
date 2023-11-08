@@ -9,7 +9,7 @@ const RepairRequestPlatform = () => {
     const [clientData, setClientData] = useState({
         firstName: '',
         lastName: '',
-        phone: '',
+        bornDate: '',
         email: ''
     })
     const [orderData, setOrderData] = useState([])
@@ -17,15 +17,20 @@ const RepairRequestPlatform = () => {
 
     const searchClient = async () => {
         try {
-            const url = 'URL CLiente'
+            const url = `https://clientemodulocrm.onrender.com/buscarPorDNI/${requestData.clientId}`
             const response = await axios.get(url)
-            setClientData(response.data)
+            setClientData({
+                firstName: response.data[0].nombre,
+                lastName: response.data[0].apellido,
+                bornDate: response.data[0].fechanac,
+                email: response.data[0].correo
+            })
             console.log(response)
         } catch (error) {
             console.log(error)
         }
 
-        if (clientData.firstName) {
+        if (clientData.firstName !== '') {
             try {
                 const url = 'URL Ventas'
                 const response = await axios.get(url)
@@ -79,7 +84,8 @@ const RepairRequestPlatform = () => {
                             <div className={styles.userDataInput}>
                                 <Textinput name={'nombres'} label={'Nombres:'} value={clientData.firstName}/>
                                 <Textinput name={'apellidos'} label={'Apellidos:'} value={clientData.lastName}/>
-                                <Textinput name={'telefono'} label={'Telefono de Contacto:'} value={clientData.phone}/>
+                                <Textinput name={'fechanac'} label={'Fecha de Nacimiento:'}
+                                           value={clientData.bornDate}/>
                                 <Textinput name={'correo'} label={'Correo de Contacto:'} value={clientData.email}/>
                             </div>
                         </div>

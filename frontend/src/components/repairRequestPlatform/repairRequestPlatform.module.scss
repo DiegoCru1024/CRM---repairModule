@@ -1,0 +1,61 @@
+.mainContainer {
+  display: flex;
+}
+
+.repairRequestContainer {
+  width: 85vw;
+  padding: 50px;
+  box-sizing: border-box;
+}
+
+.mainDataContainer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 50px;
+}
+
+.searchClientContainer {
+  display: flex;
+  flex-direction: column;
+
+  div {
+    display: flex;
+    justify-content: space-between;
+
+    input {
+      width: 75%;
+      display: inline-block;
+    }
+
+    button {
+      background: #2e5ed2;
+      border: 1px solid #2e5ed2;
+      border-radius: 5px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      width: 20%;
+      transition: ease-in-out 0.25s;
+    }
+
+    button:hover {
+      background: white;
+      color: #2e5ed2;
+      transition: ease-in-out 0.25s;
+    }
+  }
+}
+
+.userDataInput {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+
+  column-gap: 50px;
+  row-gap: 25px;
+  padding-top: 25px;
+
+  textarea {
+    resize: none;
+    height: 150px;
+  }
+}

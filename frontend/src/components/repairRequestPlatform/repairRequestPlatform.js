@@ -1,14 +1,16 @@
 import React, {useState} from "react";
 import SideBar from "../sideBarComponent/sideBar";
-import styles from "./repairRequestPlatform.module.css";
+import styles from "./repairRequestPlatform.module.scss";
 import axios from "axios";
 import Textinput from "../../ui/Textinput";
 import Select from "../../ui/Select";
 
 const RepairRequestPlatform = () => {
     const [clientData, setClientData] = useState({
-        firstName: 'Test',
-        lastName: 'Apellido'
+        firstName: '',
+        lastName: '',
+        phone: '',
+        email: ''
     })
     const [orderData, setOrderData] = useState([])
     const [requestData, setRequestData] = useState({})
@@ -21,6 +23,17 @@ const RepairRequestPlatform = () => {
             console.log(response)
         } catch (error) {
             console.log(error)
+        }
+
+        if (clientData.firstName) {
+            try {
+                const url = 'URL Ventas'
+                const response = await axios.get(url)
+                setOrderData(response.data)
+                console.log(response)
+            } catch (error) {
+                console.log(error)
+            }
         }
     }
 
@@ -36,9 +49,15 @@ const RepairRequestPlatform = () => {
     }
 
     const handleChange = (e) => {
-        setRequestData(...requestData,
-        )
-    }
+        const {name, value} = e.target
+        setRequestData((prevData) => ({
+            ...prevData,
+            [name]: value
+        }));
+
+        console.log(requestData)
+    };
+
 
     return (
         <div className={styles.mainContainer}>
@@ -49,9 +68,13 @@ const RepairRequestPlatform = () => {
                     <div className={styles.mainDataContainer}>
                         <div>
                             <h2>Datos del Cliente</h2>
-                            <div>
-                                <Textinput name={'dni'} label={'DNI Cliente:'} readOnly={false}
+                            <div className={styles.searchClientContainer}>
+                                <label className={'form-label'}>DNI Cliente:</label>
+                                <div>
+                                    <input type={'text'} name={'clientId'} className={'form-control'}
                                            onChange={handleChange}/>
+                                    <button onClick={searchClient}>Buscar</button>
+                                </div>
                             </div>
                             <div className={styles.userDataInput}>
                                 <Textinput name={'nombres'} label={'Nombres:'} value={clientData.firstName}/>
@@ -75,6 +98,25 @@ const RepairRequestPlatform = () => {
                     </div>
                     <div>
                         <h2>Información de Solicitud</h2>
+                        <div className={styles.userDataInput}>
+                            <div>
+                                <label className={'form-label'}>Estado del Dispositivo:</label>
+                                <input className={'form-control'} name={'deviceStatus'} onChange={handleChange}/>
+                            </div>
+                            <div>
+                                <label className={'form-label'}>Correo Alternativo:</label>
+                                <input className={'form-control'} name={'contactEmailInfo'} onChange={handleChange}/>
+                            </div>
+                            <div>
+                                <label className={'form-label'}>Descripción:</label>
+                                <textarea className={'form-control'} name={'description'} onChange={handleChange}/>
+                            </div>
+                            <div>
+                                <label className={'form-label'}>Motivo:</label>
+                                <textarea className={'form-control'} name={'motive'} maxLength={250}
+                                          onChange={handleChange}/>
+                            </div>
+                        </div>
                     </div>
                 </form>
             </div>

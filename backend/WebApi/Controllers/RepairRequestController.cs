@@ -24,8 +24,8 @@ public class RepairRequestController : ControllerBase
             return Unauthorized();
         }
 
-        model.CreatedById = Guid.Parse(user.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var repairRequest = await _repairRequestService.CreateRequest(model);
+        var createdById = Guid.Parse(user.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var repairRequest = await _repairRequestService.CreateRequest(model, createdById);
         return CreatedAtAction(nameof(GetRequestById), new{ id = repairRequest.Id}, repairRequest);
     }
 

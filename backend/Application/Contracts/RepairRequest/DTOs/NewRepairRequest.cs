@@ -8,5 +8,4 @@ public class NewRepairRequest
     public string Description { get; set; }
     public int DeviceStatus { get; set; }
     public string ContactEmailInfo { get; set; }
-    public Guid CreatedById { get; set; }
 }

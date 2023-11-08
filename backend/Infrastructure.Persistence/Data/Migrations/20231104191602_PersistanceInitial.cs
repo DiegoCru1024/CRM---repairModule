@@ -39,11 +39,13 @@ namespace Infrastructure.Persistence.Data.Migrations
                     OrderId = table.Column<string>(type: "text", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     ClosedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    Description = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
+                    Motive = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    Description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
                     DeviceStatus = table.Column<int>(type: "integer", nullable: false),
                     WarrantyId = table.Column<string>(type: "text", nullable: true),
                     ContactEmailInfo = table.Column<string>(type: "text", nullable: false),
-                    StatusId = table.Column<Guid>(type: "uuid", nullable: false)
+                    StatusId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatedById = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -63,10 +65,11 @@ namespace Infrastructure.Persistence.Data.Migrations
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { new Guid("56626b64-485b-458a-99fb-cdb5b635526e"), "Pending" },
-                    { new Guid("5bf32584-8ba2-467d-b7a1-e354217e6c3b"), "Solved" },
-                    { new Guid("922ff6a9-ad99-4b78-8826-fc2136829e53"), "InProgress" },
-                    { new Guid("a2a674ed-e4ae-4fbc-bb1f-29b5122e1c88"), "Cancelled" }
+                    { new Guid("4f1c8ca2-c62d-444d-b711-0cc386647d83"), "Cancelado" },
+                    { new Guid("56626b64-485b-458a-99fb-cdb5b635526e"), "Pendiente" },
+                    { new Guid("5bf32584-8ba2-467d-b7a1-e354217e6c3b"), "Solventado" },
+                    { new Guid("922ff6a9-ad99-4b78-8826-fc2136829e53"), "En progreso" },
+                    { new Guid("a2a674ed-e4ae-4fbc-bb1f-29b5122e1c88"), "Notificado" }
                 });
 
             migrationBuilder.CreateIndex(

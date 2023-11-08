@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Persistence.Data.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20230926214937_PersistanceInitial")]
+    [Migration("20231104191602_PersistanceInitial")]
     partial class PersistanceInitial
     {
         /// <inheritdoc />
@@ -47,13 +47,21 @@ namespace Infrastructure.Persistence.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<Guid>("CreatedById")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)");
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
 
                     b.Property<int>("DeviceStatus")
                         .HasColumnType("integer");
+
+                    b.Property<string>("Motive")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("OrderId")
                         .IsRequired()
@@ -91,23 +99,28 @@ namespace Infrastructure.Persistence.Data.Migrations
                     b.HasData(
                         new
                         {
+                            Id = new Guid("56626b64-485b-458a-99fb-cdb5b635526e"),
+                            Name = "Pendiente"
+                        },
+                        new
+                        {
                             Id = new Guid("a2a674ed-e4ae-4fbc-bb1f-29b5122e1c88"),
-                            Name = "Cancelled"
+                            Name = "Notificado"
                         },
                         new
                         {
                             Id = new Guid("922ff6a9-ad99-4b78-8826-fc2136829e53"),
-                            Name = "InProgress"
-                        },
-                        new
-                        {
-                            Id = new Guid("56626b64-485b-458a-99fb-cdb5b635526e"),
-                            Name = "Pending"
+                            Name = "En progreso"
                         },
                         new
                         {
                             Id = new Guid("5bf32584-8ba2-467d-b7a1-e354217e6c3b"),
-                            Name = "Solved"
+                            Name = "Solventado"
+                        },
+                        new
+                        {
+                            Id = new Guid("4f1c8ca2-c62d-444d-b711-0cc386647d83"),
+                            Name = "Cancelado"
                         });
                 });
 

@@ -16,29 +16,49 @@ const RepairRequestPlatform = () => {
     const [requestData, setRequestData] = useState({})
 
     const searchClient = async () => {
-        try {
-            const url = `https://clientemodulocrm.onrender.com/buscarPorDNI/${requestData.clientId}`
-            const response = await axios.get(url)
-            setClientData({
-                firstName: response.data[0].nombre,
-                lastName: response.data[0].apellido,
-                bornDate: response.data[0].fechanac,
-                email: response.data[0].correo
-            })
-            console.log(response)
-        } catch (error) {
-            console.log(error)
+        if (!requestData.clientId) {
+            console.log('Ingrese un DNI para continuar...')
+            return
         }
 
-        if (clientData.firstName !== '') {
-            try {
-                const url = 'URL Ventas'
-                const response = await axios.get(url)
-                setOrderData(response.data)
-                console.log(response)
-            } catch (error) {
-                console.log(error)
+        try {
+            const url = `https://clientemodulocrm.onrender.com/buscarPorDNI/${requestData.clientId}`
+            const clientResponse = await axios.get(url)
+
+            if (clientResponse.data.length !== 0) {
+                setClientData({
+                    firstName: clientResponse.data[0].nombre,
+                    lastName: clientResponse.data[0].apellido,
+                    bornDate: clientResponse.data[0].fechanac,
+                    email: clientResponse.data[0].correo
+                })
+
+                try {
+                    const url = `https://modulo-ventas.onrender.com/getselldni/${requestData.clientId}`;
+                    const orderResponse = await axios.get(url);
+
+                    if (orderResponse.data.length !== 0) {
+                        const idVentasArray = orderResponse.data.map((item) => item.id_venta);
+                        setOrderData(idVentasArray);
+                        console.log(orderData);
+                    } else {
+                        setOrderData([]);
+                    }
+                } catch (error) {
+                    console.log(error);
+                }
+            } else {
+                console.log('No se ha encontrado ningun cliente...')
             }
+        } catch (error) {
+            setClientData({
+                firstName: '',
+                lastName: '',
+                bornDate: '',
+                email: ''
+            })
+
+            console.log(error)
         }
     }
 
@@ -59,8 +79,6 @@ const RepairRequestPlatform = () => {
             ...prevData,
             [name]: value
         }));
-
-        console.log(requestData)
     };
 
 
@@ -78,7 +96,7 @@ const RepairRequestPlatform = () => {
                                 <div>
                                     <input type={'text'} name={'clientId'} className={'form-control'}
                                            onChange={handleChange}/>
-                                    <button onClick={searchClient}>Buscar</button>
+                                    <button type={'button'} onClick={searchClient}>Buscar</button>
                                 </div>
                             </div>
                             <div className={styles.userDataInput}>
@@ -124,6 +142,7 @@ const RepairRequestPlatform = () => {
                             </div>
                         </div>
                     </div>
+                    <button type={'submit'}>Enviar</button>
                 </form>
             </div>
         </div>

@@ -1,32 +1,37 @@
 import React from 'react';
-const Textinput = ({
-  label,
-  name,
-  type = "text",
-  placeholder,
-  readOnly = false,
-  required = false,
-}) => {
 
-  return (
-    <div className='formGroup'>
-      {label && (
-        <label className='form-label' >{label}</label>
-      )
-      }
-      <div >
-        {name && (
-          <input
-            type={type}
-            name={name}
-            readOnly={readOnly}
-            required={required}
-            placeholder={placeholder}
-            className='form-control' />
-        )
-        }
-      </div>
-    </div >)
+const Textinput = ({
+                       label,
+                       name,
+                       value,
+                       type = "text",
+                       placeholder,
+                       onChange,
+                       readOnly = true,
+                       required = true,
+                   }) => {
+
+    return (
+        <div className='formGroup'>
+            {label && (
+                <label className='form-label'>{label}</label>
+            )
+            }
+            <div>
+                {name && (
+                    <input
+                        type={type}
+                        name={name}
+                        value={value}
+                        readOnly={readOnly}
+                        required={required}
+                        onChange={onChange}
+                        placeholder={placeholder}
+                        className='form-control'/>
+                )
+                }
+            </div>
+        </div>)
 }
 
 export default Textinput;

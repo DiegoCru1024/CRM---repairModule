@@ -9,8 +9,8 @@
   /*Transicion*/
   transition-duration: 300ms;
   transition-property: color, background-color, border-color,
-    text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter,
-    backdrop-filter;
+  text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter,
+  backdrop-filter;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 
   /*Border*/
@@ -26,6 +26,7 @@
     --tw-ring-opacity: 1;
     border-color: rgb(71 85 105 / var(--tw-ring-opacity));
   }
+
   /*PlacerHolder*/
   &::placeholder {
     --tw-text-opacity: 1;
@@ -33,6 +34,7 @@
     font-weight: 400;
   }
 }
+
 .inputGroup {
   display: flex;
   align-items: stretch;
@@ -50,6 +52,7 @@
   border-bottom-right-radius: 0.25rem;
   border-bottom-left-radius: 0.25rem;
 }
+
 .input-group-text {
   display: flex;
   align-items: center;

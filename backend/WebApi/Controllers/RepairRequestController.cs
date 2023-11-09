@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using Application.Contracts.RepairRequest.DTOs;
 using Application.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers;
@@ -16,7 +17,7 @@ public class RepairRequestController : ControllerBase
         _repairRequestService = repairRequestService;
     }
 
-    [HttpPost]
+    [HttpPost, Authorize]
     public async Task<IActionResult> CreateRequest(NewRepairRequest model)
     {
         if(User.Identity is not ClaimsIdentity user)

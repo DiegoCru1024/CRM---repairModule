@@ -24,17 +24,21 @@ public class RepairRequestService: IRepairRequestService
         _validationService = validationService;
     }
 
-    public async Task<RepairRequest> CreateRequest(NewRepairRequest model, Guid CreatedById)
+    public async Task<GetRepairRequest> CreateRequest(NewRepairRequest model, Guid createdById)
     {
         _validationService.EnsureValid(model);
         var repairRequest = _mapper.Map<RepairRequest>(model);
         repairRequest.CreatedAt = DateTime.Now;
         repairRequest.StatusId = new RequestStatusFactory().CreateStatus(RequestStatuses.Pending).Id;
-        repairRequest.CreatedById = CreatedById;
+        repairRequest.CreatedById = createdById;
 
+        var repairOrderStatus = (OrderStatus)new OrderStatusFactory().CreateStatus(OrderStatuses.WaitingForDiagnosis);
+        var repairOrder = new RepairOrder(0, false, repairOrderStatus.Id);
+
+        repairRequest.RepairOrder = repairOrder;
         var createdRequest = await _unitOfWork.RepairRequests.AddAsync(repairRequest);
         await _unitOfWork.CommitAsync();
-        return createdRequest;
+        return _mapper.Map<GetRepairRequest>(createdRequest);
     }
 
     public async Task<GetRepairRequest?> GetRequestById(Guid id)

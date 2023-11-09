@@ -9,5 +9,6 @@ public class RequestStatus: Status
     {
         Id = id;
         Name = name;
+        RepairRequests = new List<RepairRequest>();
     }
 }

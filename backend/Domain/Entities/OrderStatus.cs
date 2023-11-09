@@ -9,5 +9,6 @@ public class OrderStatus: Status
     {
         Id = id;
         Name = name;
+        RepairOrders = new List<RepairOrder>();
     }
 }

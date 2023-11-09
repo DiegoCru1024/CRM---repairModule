@@ -11,6 +11,13 @@ public class RepairRequestRepository : GenericRepository<RepairRequest>, IRepair
     {
     }
 
+    public override async Task<RepairRequest> AddAsync(RepairRequest entity)
+    {
+        var newRequest = await base.AddAsync(entity);
+        await DbSet.Entry(newRequest).Reference(x => x.Status).LoadAsync();
+        return newRequest;
+    }
+
     public override async Task<RepairRequest?> GetByIdAsync(Guid id)
     {
         return await DbSet.Include(x => x.Status)

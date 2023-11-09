@@ -16,4 +16,12 @@ public class RepairOrder
     public Guid RepairRequestId { get; set; }
     public RepairRequest RepairRequest { get; set; }
     public IEnumerable<Diagnosis> Diagnoses { get; set; }
+    public RepairOrder(float discount, bool warrantyEligible, Guid statusId)
+    {
+        CreatedAt = DateTime.Now;
+        Discount = discount;
+        WarrantyEligible = warrantyEligible;
+        StatusId = statusId;
+        Diagnoses = new List<Diagnosis>();
+    }
 }

@@ -12,7 +12,7 @@ public class NewRepairRequestValidator: AbstractValidator<NewRepairRequest>
             .NotEmpty()
             .WithMessage("El id del cliente es requerido");
 
-        RuleFor(x => x.OrderId)
+        RuleFor(x => x.PurchaseOrderId)
             .NotEmpty()
             .WithMessage("El id de la orden es requerido");
 
@@ -33,9 +33,5 @@ public class NewRepairRequestValidator: AbstractValidator<NewRepairRequest>
             .WithMessage("El email de contacto es requerido")
             .EmailAddress()
             .WithMessage("El email de contacto no es válido");
-
-        RuleFor(x => x.CreatedById)
-            .NotEmpty()
-            .WithMessage("El id del usuario que crea la solicitud es requerido");
     }
 }

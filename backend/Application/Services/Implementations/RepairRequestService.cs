@@ -1,9 +1,12 @@
 using Application.Contracts.RepairRequest.DTOs;
+using Application.Contracts.Status;
 using Application.Enums;
 using Application.Exceptions;
+using Application.Factories.StatusFactory.Implementations;
 using Application.Repositories;
 using Application.Services.Interfaces;
 using AutoMapper;
+using Domain.Base;
 using Domain.Entities;
 
 namespace Application.Services.Implementations;
@@ -21,16 +24,21 @@ public class RepairRequestService: IRepairRequestService
         _validationService = validationService;
     }
 
-    public async Task<RepairRequest> CreateRequest(NewRepairRequest model)
+    public async Task<GetRepairRequest> CreateRequest(NewRepairRequest model, Guid createdById)
     {
         _validationService.EnsureValid(model);
         var repairRequest = _mapper.Map<RepairRequest>(model);
         repairRequest.CreatedAt = DateTime.Now;
-        repairRequest.StatusId = RequestStatuses.Pending.ToId();
+        repairRequest.StatusId = new RequestStatusFactory().CreateStatus(RequestStatuses.Pending).Id;
+        repairRequest.CreatedById = createdById;
 
+        var repairOrderStatus = (OrderStatus)new OrderStatusFactory().CreateStatus(OrderStatuses.WaitingForDiagnosis);
+        var repairOrder = new RepairOrder(0, false, repairOrderStatus.Id);
+
+        repairRequest.RepairOrder = repairOrder;
         var createdRequest = await _unitOfWork.RepairRequests.AddAsync(repairRequest);
         await _unitOfWork.CommitAsync();
-        return createdRequest;
+        return _mapper.Map<GetRepairRequest>(createdRequest);
     }
 
     public async Task<GetRepairRequest?> GetRequestById(Guid id)
@@ -59,7 +67,8 @@ public class RepairRequestService: IRepairRequestService
         if (repairRequest == null)
         {
             throw new AppException("No se encontró la solicitud de reparación");
-        }else if (repairRequest.StatusId != RequestStatuses.Pending.ToId())
+        }
+        if (repairRequest.StatusId != new RequestStatusFactory().CreateStatus(RequestStatuses.Pending).Id)
         {
             throw new AppException("No se puede actualizar una solicitud de reparación que no esté pendiente");
         }
@@ -71,9 +80,9 @@ public class RepairRequestService: IRepairRequestService
         return repairRequest;
     }
 
-    public async Task<IEnumerable<RequestStatus>> GetRequestStatuses()
+    public async Task<IEnumerable<GetStatus>> GetRequestStatuses()
     {
         var statuses = await _unitOfWork.RequestStatuses.GetAllAsync();
-        return new List<RequestStatus>();
+        return _mapper.Map<IEnumerable<GetStatus>>(statuses);
     }
 }

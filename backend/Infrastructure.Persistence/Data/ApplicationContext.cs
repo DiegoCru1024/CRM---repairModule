@@ -9,6 +9,11 @@ public class ApplicationContext: DbContext
     #region DbSets
     DbSet<RepairRequest> RepairRequests { get; set; }
     DbSet<RequestStatus> RequestStatuses { get; set; }
+    DbSet<RepairOrder> RepairOrders { get; set; }
+    DbSet<OrderStatus> OrderStatuses { get; set; }
+    DbSet<Diagnosis> Diagnoses { get; set; }
+    DbSet<SparePart> SpareParts { get; set; }
+    DbSet<DiagnosisSparePart> RepairOrderSpareParts { get; set; }
     #endregion
 
     public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)

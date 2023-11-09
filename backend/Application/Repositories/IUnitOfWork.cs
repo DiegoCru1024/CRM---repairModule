@@ -6,5 +6,6 @@ public interface IUnitOfWork : IDisposable
 {
     IRepairRequestRepository RepairRequests { get; }
     IRequestStatusRepository RequestStatuses { get; }
+    IRepairOrderRepository RepairOrders { get; }
     Task CommitAsync();
 }

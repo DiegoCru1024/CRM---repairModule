@@ -1,13 +1,15 @@
 using Application.Contracts.RepairRequest.DTOs;
+using Application.Contracts.Status;
+using Domain.Base;
 using Domain.Entities;
 
 namespace Application.Services.Interfaces;
 
 public interface IRepairRequestService
 {
-    Task<RepairRequest> CreateRequest(NewRepairRequest model);
+    Task<GetRepairRequest> CreateRequest(NewRepairRequest model, Guid createdById);
     Task<GetRepairRequest?> GetRequestById(Guid id);
     Task<IEnumerable<GetRepairRequest>> GetAllRequests();
     Task<RepairRequest> UpdateRequest(Guid id, UpdateRepairRequest model);
-    Task<IEnumerable<RequestStatus>> GetRequestStatuses();
+    Task<IEnumerable<GetStatus>> GetRequestStatuses();
 }

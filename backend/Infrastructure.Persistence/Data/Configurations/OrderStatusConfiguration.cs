@@ -5,29 +5,28 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Persistence.Data.Configurations;
 
-public class RequestStatusConfiguration : IEntityTypeConfiguration<RequestStatus>
+public class OrderStatusConfiguration : IEntityTypeConfiguration<OrderStatus>
 {
-    public void Configure(EntityTypeBuilder<RequestStatus> builder)
+    public void Configure(EntityTypeBuilder<OrderStatus> builder)
     {
         //Table
-        builder.ToTable("request_statuses");
+        builder.ToTable("order_statuses");
 
-        //Primary Key
-        builder.HasKey(rs => rs.Id);
+        //Primary key
+        builder.HasKey(os => os.Id);
 
         //Properties
-        builder.Property(rs => rs.Id)
+        builder.Property(os => os.Id)
             .HasDefaultValueSql("gen_random_uuid()")
             .IsRequired();
 
-        builder.Property(rs => rs.Name)
+        builder.Property(os => os.Name)
             .HasMaxLength(50)
             .IsRequired();
 
         //Seed Data
         builder.HasData(
-            DefaultRequestStatuses.Seed()
+            DefaultOrderStatuses.Seed()
         );
     }
-
 }

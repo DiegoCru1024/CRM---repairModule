@@ -10,6 +10,10 @@ public class RepairOrder
     public float SubTotal { get; set; }
     public float Total { get; set; }
     public bool WarrantyEligible { get; set; }
+    public Guid? AttendedById { get; set; }
     public Guid StatusId { get; set; }
     public OrderStatus Status { get; set; }
+    public Guid RepairRequestId { get; set; }
+    public RepairRequest RepairRequest { get; set; }
+    public IEnumerable<Diagnosis> Diagnoses { get; set; }
 }

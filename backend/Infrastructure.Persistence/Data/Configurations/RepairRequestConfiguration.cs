@@ -14,6 +14,7 @@ public class RepairRequestConfiguration : IEntityTypeConfiguration<RepairRequest
         //Primary Key
         builder.HasKey(rr => rr.Id);
 
+        //Properties
         builder.Property(rr => rr.Id)
             .HasDefaultValueSql("gen_random_uuid()")
             .IsRequired();
@@ -21,7 +22,7 @@ public class RepairRequestConfiguration : IEntityTypeConfiguration<RepairRequest
         builder.Property(rr => rr.ClientId)
             .IsRequired();
 
-        builder.Property(rr => rr.OrderId)
+        builder.Property(rr => rr.PurchaseOrderId)
             .IsRequired();
 
         builder.Property(rr => rr.WarrantyId);
@@ -45,11 +46,13 @@ public class RepairRequestConfiguration : IEntityTypeConfiguration<RepairRequest
         builder.Property(rr => rr.ContactEmailInfo)
             .IsRequired();
 
-        builder.HasOne(x => x.Status)
-            .WithMany(x => x.RepairRequests)
+        builder.Property(x => x.CreatedById)
             .IsRequired();
 
-        builder.Property(x => x.CreatedById)
+        //Relationships
+        builder.HasOne(rr => rr.Status)
+            .WithMany(rs => rs.RepairRequests)
+            .HasForeignKey(rr => rr.StatusId)
             .IsRequired();
     }
 }

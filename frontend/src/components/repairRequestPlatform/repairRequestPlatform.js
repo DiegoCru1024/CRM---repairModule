@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import SideBar from "../sideBarComponent/sideBar";
 import styles from "./repairRequestPlatform.module.scss";
 import axios from "axios";
+import Swal from "sweetalert2";
 import Textinput from "../../ui/Textinput";
 import Select from "../../ui/Select";
 
@@ -17,20 +18,20 @@ const RepairRequestPlatform = () => {
 
     const searchClient = async () => {
         if (!requestData.clientId) {
-            console.log('Ingrese un DNI para continuar...')
+            showMessage('Ingrese un DNI para continuar...', 'error')
             return
         }
 
         try {
-            const url = `https://clientemodulocrm.onrender.com/buscarPorDNI/${requestData.clientId}`
+            const url = `https://clientemodulocrm.onrender.com/clientes/buscarPorDNI/${requestData.clientId}`
             const clientResponse = await axios.get(url)
 
-            if (clientResponse.data.length !== 0) {
+            if (!clientResponse.data.error) {
                 setClientData({
-                    firstName: clientResponse.data[0].nombre,
-                    lastName: clientResponse.data[0].apellido,
-                    bornDate: clientResponse.data[0].fechanac,
-                    email: clientResponse.data[0].correo
+                    firstName: clientResponse.data.nombre,
+                    lastName: clientResponse.data.apellido,
+                    bornDate: clientResponse.data.fechanac,
+                    email: clientResponse.data.correo
                 })
 
                 try {
@@ -48,7 +49,7 @@ const RepairRequestPlatform = () => {
                     console.log(error);
                 }
             } else {
-                console.log('No se ha encontrado ningun cliente...')
+                showMessage('No se ha encontrado ningún cliente...', 'question')
             }
         } catch (error) {
             setClientData({
@@ -60,6 +61,19 @@ const RepairRequestPlatform = () => {
 
             console.log(error)
         }
+    }
+
+    const showMessage = (messageContent, messageType) => {
+        Swal.fire({
+            position: "center",
+            icon: messageType,
+            title: messageContent,
+            showConfirmButton: false,
+            timer: 5000
+        }).then(() => {
+            console.log('Alerta enviada...')
+        });
+
     }
 
     const sendRequest = async (e) => {

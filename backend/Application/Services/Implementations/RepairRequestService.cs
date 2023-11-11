@@ -85,4 +85,10 @@ public class RepairRequestService: IRepairRequestService
         var statuses = await _unitOfWork.RequestStatuses.GetAllAsync();
         return _mapper.Map<IEnumerable<GetStatus>>(statuses);
     }
+
+    public async Task<IEnumerable<GetRepairRequest>> GetRequestsWithFilters(string? status, string? clientId)
+    {
+        var repairRequests = await _unitOfWork.RepairRequests.GetWithFiltersAsync(status, clientId);
+        return _mapper.Map<IEnumerable<GetRepairRequest>>(repairRequests);
+    }
 }

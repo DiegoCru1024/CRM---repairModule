@@ -57,4 +57,11 @@ public class RepairRequestController : ControllerBase
         var statuses = await _repairRequestService.GetRequestStatuses();
         return Ok(statuses);
     }
+
+    [HttpGet("Search")]
+    public async Task<IActionResult> GetRequestsWithFilters([FromQuery] string? status, [FromQuery] string? clientId)
+    {
+        var requests = await _repairRequestService.GetRequestsWithFilters(status, clientId);
+        return Ok(requests);
+    }
 }

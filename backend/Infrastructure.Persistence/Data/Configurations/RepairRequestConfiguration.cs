@@ -25,6 +25,9 @@ public class RepairRequestConfiguration : IEntityTypeConfiguration<RepairRequest
         builder.Property(rr => rr.PurchaseOrderId)
             .IsRequired();
 
+        builder.Property(rr => rr.ProductId)
+            .IsRequired();
+
         builder.Property(rr => rr.WarrantyId);
 
         builder.Property(rr => rr.Motive)

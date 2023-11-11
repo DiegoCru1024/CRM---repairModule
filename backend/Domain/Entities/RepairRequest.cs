@@ -6,6 +6,7 @@ public class RepairRequest
     public Guid Id { get; set; }
     public string ClientId { get; set; }
     public string PurchaseOrderId { get; set; }
+    public string ProductId { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime? ClosedAt { get; set; }
     public string Motive { get; set; }

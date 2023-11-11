@@ -8,20 +8,20 @@ import jwtDecode from "jwt-decode";
 import {useDispatch} from "react-redux";
 import {setUser} from "../../redux/userSlice";
 import {useNavigate} from "react-router-dom";
-import NotificationComponent from "../notificationComponent/notificacionComponent";
+import MessageMediator from "../../mediators/messageMediator";
 
 const iconStyle = {color: "#002388", fontSize: 30, marginRight: 5};
 
 export default function LoginPage() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const messageMediator = new MessageMediator()
     const [waitingResponse, setWaitingResponse] = useState(false);
-    const [errorMessage, setErrorMessage] = useState([]);
     const [loginData, setLoginData] = useState({
         email: "",
         password: "",
     });
-  
+
     const handleChange = (e) => {
         const {name, value} = e.target;
 
@@ -52,21 +52,16 @@ export default function LoginPage() {
                 role: payload[
                     "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
                     ],
-            };
+            }
             dispatch(setUser(userData));
             navigate("/dashboard");
         } catch (e) {
             setWaitingResponse(false);
-            setErrorMessage({
-                message: e.response.data.Message,
-                type: "error",
-            });
+            messageMediator.showMessage(e.response.data.message, 'error')
         }
     };
     return (
         <div className={styles.mainContainer}>
-            <NotificationComponent messageInput={errorMessage}/>
-
             <div className={styles.infoContainer}>
                 <img src={vector} alt={"vector"}/>
             </div>

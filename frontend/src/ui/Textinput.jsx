@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Textinput = ({
+const TextInput = ({
                        label,
                        name,
                        value,
@@ -34,4 +34,4 @@ const Textinput = ({
         </div>)
 }
 
-export default Textinput;
+export default TextInput;

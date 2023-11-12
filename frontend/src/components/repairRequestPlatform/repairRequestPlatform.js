@@ -1,12 +1,21 @@
-import React, {useState} from "react";
-import SideBar from "../sideBarComponent/sideBar";
-import styles from "./repairRequestPlatform.module.scss";
-import axios from "axios";
-import Swal from "sweetalert2";
-import Textinput from "../../ui/Textinput";
-import Select from "../../ui/Select";
+import React, {useEffect, useState} from "react"
+import SideBar from "../sideBarComponent/sideBar"
+import styles from "./repairRequestPlatform.module.scss"
+import axios from "axios"
+import TextInput from "../../ui/TextInput"
+import MessageMediator from "../../mediators/messageMediator"
 
 const RepairRequestPlatform = () => {
+    const messageMediator = new MessageMediator()
+    const [requestData, setRequestData] = useState({
+        clientId: '',
+        purchaseOrderId: '',
+        productId: '',
+        motive: '',
+        description: '',
+        deviceStatus: 0,
+        contactEmailInfo: ''
+    })
     const [clientData, setClientData] = useState({
         firstName: '',
         lastName: '',
@@ -14,11 +23,19 @@ const RepairRequestPlatform = () => {
         email: ''
     })
     const [orderData, setOrderData] = useState([])
-    const [requestData, setRequestData] = useState({})
+    const [orderDetailsData, setOrderDetailsData] = useState({})
 
     const searchClient = async () => {
         if (!requestData.clientId) {
-            showMessage('Ingrese un DNI para continuar...', 'error')
+            setClientData({
+                firstName: '',
+                lastName: '',
+                bornDate: '',
+                email: ''
+            })
+            setOrderData([])
+            setOrderDetailsData([])
+            messageMediator.showMessage('Ingrese un DNI para continuar...', 'error')
             return
         }
 
@@ -26,55 +43,92 @@ const RepairRequestPlatform = () => {
             const url = `https://clientemodulocrm.onrender.com/clientes/buscarPorDNI/${requestData.clientId}`
             const clientResponse = await axios.get(url)
 
-            if (!clientResponse.data.error) {
+            const {fechanac, correo, error, apellido} = clientResponse.data
+            if (error) {
                 setClientData({
-                    firstName: clientResponse.data.nombre,
-                    lastName: clientResponse.data.apellido,
-                    bornDate: clientResponse.data.fechanac,
-                    email: clientResponse.data.correo
+                    firstName: '',
+                    lastName: '',
+                    bornDate: '',
+                    email: ''
                 })
-
-                try {
-                    const url = `https://modulo-ventas.onrender.com/getselldni/${requestData.clientId}`;
-                    const orderResponse = await axios.get(url);
-
-                    if (orderResponse.data.length !== 0) {
-                        const idVentasArray = orderResponse.data.map((item) => item.id_venta);
-                        setOrderData(idVentasArray);
-                        console.log(orderData);
-                    } else {
-                        setOrderData([]);
-                    }
-                } catch (error) {
-                    console.log(error);
-                }
-            } else {
-                showMessage('No se ha encontrado ningún cliente...', 'question')
+                setOrderData([])
+                setOrderDetailsData([])
+                messageMediator.showMessage('No se ha encontrado ningún cliente...', 'question')
+                return
             }
-        } catch (error) {
+
+            const {nombre} = clientResponse.data
             setClientData({
-                firstName: '',
-                lastName: '',
-                bornDate: '',
-                email: ''
+                firstName: nombre,
+                lastName: apellido,
+                bornDate: fechanac,
+                email: correo
             })
 
+            await searchOrder()
+        } catch (error) {
             console.log(error)
         }
     }
 
-    const showMessage = (messageContent, messageType) => {
-        Swal.fire({
-            position: "center",
-            icon: messageType,
-            title: messageContent,
-            showConfirmButton: false,
-            timer: 5000
-        }).then(() => {
-            console.log('Alerta enviada...')
-        });
+    const searchOrder = async () => {
+        try {
+            const url = `https://modulo-ventas.onrender.com/getselldni/${requestData.clientId}`
+            const orderResponse = await axios.get(url)
 
+            if (!orderResponse.data) {
+                setOrderData([])
+                return
+            }
+
+            const idVentasArray = orderResponse.data.map((item) => {
+                const {id_venta} = item
+                return id_venta
+            })
+            setOrderData(idVentasArray)
+        } catch (error) {
+            console.log(error)
+        }
     }
+
+    const handleSelectChange = async (e) => {
+        const {name, value} = e.target
+
+        if (value === 'invalid') {
+            messageMediator.showMessage('Debes seleccionar un elemento...', 'error')
+            setOrderDetailsData([])
+            setRequestData((prevData) => ({
+                ...prevData,
+                [name]: '0'
+            }))
+            return
+        }
+
+        setRequestData((prevData) => ({
+            ...prevData,
+            [name]: value
+        }))
+    }
+
+    useEffect(() => {
+        const fetchDetailsData = async () => {
+            console.log(requestData.purchaseOrderId)
+            try {
+                const url = `https://modulo-ventas.onrender.com/getselldetails/${requestData.purchaseOrderId}`;
+                const detailsResponse = await axios.get(url);
+                console.log(detailsResponse.data)
+                setOrderDetailsData(detailsResponse.data)
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        if (requestData.purchaseOrderId) {
+            fetchDetailsData().then(() => {
+                console.log('Detalle de venta recibido...')
+            });
+        }
+    }, [requestData.purchaseOrderId]);
 
     const sendRequest = async (e) => {
         e.preventDefault()
@@ -92,9 +146,8 @@ const RepairRequestPlatform = () => {
         setRequestData((prevData) => ({
             ...prevData,
             [name]: value
-        }));
-    };
-
+        }))
+    }
 
     return (
         <div className={styles.mainContainer}>
@@ -114,23 +167,36 @@ const RepairRequestPlatform = () => {
                                 </div>
                             </div>
                             <div className={styles.userDataInput}>
-                                <Textinput name={'nombres'} label={'Nombres:'} value={clientData.firstName}/>
-                                <Textinput name={'apellidos'} label={'Apellidos:'} value={clientData.lastName}/>
-                                <Textinput name={'fechanac'} label={'Fecha de Nacimiento:'}
+                                <TextInput name={'nombres'} label={'Nombres:'} value={clientData.firstName}/>
+                                <TextInput name={'apellidos'} label={'Apellidos:'} value={clientData.lastName}/>
+                                <TextInput name={'fechanac'} label={'Fecha de Nacimiento:'}
                                            value={clientData.bornDate}/>
-                                <Textinput name={'correo'} label={'Correo de Contacto:'} value={clientData.email}/>
+                                <TextInput name={'correo'} label={'Correo de Contacto:'} value={clientData.email}/>
                             </div>
                         </div>
                         <div>
                             <h2>Datos de Venta</h2>
                             <div>
-                                <Select name={'venta'} options={orderData} label={'Venta Asociada:'}/>
+                                <label className={'form-label'}>Venta Asociada:</label>
+                                <select name={'purchaseOrderId'} className={'form-control'}
+                                        onChange={handleSelectChange}>
+                                    {orderData.length === 0 ? (
+                                        <option value={'invalid'}>No se han encontrado ventas...</option>
+                                    ) : (
+                                        <>
+                                            <option value={'invalid'}>Seleccione una venta...</option>
+                                            {orderData.map((orderId) => (
+                                                <option key={orderId} value={orderId}>{orderId}</option>
+                                            ))}
+                                        </>
+                                    )}
+                                </select>
                             </div>
                             <div className={styles.userDataInput}>
-                                <Textinput name={'equipo'} label={'Equipo:'}/>
-                                <Textinput name={'garantia'} label={'Garantía:'}/>
-                                <Textinput name={'fecha'} label={'Fecha de Compra:'}/>
-                                <Textinput name={'precio'} label={'Precio de Equipo:'}/>
+                                <TextInput name={'producto'} label={'Producto:'}/>
+                                <TextInput name={'garantia'} label={'Garantía:'}/>
+                                <TextInput name={'fecha'} label={'Fecha de Compra:'}/>
+                                <TextInput name={'precio'} label={'Precio de Equipo:'}/>
                             </div>
                         </div>
                     </div>
@@ -160,7 +226,7 @@ const RepairRequestPlatform = () => {
                 </form>
             </div>
         </div>
-    );
-};
+    )
+}
 
-export default RepairRequestPlatform;
+export default RepairRequestPlatform

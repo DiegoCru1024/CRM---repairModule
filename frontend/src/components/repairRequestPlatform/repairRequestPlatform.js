@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react"
 import SideBar from "../sideBarComponent/sideBar"
 import styles from "./repairRequestPlatform.module.scss"
 import axios from "axios"
-import TextInput from "../../ui/TextInput"
+import TextInput from "../../ui/Textinput.jsx"
 import MessageMediator from "../../mediators/messageMediator"
 
 const RepairRequestPlatform = () => {

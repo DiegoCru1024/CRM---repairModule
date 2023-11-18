@@ -8,6 +8,7 @@ namespace WebApi.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+
 public class RepairRequestController : ControllerBase
 {
     private readonly IRepairRequestService _repairRequestService;
@@ -17,19 +18,17 @@ public class RepairRequestController : ControllerBase
         _repairRequestService = repairRequestService;
     }
 
-    [HttpPost, Authorize]
+    [Authorize]
+    [HttpPost]
     public async Task<IActionResult> CreateRequest(NewRepairRequest model)
     {
-        if(User.Identity is not ClaimsIdentity user)
-        {
-            return Unauthorized();
-        }
-
+        var user = (ClaimsIdentity)User.Identity!;
         var createdById = Guid.Parse(user.FindFirst(ClaimTypes.NameIdentifier)!.Value);
         var repairRequest = await _repairRequestService.CreateRequest(model, createdById);
         return CreatedAtAction(nameof(GetRequestById), new{ id = repairRequest.Id}, repairRequest);
     }
 
+    [Authorize]
     [HttpGet("{id}")]
     public async Task<IActionResult> GetRequestById(Guid id)
     {
@@ -37,6 +36,7 @@ public class RepairRequestController : ControllerBase
         return Ok(request);
     }
 
+    [Authorize]
     [HttpGet("All")]
     public async Task<IActionResult> GetAllRequests()
     {
@@ -44,6 +44,7 @@ public class RepairRequestController : ControllerBase
         return Ok(requests);
     }
 
+    [Authorize]
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateRequest(Guid id, [FromBody]UpdateRepairRequest model)
     {

@@ -37,6 +37,10 @@ export default function SideBar() {
                     <li><Link to={'/repairRequest'}>
                         <HiInformationCircle className={styles.navBarIcon}/> Solucitud por Plataforma</Link>
                     </li>
+
+                    <li><Link to={'/requestList'}>
+                        <HiInformationCircle className={styles.navBarIcon}/> Solucitud de asistencia tecnica</Link>
+                    </li>
                 </ul>
             </div>
 

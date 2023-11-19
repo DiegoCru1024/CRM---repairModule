@@ -23,7 +23,6 @@
     height: 70%;
 }
 
-/* Estilo para la tabla */
 .table {
     display: flex;
     align-items: center;
@@ -32,7 +31,6 @@
     padding: 3% 0%;
 }
 
-/* Estilo para las celdas (sin bordes en las columnas) */
 .table td,
 .table th {
     border-top: none; 
@@ -65,7 +63,6 @@
     width: 95%;
 }
 
-/* Estilo para la celda de la tabla */
 .table td {
     border-top: none;
     border-left: none;
@@ -75,7 +72,6 @@
     vertical-align: middle; 
 }
 
-/* Estilo para el botón con el carácter de elipsis vertical */
 .table button {
     background: none;
     border: none;
@@ -83,42 +79,4 @@
     cursor: pointer;
     color: gray;
 }
-.menu {
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    z-index: 1;
-}
 
-.actionButton {
-    padding: 6px 10px; /* Ajusta el relleno para reducir el tamaño */
-    border: none;
-    cursor: pointer;
-    background-color: #f0f0f0;
-    text-align: left;
-    font-size: 12px; /* Ajusta el tamaño de la fuente */
-}
-
-.actionButton:hover {
-    background-color: #e0e0e0;
-}
-
-.actionButton:active {
-    background-color: #d0d0d0;
-}
-
-/* Estilos específicos para cada botón */
-
-.verButton {
-    color: #007bff; 
-}
-
-.editarButton {
-    color: #28a745; 
-}
-
-.borrarButton {
-    color: #dc3545; 
-}

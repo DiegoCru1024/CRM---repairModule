@@ -6,6 +6,7 @@ COPY /Application/Application.csproj ./Application/
 COPY /Domain/Domain.csproj ./Domain/
 COPY /Infrastructure.Identity/Infrastructure.Identity.csproj ./Infrastructure.Identity/
 COPY /Infrastructure.Persistence/Infrastructure.Persistence.csproj ./Infrastructure.Persistence/
+COPY /Infrastructure.ExternalServices/Infrastructure.ExternalServices.csproj ./Infrastructure.ExternalServices/
 COPY /WebApi/WebApi.csproj ./WebApi/
 
 RUN dotnet restore

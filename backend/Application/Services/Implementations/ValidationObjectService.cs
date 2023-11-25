@@ -5,11 +5,11 @@ using ValidationException = Application.Exceptions.ValidationException;
 
 namespace Application.Services.Implementations;
 
-public class ValidationService : IValidationService
+public class ValidationObjectService : IValidationObjectService
 {
 private readonly IServiceProvider _serviceProvider;
 
-    public ValidationService(IServiceProvider serviceProvider)
+    public ValidationObjectService(IServiceProvider serviceProvider)
     {
         _serviceProvider = serviceProvider;
     }

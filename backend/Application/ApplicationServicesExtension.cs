@@ -15,7 +15,7 @@ public static class ApplicationServicesExtension
 
         #region Services
         services.AddScoped<IRepairRequestService, RepairRequestService>();
-        services.AddScoped<IValidationService, ValidationService>();
+        services.AddScoped<IValidationObjectService, ValidationObjectService>();
         #endregion
 
         return services;

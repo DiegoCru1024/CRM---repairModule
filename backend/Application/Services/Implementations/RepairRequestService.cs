@@ -11,26 +11,31 @@ using Domain.Entities;
 
 namespace Application.Services.Implementations;
 
-public class RepairRequestService: IRepairRequestService
+public class RepairRequestService : IRepairRequestService
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
-    private readonly IValidationService _validationService;
+    private readonly IValidationObjectService _validationObjectService;
+    private readonly ISalesModuleService _salesModuleService;
 
-    public RepairRequestService(IUnitOfWork unitOfWork, IMapper mapper, IValidationService validationService)
+    public RepairRequestService(IUnitOfWork unitOfWork, IMapper mapper,
+        IValidationObjectService validationObjectService, ISalesModuleService salesModuleService)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
-        _validationService = validationService;
+        _validationObjectService = validationObjectService;
+        _salesModuleService = salesModuleService;
     }
 
     public async Task<GetRepairRequest> CreateRequest(NewRepairRequest model, Guid createdById)
     {
-        _validationService.EnsureValid(model);
+        _validationObjectService.EnsureValid(model);
         var repairRequest = _mapper.Map<RepairRequest>(model);
         repairRequest.CreatedAt = DateTime.Now;
         repairRequest.StatusId = new RequestStatusFactory().CreateStatus(RequestStatuses.Pending).Id;
         repairRequest.CreatedById = createdById;
+        var warranty = await _salesModuleService.GetWarrantyByProductIdAndSellId(Guid.Parse(model.ProductId), Guid.Parse(model.PurchaseOrderId));
+        repairRequest.WarrantyId = warranty?.Id.ToString();
 
         var repairOrderStatus = (OrderStatus)new OrderStatusFactory().CreateStatus(OrderStatuses.WaitingForDiagnosis);
         var repairOrder = new RepairOrder(0, false, repairOrderStatus.Id);
@@ -50,7 +55,7 @@ public class RepairRequestService: IRepairRequestService
             throw new AppException("No se encontró la solicitud de reparación");
         }
 
-        return  _mapper.Map<GetRepairRequest>(repairRequest);
+        return _mapper.Map<GetRepairRequest>(repairRequest);
     }
 
     public async Task<IEnumerable<GetRepairRequest>> GetAllRequests()
@@ -62,12 +67,13 @@ public class RepairRequestService: IRepairRequestService
 
     public async Task<RepairRequest> UpdateRequest(Guid id, UpdateRepairRequest model)
     {
-        _validationService.EnsureValid(model);
+        _validationObjectService.EnsureValid(model);
         var repairRequest = await _unitOfWork.RepairRequests.GetByIdAsync(id);
         if (repairRequest == null)
         {
             throw new AppException("No se encontró la solicitud de reparación");
         }
+
         if (repairRequest.StatusId != new RequestStatusFactory().CreateStatus(RequestStatuses.Pending).Id)
         {
             throw new AppException("No se puede actualizar una solicitud de reparación que no esté pendiente");

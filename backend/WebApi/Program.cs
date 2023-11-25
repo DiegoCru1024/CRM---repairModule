@@ -1,4 +1,5 @@
 using Application;
+using Infrastructure.ExternalServices;
 using Infrastructure.Identity;
 using Infrastructure.Persistence;
 using Microsoft.OpenApi.Models;
@@ -11,6 +12,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+
+#region Swagger
+
 builder.Services.AddSwaggerGen(c =>
 {
     // ... Otras configuraciones de Swagger
@@ -37,11 +41,19 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
+#endregion
+
+#region ServicesExtension
+
 builder.Services.AddApplicationServices();
 builder.Services.AddIdentityServices(builder.Configuration);
 builder.Services.AddPersistenceServices(builder.Configuration);
+builder.Services.AddExternalServices(builder.Configuration);
+
+#endregion
 
 #region  CORS
+
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policyBuilder =>

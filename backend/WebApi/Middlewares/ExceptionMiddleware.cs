@@ -41,10 +41,10 @@ public class ExceptionMiddleware
                     break;
                 default:
                     response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                    _logger.LogError(e, e.Message);
                     break;
             }
 
+            _logger.LogError(e, e.Message);
             errorResponse.StatusCode = response.StatusCode.ToString();
             await response.WriteAsync(errorResponse.ToString());
         }

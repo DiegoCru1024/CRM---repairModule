@@ -61,15 +61,15 @@ public class UserService: IUserService
 
         var user = await _userManager.FindByEmailAsync(model.Email);
 
-        var userRoles = await _userManager.GetRolesAsync(user);
-
         if(user == null)
-            throw new AppException("Verifique sus credenciales");
+            throw new AppException("El usuario no existe");
 
         var loginResult = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, true);
 
         if (!loginResult.Succeeded)
             throw new AppException("Verifique sus credenciales");
+
+        var userRoles = await _userManager.GetRolesAsync(user);
 
         return GenerateJwtToken(user, userRoles.FirstOrDefault());
     }

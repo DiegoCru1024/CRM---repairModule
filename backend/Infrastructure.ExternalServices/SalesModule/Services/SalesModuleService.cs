@@ -37,14 +37,14 @@ public class SalesModuleService : ISalesModuleService
 
          if (details == null)
          {
-             throw new NotFoundException("SellDetail", sellId);
+             throw new NotFoundException("SellDetail", nameof(sellId), sellId);
          }
 
          var productDetail = details.FirstOrDefault(x => x.ProductId == productId);
 
          if(productDetail == null)
          {
-             throw new NotFoundException("SellDetail", productId);
+             throw new NotFoundException("SellDetail", nameof(productId), productId);
          }
 
          return await this.GetWarrantyById(productDetail.WarrantyId);

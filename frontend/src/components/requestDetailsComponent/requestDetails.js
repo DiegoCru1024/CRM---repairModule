@@ -65,7 +65,7 @@ export default function RequestDetails() {
                             <div className={styles.searchClientContainer}>
                                 <label className={'form-label'}>DNI Cliente:</label>
                                 <input name={'clientId'} className={'form-control'}
-                                       value={clientData.dni ? clientData.dni : ''}
+                                       value={requestData.clientId ? requestData.clientId : ''}
                                        readOnly/>
                             </div>
                             <div className={styles.userDataInput}>

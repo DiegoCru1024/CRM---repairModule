@@ -1,9 +1,9 @@
-import axios from "axios";
+import axios from "../../axios/axiosInstance";
 
 class DashboardDataFacade {
     async getLastRequests() {
         try {
-            const url = "https://reapir-module-crm-230927095955.azurewebsites.net/api/RepairRequest/All";
+            const url = "/api/RepairRequest/All";
             const response = await axios.get(url);
             return response.data;
         } catch (e) {

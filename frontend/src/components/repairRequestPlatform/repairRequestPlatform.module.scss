@@ -1,5 +1,6 @@
 .mainContainer {
   display: flex;
+  height: 100vh;
 }
 
 .repairRequestContainer {
@@ -58,4 +59,28 @@
     resize: none;
     height: 150px;
   }
+}
+
+.sendButton {
+  background: #2e5ed2;
+  border: 1px solid #2e5ed2;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 10px 50px;
+  margin-top: 25px;
+  transition: ease-in-out 0.25s;
+}
+
+.cancelButton {
+  background: #444444;
+  border: 1px solid #444444;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 10px 50px;
+  margin-top: 25px;
+  transition: ease-in-out 0.25s;
 }

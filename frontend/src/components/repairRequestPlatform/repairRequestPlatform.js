@@ -1,11 +1,14 @@
 import React, {useEffect, useState} from "react"
 import SideBar from "../sideBarComponent/sideBar"
 import styles from "./repairRequestPlatform.module.scss"
-import axios from "axios"
+import axiosJWT from "../../axios/axiosInstance"
+import axios from 'axios'
 import TextInput from "../../ui/TextInput"
 import MessageMediator from "../../mediators/messageMediator"
+import {useNavigate} from "react-router-dom";
 
 const RepairRequestPlatform = () => {
+    const navigate = useNavigate()
     const messageMediator = new MessageMediator()
     const [requestData, setRequestData] = useState({
         clientId: '',
@@ -13,7 +16,7 @@ const RepairRequestPlatform = () => {
         productId: '',
         motive: '',
         description: '',
-        deviceStatus: 0,
+        deviceStatus: '',
         contactEmailInfo: ''
     })
     const [clientData, setClientData] = useState({
@@ -23,7 +26,7 @@ const RepairRequestPlatform = () => {
         email: ''
     })
     const [orderData, setOrderData] = useState([])
-    const [orderDetailsData, setOrderDetailsData] = useState({})
+    const [orderDetailsData, setOrderDetailsData] = useState([{}])
 
     const searchClient = async () => {
         if (!requestData.clientId) {
@@ -81,11 +84,7 @@ const RepairRequestPlatform = () => {
                 return
             }
 
-            const idVentasArray = orderResponse.data.map((item) => {
-                const {id_venta} = item
-                return id_venta
-            })
-            setOrderData(idVentasArray)
+            setOrderData(orderResponse.data)
         } catch (error) {
             console.log(error)
         }
@@ -97,10 +96,8 @@ const RepairRequestPlatform = () => {
         if (value === 'invalid') {
             messageMediator.showMessage('Debes seleccionar un elemento...', 'error')
             setOrderDetailsData([])
-            setRequestData((prevData) => ({
-                ...prevData,
-                [name]: '0'
-            }))
+
+
             return
         }
 
@@ -117,7 +114,11 @@ const RepairRequestPlatform = () => {
                 const url = `https://modulo-ventas.onrender.com/getselldetails/${requestData.purchaseOrderId}`;
                 const detailsResponse = await axios.get(url);
                 console.log(detailsResponse.data)
-                setOrderDetailsData(detailsResponse.data)
+                setOrderDetailsData(detailsResponse.data[0])
+                setRequestData((prevState) => ({
+                    ...prevState,
+                    'productId': detailsResponse.data[0].id_producto
+                }))
             } catch (error) {
                 console.log(error);
             }
@@ -133,8 +134,10 @@ const RepairRequestPlatform = () => {
     const sendRequest = async (e) => {
         e.preventDefault()
         try {
-            const url = 'https://reapir-module-crm-230927095955.azurewebsites.net/api/RepairRequest'
-            const response = await axios.post(url, requestData)
+            const url = '/api/RepairRequest'
+            const response = await axiosJWT.post(url, requestData)
+            await messageMediator.showMessage('Se ha registrado la solicitud...', 'success')
+            navigate('/dashboard')
             console.log(response)
         } catch (error) {
             console.log(error)
@@ -185,18 +188,23 @@ const RepairRequestPlatform = () => {
                                     ) : (
                                         <>
                                             <option value={'invalid'}>Seleccione una venta...</option>
-                                            {orderData.map((orderId) => (
-                                                <option key={orderId} value={orderId}>{orderId}</option>
+                                            {orderData.map((order) => (
+                                                <option key={order.id_venta}
+                                                        value={order.id_venta}>{order.id_venta}</option>
                                             ))}
                                         </>
                                     )}
                                 </select>
                             </div>
                             <div className={styles.userDataInput}>
-                                <TextInput name={'producto'} label={'Producto:'}/>
-                                <TextInput name={'garantia'} label={'Garantía:'}/>
-                                <TextInput name={'fecha'} label={'Fecha de Compra:'}/>
-                                <TextInput name={'precio'} label={'Precio de Equipo:'}/>
+                                <TextInput name={'producto'} label={'Producto:'}
+                                           value={orderDetailsData.id_producto || ''}/>
+                                <TextInput name={'precio'} label={'Precio de Equipo:'}
+                                           value={orderDetailsData.coste_total || ''}/>
+                                <TextInput name={'garantia'} label={'Garantía:'}
+                                           value={orderDetailsData.id_garantia || ''}/>
+                                <TextInput name={'fecha'} label={'Tiempo de Garantía:'}
+                                           value={orderDetailsData.tipo || ''}/>
                             </div>
                         </div>
                     </div>
@@ -205,24 +213,30 @@ const RepairRequestPlatform = () => {
                         <div className={styles.userDataInput}>
                             <div>
                                 <label className={'form-label'}>Estado del Dispositivo:</label>
-                                <input className={'form-control'} name={'deviceStatus'} onChange={handleChange}/>
+                                <input className={'form-control'} name={'deviceStatus'} onChange={handleChange}
+                                       type={'number'} min={1} max={10} value={requestData.deviceStatus}
+                                       placeholder={'Ingrese el estado del dispositivo (1-10)'}/>
                             </div>
                             <div>
                                 <label className={'form-label'}>Correo Alternativo:</label>
-                                <input className={'form-control'} name={'contactEmailInfo'} onChange={handleChange}/>
+                                <input className={'form-control'} name={'contactEmailInfo'} onChange={handleChange}
+                                       value={requestData.contactEmailInfo}
+                                       placeholder={'Ingrese un correo de contacto alternativo'}/>
                             </div>
                             <div>
                                 <label className={'form-label'}>Descripción:</label>
-                                <textarea className={'form-control'} name={'description'} onChange={handleChange}/>
+                                <textarea className={'form-control'} name={'description'} onChange={handleChange}
+                                          value={requestData.description} placeholder={'Descripción del problema'}/>
                             </div>
                             <div>
                                 <label className={'form-label'}>Motivo:</label>
                                 <textarea className={'form-control'} name={'motive'} maxLength={250}
-                                          onChange={handleChange}/>
+                                          onChange={handleChange} value={requestData.motive}
+                                          placeholder={'Motivo del problema'}/>
                             </div>
                         </div>
                     </div>
-                    <button type={'submit'}>Enviar</button>
+                    <button type={'submit'} className={styles.sendButton}>Enviar</button>
                 </form>
             </div>
         </div>

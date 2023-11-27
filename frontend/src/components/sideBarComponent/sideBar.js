@@ -1,4 +1,4 @@
-import styles from './sideBar.module.css'
+import styles from './sideBar.module.scss'
 import {HiClipboardList, HiHome, HiInformationCircle} from "react-icons/hi";
 import {HiUserCircle} from "react-icons/hi2";
 import {Link, useNavigate} from "react-router-dom";

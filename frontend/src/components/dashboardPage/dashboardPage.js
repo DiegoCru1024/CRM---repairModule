@@ -14,7 +14,7 @@ export default function DashboardPage() {
             setLastRequests(data);
             console.log('Solicitudes recibidas...');
         });
-    })
+    }, [])
 
     return (
         <div className={styles.mainContainer}>
@@ -37,7 +37,12 @@ export default function DashboardPage() {
                         <tbody>
                         {lastRequests.map((request) => (
                             <tr key={request.id}>
-                                <th>{request.id}</th>
+                                <td>{request.id}</td>
+                                <td>{request.createdAt}</td>
+                                <td>{request.clientId}</td>
+                                <td>{request.purchaseOrderId}</td>
+                                <td>{request.motive}</td>
+                                <td>{request.deviceStatus}</td>
                             </tr>
                         ))}
                         </tbody>

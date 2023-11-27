@@ -1,0 +1,80 @@
+.tableContainer {
+  display: flex;
+  justify-content: center;
+  border: 1px solid #D6D6D6;
+  border-radius: 20px;
+  overflow-y: scroll;
+  width: 90%;
+  height: 90%;
+
+  table {
+    border-collapse: collapse;
+    text-overflow: ellipsis;
+
+    td {
+      overflow: hidden;
+    }
+  }
+}
+
+.anaranjado {
+  background-color: #ffecd7;
+  color: #ffa834;
+
+}
+
+.verde {
+  background-color: #cbe8ba;
+  color: #629c44;
+}
+
+.estadoButton {
+  border: none;
+  cursor: default;
+  border-radius: 20px;
+  text-align: center;
+  padding: 10px 20px;
+}
+
+.menuAcciones {
+  text-align: center;
+
+  .buttonDetails {
+    color: white;
+    font-size: 20px;
+    background: #0157ae;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 0 5px;
+    width: 30px;
+    height: 30px;
+    transition: ease-in-out 0.25s;
+
+    &:hover {
+      background: #0580fd;
+      transition: ease-in-out 0.25s;
+    }
+  }
+
+  .buttonEdit {
+    color: white;
+    font-size: 20px;
+    background: #dd7c03;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 0 5px;
+    width: 30px;
+    height: 30px;
+    transition: ease-in-out 0.25s;
+
+    &:hover {
+      background: #fca130;
+      transition: ease-in-out 0.25s;
+    }
+  }
+}
+
+
+

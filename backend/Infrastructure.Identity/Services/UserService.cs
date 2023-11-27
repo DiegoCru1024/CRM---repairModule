@@ -17,21 +17,21 @@ public class UserService: IUserService
     private readonly UserManager<User> _userManager;
     private readonly SignInManager<User> _signInManager;
     private readonly IMapper _mapper;
-    private readonly IValidationService _validationService;
+    private readonly IValidationObjectService _validationObjectService;
     private readonly IConfiguration _configuration;
 
-        public UserService(UserManager<User> userManager, SignInManager<User> signInManager, IMapper mapper, IConfiguration configuration, IValidationService validationService)
+        public UserService(UserManager<User> userManager, SignInManager<User> signInManager, IMapper mapper, IConfiguration configuration, IValidationObjectService validationObjectService)
     {
         _userManager = userManager;
         _signInManager = signInManager;
         _mapper = mapper;
         _configuration = configuration;
-        _validationService = validationService;
+        _validationObjectService = validationObjectService;
     }
 
     public async Task<UserToken> CreateUser(RegisterUser model)
     {
-        _validationService.EnsureValid(model);
+        _validationObjectService.EnsureValid(model);
 
         var user = await _userManager.FindByEmailAsync(model.Email);
 
@@ -57,19 +57,19 @@ public class UserService: IUserService
 
     public async Task<UserToken> LoginUser(LoginUser model)
     {
-        _validationService.EnsureValid(model);
+        _validationObjectService.EnsureValid(model);
 
         var user = await _userManager.FindByEmailAsync(model.Email);
 
-        var userRoles = await _userManager.GetRolesAsync(user);
-
         if(user == null)
-            throw new AppException("Verifique sus credenciales");
+            throw new AppException("El usuario no existe");
 
         var loginResult = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, true);
 
         if (!loginResult.Succeeded)
             throw new AppException("Verifique sus credenciales");
+
+        var userRoles = await _userManager.GetRolesAsync(user);
 
         return GenerateJwtToken(user, userRoles.FirstOrDefault());
     }

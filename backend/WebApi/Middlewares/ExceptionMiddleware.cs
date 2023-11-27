@@ -30,21 +30,23 @@ public class ExceptionMiddleware
             switch (e)
             {
                 case AppException:
-                   response.StatusCode = (int) HttpStatusCode.BadRequest;
-                   break;
-               case ValidationException ve:
-                   response.StatusCode = (int) HttpStatusCode.BadRequest;
-                   errorResponse.Errors = ve.Errors;
-                   break;
-               default:
-                   response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                   _logger.LogError(e, e.Message);
-                   break;
+                    response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    break;
+                case ValidationException ve:
+                    response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    errorResponse.Errors = ve.Errors;
+                    break;
+                case NotFoundException:
+                    response.StatusCode = (int)HttpStatusCode.NotFound;
+                    break;
+                default:
+                    response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                    break;
             }
 
+            _logger.LogError(e, e.Message);
             errorResponse.StatusCode = response.StatusCode.ToString();
             await response.WriteAsync(errorResponse.ToString());
         }
-
     }
 }

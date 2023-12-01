@@ -34,11 +34,16 @@ public class RepairRequestService : IRepairRequestService
         repairRequest.CreatedAt = DateTime.Now;
         repairRequest.StatusId = new RequestStatusFactory().CreateStatus(RequestStatuses.Pending).Id;
         repairRequest.CreatedById = createdById;
-        var warranty = await _salesModuleService.GetWarrantyByProductIdAndSellId(Guid.Parse(model.ProductId), Guid.Parse(model.PurchaseOrderId));
+        var warranty =
+            await _salesModuleService.GetWarrantyByProductIdAndSellId(Guid.Parse(model.ProductId),
+                Guid.Parse(model.PurchaseOrderId));
         repairRequest.WarrantyId = warranty?.Id.ToString();
 
         var repairOrderStatus = (OrderStatus)new OrderStatusFactory().CreateStatus(OrderStatuses.WaitingForDiagnosis);
-        var repairOrder = new RepairOrder(0, false, repairOrderStatus.Id);
+
+        var repairOrder = warranty is not null
+            ? new RepairOrder(warranty.Percentage, !warranty.IsExpired, repairOrderStatus.Id)
+            : new RepairOrder(0, false, repairOrderStatus.Id);
 
         repairRequest.RepairOrder = repairOrder;
         var createdRequest = await _unitOfWork.RepairRequests.AddAsync(repairRequest);
@@ -92,9 +97,11 @@ public class RepairRequestService : IRepairRequestService
         return _mapper.Map<IEnumerable<GetStatus>>(statuses);
     }
 
-    public async Task<IEnumerable<GetRepairRequest>> GetRequestsWithFilters(string? status, string? clientId)
+    public async Task<IEnumerable<GetRepairRequest>> GetRequestsWithFilters(string? status, string? clientId,
+        DateTime? fromDate, DateTime? toDate, int? limit)
     {
-        var repairRequests = await _unitOfWork.RepairRequests.GetWithFiltersAsync(status, clientId);
+        var repairRequests =
+            await _unitOfWork.RepairRequests.GetWithFiltersAsync(status, clientId, fromDate, toDate, limit);
         return _mapper.Map<IEnumerable<GetRepairRequest>>(repairRequests);
     }
 }

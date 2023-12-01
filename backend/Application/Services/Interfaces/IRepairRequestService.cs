@@ -12,5 +12,7 @@ public interface IRepairRequestService
     Task<IEnumerable<GetRepairRequest>> GetAllRequests();
     Task<RepairRequest> UpdateRequest(Guid id, UpdateRepairRequest model);
     Task<IEnumerable<GetStatus>> GetRequestStatuses();
-    Task<IEnumerable<GetRepairRequest>> GetRequestsWithFilters(string? status, string? clientId);
+
+    Task<IEnumerable<GetRepairRequest>> GetRequestsWithFilters(string? status, string? clientId, DateTime? fromDate,
+        DateTime? toDate, int? limit);
 }

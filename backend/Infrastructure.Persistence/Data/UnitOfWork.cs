@@ -9,10 +9,12 @@ public class UnitOfWork : IUnitOfWork
     public IRepairRequestRepository RepairRequests { get; }
     public IRequestStatusRepository RequestStatuses { get; }
     public IRepairOrderRepository RepairOrders { get; }
+    public ISparePartRepository SpareParts { get; }
 
     public UnitOfWork(ApplicationContext context)
     {
         _context = context;
+        SpareParts = new SparePartRepository(context);
         RepairRequests = new RepairRequestRepository(context);
         RequestStatuses = new RequestStatusRepository(context);
         RepairOrders = new RepairOrderRepository(context);

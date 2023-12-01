@@ -12,4 +12,5 @@ public class GetWarranty
 
     [property: JsonPropertyName("precio")]
     public float Price { get; set; }
+    public bool IsExpired { get; set; }
 }

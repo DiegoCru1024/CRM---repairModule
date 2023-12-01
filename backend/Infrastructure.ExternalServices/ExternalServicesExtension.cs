@@ -1,5 +1,5 @@
 using Application.Services.Interfaces;
-using Infrastructure.ExternalServices.SalesModule.Services;
+using Infrastructure.ExternalServices.SalesModule;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

@@ -5,7 +5,7 @@ using Application.Exceptions;
 using Application.Services.Interfaces;
 using Microsoft.Extensions.Configuration;
 
-namespace Infrastructure.ExternalServices.SalesModule.Services;
+namespace Infrastructure.ExternalServices.SalesModule;
 
 public class SalesModuleService : ISalesModuleService
 {
@@ -21,6 +21,11 @@ public class SalesModuleService : ISalesModuleService
         return await _httpClient.GetFromJsonAsync<IEnumerable<GetSell>>($"getselldni/{dni}");
     }
 
+    public async Task<GetSell?> GetSellById(Guid sellId)
+    {
+        return await _httpClient.GetFromJsonAsync<GetSell>($"getsellid/{sellId}");
+    }
+
     public async Task<IEnumerable<GetSellDetail>?> GetSellDetailBySellId(Guid sellId)
     {
         return await _httpClient.GetFromJsonAsync<IEnumerable<GetSellDetail>>($"getselldetails/{sellId}");
@@ -33,6 +38,13 @@ public class SalesModuleService : ISalesModuleService
 
     public async Task<GetWarranty?> GetWarrantyByProductIdAndSellId(Guid productId, Guid sellId)
     {
+        var sell = await this.GetSellById(sellId);
+
+        if (sell == null)
+        {
+            throw new NotFoundException("Sell", sellId);
+        }
+
          var details = await this.GetSellDetailBySellId(sellId);
 
          if (details == null)
@@ -45,6 +57,18 @@ public class SalesModuleService : ISalesModuleService
          if(productDetail == null)
          {
              throw new NotFoundException("SellDetail", nameof(productId), productId);
+         }
+
+         var warranty = await this.GetWarrantyById(productDetail.WarrantyId);
+
+         if(warranty == null)
+         {
+             throw new NotFoundException("Warranty", productDetail.WarrantyId);
+         }
+
+         if(sell.Date.AddMonths(productDetail.WarrantyTime) < DateTime.Now)
+         {
+             warranty.IsExpired = true;
          }
 
          return await this.GetWarrantyById(productDetail.WarrantyId);

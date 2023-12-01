@@ -8,7 +8,6 @@ namespace WebApi.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-
 public class RepairRequestController : ControllerBase
 {
     private readonly IRepairRequestService _repairRequestService;
@@ -25,7 +24,7 @@ public class RepairRequestController : ControllerBase
         var user = (ClaimsIdentity)User.Identity!;
         var createdById = Guid.Parse(user.FindFirst(ClaimTypes.NameIdentifier)!.Value);
         var repairRequest = await _repairRequestService.CreateRequest(model, createdById);
-        return CreatedAtAction(nameof(GetRequestById), new{ id = repairRequest.Id}, repairRequest);
+        return CreatedAtAction(nameof(GetRequestById), new { id = repairRequest.Id }, repairRequest);
     }
 
     [Authorize]
@@ -46,7 +45,7 @@ public class RepairRequestController : ControllerBase
 
     [Authorize]
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateRequest(Guid id, [FromBody]UpdateRepairRequest model)
+    public async Task<IActionResult> UpdateRequest(Guid id, [FromBody] UpdateRepairRequest model)
     {
         var request = await _repairRequestService.UpdateRequest(id, model);
         return Ok(request);
@@ -60,9 +59,10 @@ public class RepairRequestController : ControllerBase
     }
 
     [HttpGet("Search")]
-    public async Task<IActionResult> GetRequestsWithFilters([FromQuery] string? status, [FromQuery] string? clientId)
+    public async Task<IActionResult> GetRequestsWithFilters([FromQuery] string? status, [FromQuery] string? clientId,
+        [FromQuery] DateTime? fromDate, [FromQuery] DateTime? toDate, [FromQuery] int? limit)
     {
-        var requests = await _repairRequestService.GetRequestsWithFilters(status, clientId);
+        var requests = await _repairRequestService.GetRequestsWithFilters(status, clientId, fromDate, toDate, limit);
         return Ok(requests);
     }
 }

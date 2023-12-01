@@ -30,10 +30,12 @@ public class RepairRequestRepository : GenericRepository<RepairRequest>, IRepair
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<RepairRequest>> GetWithFiltersAsync(string? status = null, string? clientId = null)
+    public async Task<IEnumerable<RepairRequest>> GetWithFiltersAsync(string? status = null, string? clientId = null,
+        DateTime? fromDate = null, DateTime? toDate = null, int? limit = null)
     {
         var query = DbSet
             .Include(x => x.Status)
+            .OrderByDescending(x => x.CreatedAt)
             .AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(status))
@@ -44,6 +46,21 @@ public class RepairRequestRepository : GenericRepository<RepairRequest>, IRepair
         if (!string.IsNullOrWhiteSpace(clientId))
         {
             query = query.Where(x => x.ClientId.ToUpper() == clientId.ToUpper());
+        }
+
+        if (fromDate != null)
+        {
+            query = query.Where(x => x.CreatedAt >= fromDate);
+        }
+
+        if (toDate != null)
+        {
+            query = query.Where(x => x.CreatedAt <= toDate);
+        }
+
+        if(limit != null)
+        {
+            query = query.Take(limit.Value);
         }
 
         return await query.ToListAsync();

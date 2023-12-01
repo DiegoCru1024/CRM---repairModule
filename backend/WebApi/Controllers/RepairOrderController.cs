@@ -40,6 +40,13 @@ public class RepairOrderController : ControllerBase
         return Ok(orders);
     }
 
+    [HttpGet("Statuses")]
+    public async Task<IActionResult> GetOrderStatuses()
+    {
+        var statuses = await _repairOrderService.GetOrderStatuses();
+        return Ok(statuses);
+    }
+
     [HttpPut("{id}/Diagnose")]
     public async Task<IActionResult> DiagnoseOrder(Guid id, [FromBody] DiagnoseRepairOrder model)
     {

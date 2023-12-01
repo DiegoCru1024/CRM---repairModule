@@ -1,6 +1,7 @@
 using Application.Contracts.Diagnosis.DTOs;
 using Application.Contracts.RepairOrder.DTOs;
 using Application.Contracts.SparePart.DTOs;
+using Application.Contracts.Status.DTOs;
 
 namespace Application.Services.Interfaces;
 
@@ -14,4 +15,5 @@ public interface IRepairOrderService
     Task<IEnumerable<GetSparePart>> GetSpareParts();
     Task<IEnumerable<WeeklyOrder>> OrdersWeeklyReport(DateTime fromDate, DateTime toDate);
     Task<IEnumerable<MonthlyOrderByState>> StatusesMonthlyReport(int year, int month);
+    Task<IEnumerable<GetStatus>> GetOrderStatuses();
 }

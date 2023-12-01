@@ -1,6 +1,7 @@
 using Application.Contracts.Diagnosis.DTOs;
 using Application.Contracts.RepairOrder.DTOs;
 using Application.Contracts.SparePart.DTOs;
+using Application.Contracts.Status.DTOs;
 using Application.Enums;
 using Application.Exceptions;
 using Application.Factories.StatusFactory.Implementations;
@@ -129,6 +130,12 @@ public class RepairOrderService : IRepairOrderService
         }
 
         return monthlyReport;
+    }
+
+    public async Task<IEnumerable<GetStatus>> GetOrderStatuses()
+    {
+        var statuses = await _unitOfWork.OrderStatuses.GetAllAsync();
+        return _mapper.Map<IEnumerable<GetStatus>>(statuses);
     }
 
     private async Task UpdateSparePartsStock(IEnumerable<NewDiagnosis> model)

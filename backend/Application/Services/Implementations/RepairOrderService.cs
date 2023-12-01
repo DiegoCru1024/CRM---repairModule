@@ -8,6 +8,7 @@ using Application.Proxies.RepairOrderProxy;
 using Application.Repositories;
 using Application.Services.Interfaces;
 using AutoMapper;
+using Domain.Entities;
 
 namespace Application.Services.Implementations;
 
@@ -35,30 +36,59 @@ public class RepairOrderService : IRepairOrderService
         return _mapper.Map<IEnumerable<GetRepairOrder>>(orders);
     }
 
-    public async Task<IEnumerable<GetRepairOrder>> GetRepairOrdersWithFilters(string? status, string? clientId, DateTime? fromDate, DateTime? toDate, int? limit)
+    public async Task<IEnumerable<GetRepairOrder>> GetRepairOrdersWithFilters(string? status, string? clientId,
+        DateTime? fromDate, DateTime? toDate, int? limit)
     {
         var orders = await _unitOfWork.RepairOrders.GetWithFilters(status, clientId, fromDate, toDate, limit);
         return _mapper.Map<IEnumerable<GetRepairOrder>>(orders);
     }
 
-    public async Task<GetRepairOrder> DiagnoseOrder(Guid orderId, Guid createdById, List<NewDiagnosis> model)
+    public async Task<GetRepairOrder> DiagnoseOrder(Guid orderId, Guid createdById, DiagnoseRepairOrder model)
     {
         var order = await _unitOfWork.RepairOrders.GetByIdAsync(orderId);
         if (order == null)
         {
             throw new NotFoundException(nameof(order), orderId);
         }
-        _mapper.Map(model, order.Diagnoses);
+
+        _mapper.Map(model, order);
         order.AttendedById = createdById;
-        order.CalculateTotals();
         order.StatusId = new OrderStatusFactory().CreateStatus(OrderStatuses.InConfirmation).Id;
-        order.RepairRequest.StatusId = new RequestStatusFactory().CreateStatus(RequestStatuses.Notified).Id;
+        var repairRequest = await _unitOfWork.RepairRequests.GetByIdAsync(order.RepairRequestId);
+        if (repairRequest == null)
+        {
+            throw new NotFoundException(nameof(repairRequest), order.RepairRequestId);
+        }
+
+        repairRequest.StatusId = new RequestStatusFactory().CreateStatus(RequestStatuses.Notified).Id;
+        order = await CalculateTotals(order);
 
         await _unitOfWork.RepairOrders.UpdateAsync(order);
-        await UpdateSparePartsStock(model);
+        await _unitOfWork.RepairRequests.UpdateAsync(repairRequest);
+        await UpdateSparePartsStock(model.Diagnoses);
         await _unitOfWork.CommitAsync();
 
         return _mapper.Map<GetRepairOrder>(order);
+    }
+
+    private async Task<RepairOrder> CalculateTotals(RepairOrder order)
+    {
+        foreach (var diagnosisSparePart in order.Diagnoses.SelectMany(diagnosis => diagnosis.DiagnosisSpareParts))
+        {
+            var sparePart = await _unitOfWork.SpareParts.GetByIdAsync(diagnosisSparePart.SparePartId);
+
+            if (sparePart == null)
+            {
+                throw new NotFoundException(nameof(sparePart), diagnosisSparePart.SparePartId);
+            }
+
+            order.SubTotal += sparePart.Price * diagnosisSparePart.Quantity;
+        }
+
+        var igv = order.SubTotal * 0.18f;
+        order.Total = order.SubTotal * (1 - order.Discount) + igv;
+
+        return order;
     }
 
     public async Task<IEnumerable<GetSparePart>> GetSpareParts()

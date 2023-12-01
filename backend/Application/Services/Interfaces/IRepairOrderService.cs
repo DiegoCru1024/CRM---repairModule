@@ -10,6 +10,6 @@ public interface IRepairOrderService
     Task<IEnumerable<GetRepairOrder>> GetRepairOrders();
     Task<IEnumerable<GetRepairOrder>> GetRepairOrdersWithFilters(string? status, string? clientId,
         DateTime? fromDate, DateTime? toDate, int? limit);
-    Task<GetRepairOrder> DiagnoseOrder(Guid orderId, Guid createdById, List<NewDiagnosis> model);
+    Task<GetRepairOrder> DiagnoseOrder(Guid orderId, Guid createdById, DiagnoseRepairOrder model);
     Task<IEnumerable<GetSparePart>> GetSpareParts();
 }

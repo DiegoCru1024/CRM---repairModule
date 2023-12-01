@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using Application.Contracts.Diagnosis.DTOs;
+using Application.Contracts.RepairOrder.DTOs;
 using Application.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -40,7 +41,7 @@ public class RepairOrderController : ControllerBase
     }
 
     [HttpPut("{id}/Diagnose")]
-    public async Task<IActionResult> DiagnoseOrder(Guid id, [FromBody] List<NewDiagnosis> model)
+    public async Task<IActionResult> DiagnoseOrder(Guid id, [FromBody] DiagnoseRepairOrder model)
     {
         var user = (ClaimsIdentity)User.Identity!;
         var createdById = Guid.Parse(user.FindFirst(ClaimTypes.NameIdentifier)!.Value);

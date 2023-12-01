@@ -70,7 +70,7 @@ public class RepairRequestService : IRepairRequestService
         return _mapper.Map<List<GetRepairRequest>>(repairRequests);
     }
 
-    public async Task<RepairRequest> UpdateRequest(Guid id, UpdateRepairRequest model)
+    public async Task<GetRepairRequest> UpdateRequest(Guid id, UpdateRepairRequest model)
     {
         _validationObjectService.EnsureValid(model);
         var repairRequest = await _unitOfWork.RepairRequests.GetByIdAsync(id);
@@ -88,7 +88,7 @@ public class RepairRequestService : IRepairRequestService
         await _unitOfWork.RepairRequests.UpdateAsync(repairRequest);
         await _unitOfWork.CommitAsync();
 
-        return repairRequest;
+        return _mapper.Map<GetRepairRequest>(repairRequest);
     }
 
     public async Task<IEnumerable<GetStatus>> GetRequestStatuses()

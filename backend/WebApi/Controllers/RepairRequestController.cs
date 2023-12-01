@@ -58,6 +58,20 @@ public class RepairRequestController : ControllerBase
         return Ok(statuses);
     }
 
+    [HttpGet("Report/Weekly")]
+    public async Task<IActionResult> WeeklyReport([FromQuery] DateTime fromDate, [FromQuery] DateTime toDate)
+    {
+        var report = await _repairRequestService.RequestWeeklyReport(fromDate, toDate);
+        return Ok(report);
+    }
+
+    [HttpGet("Report/MonthlyByStatus")]
+    public async Task<IActionResult> StatusesMonthlyReport([FromQuery] int year, [FromQuery] int month)
+    {
+        var report = await _repairRequestService.StatusesMonthlyReport(year, month);
+        return Ok(report);
+    }
+
     [HttpGet("Search")]
     public async Task<IActionResult> GetRequestsWithFilters([FromQuery] string? status, [FromQuery] string? clientId,
         [FromQuery] DateTime? fromDate, [FromQuery] DateTime? toDate, [FromQuery] int? limit)

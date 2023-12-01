@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using Application.Repositories;
 using Infrastructure.Persistence.Data;
 using Microsoft.EntityFrameworkCore;
@@ -39,5 +40,15 @@ public class GenericRepository<T> : IGenericRepository <T> where T : class
     public virtual async Task<IEnumerable<T>> GetAllAsync()
     {
         return await DbSet.ToListAsync();
+    }
+
+    public async Task<int> CountAsync(Expression<Func<T, bool>>? predicate = null)
+    {
+        if (predicate is null)
+        {
+            return await DbSet.CountAsync();
+        }
+
+        return await DbSet.CountAsync(predicate);
     }
 }

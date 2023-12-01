@@ -9,6 +9,7 @@ public class UnitOfWork : IUnitOfWork
     public IRepairRequestRepository RepairRequests { get; }
     public IRequestStatusRepository RequestStatuses { get; }
     public IRepairOrderRepository RepairOrders { get; }
+    public IOrderStatusRepository OrderStatuses { get; }
     public ISparePartRepository SpareParts { get; }
 
     public UnitOfWork(ApplicationContext context)
@@ -18,6 +19,7 @@ public class UnitOfWork : IUnitOfWork
         RepairRequests = new RepairRequestRepository(context);
         RequestStatuses = new RequestStatusRepository(context);
         RepairOrders = new RepairOrderRepository(context);
+        OrderStatuses = new OrderStatusRepository(context);
     }
 
     public async Task CommitAsync()

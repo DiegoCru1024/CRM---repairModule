@@ -12,4 +12,6 @@ public interface IRepairOrderService
         DateTime? fromDate, DateTime? toDate, int? limit);
     Task<GetRepairOrder> DiagnoseOrder(Guid orderId, Guid createdById, DiagnoseRepairOrder model);
     Task<IEnumerable<GetSparePart>> GetSpareParts();
+    Task<IEnumerable<WeeklyOrder>> OrdersWeeklyReport(DateTime fromDate, DateTime toDate);
+    Task<IEnumerable<MonthlyOrderByState>> StatusesMonthlyReport(int year, int month);
 }

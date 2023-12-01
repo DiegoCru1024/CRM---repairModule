@@ -55,4 +55,18 @@ public class RepairOrderController : ControllerBase
         var spareParts = await _repairOrderService.GetSpareParts();
         return Ok(spareParts);
     }
+
+    [HttpGet("Reports/Weekly")]
+    public async Task<IActionResult> OrdersWeeklyReport([FromQuery] DateTime fromDate, [FromQuery] DateTime toDate)
+    {
+        var report = await _repairOrderService.OrdersWeeklyReport(fromDate, toDate);
+        return Ok(report);
+    }
+
+    [HttpGet("Reports/MonthlyByStatus")]
+    public async Task<IActionResult> StatusesMonthlyReport([FromQuery] int year, [FromQuery] int month)
+    {
+        var report = await _repairOrderService.StatusesMonthlyReport(year, month);
+        return Ok(report);
+    }
 }

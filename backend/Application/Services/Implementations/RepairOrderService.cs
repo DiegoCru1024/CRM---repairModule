@@ -97,6 +97,40 @@ public class RepairOrderService : IRepairOrderService
         return _mapper.Map<IEnumerable<GetSparePart>>(spareParts);
     }
 
+    public async Task<IEnumerable<WeeklyOrder>> OrdersWeeklyReport(DateTime fromDate, DateTime toDate)
+    {
+        var weeklyReport = new List<WeeklyOrder>();
+        for (var currentDate = fromDate; currentDate <= toDate; currentDate = currentDate.AddDays(1))
+        {
+            var count = await _unitOfWork.RepairOrders.CountAsync(r =>
+                r.CreatedAt.Date == currentDate);
+            weeklyReport.Add(new WeeklyOrder()
+            {
+                Name = currentDate.ToString("dd/MM"),
+                Quantity = count
+            });
+        }
+        return weeklyReport;
+    }
+
+    public async Task<IEnumerable<MonthlyOrderByState>> StatusesMonthlyReport(int year, int month)
+    {
+        var statuses = await _unitOfWork.OrderStatuses.GetAllAsync();
+        var monthlyReport = new List<MonthlyOrderByState>();
+        foreach (var status in statuses)
+        {
+            var count = await _unitOfWork.RepairOrders.CountAsync(r =>
+                r.StatusId == status.Id && r.CreatedAt.Year == year && r.CreatedAt.Month == month);
+            monthlyReport.Add(new MonthlyOrderByState()
+            {
+                Name = status.Name,
+                Quantity = count
+            });
+        }
+
+        return monthlyReport;
+    }
+
     private async Task UpdateSparePartsStock(IEnumerable<NewDiagnosis> model)
     {
         foreach (var diagnosisSparePart in model.SelectMany(diagnosis => diagnosis.SparePartAssignments))

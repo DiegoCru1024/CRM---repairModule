@@ -1,5 +1,5 @@
 using Application.Contracts.RepairRequest.DTOs;
-using Application.Contracts.Status;
+using Application.Contracts.Status.DTOs;
 using Application.Enums;
 using Application.Exceptions;
 using Application.Factories.StatusFactory.Implementations;
@@ -103,5 +103,39 @@ public class RepairRequestService : IRepairRequestService
         var repairRequests =
             await _unitOfWork.RepairRequests.GetWithFiltersAsync(status, clientId, fromDate, toDate, limit);
         return _mapper.Map<IEnumerable<GetRepairRequest>>(repairRequests);
+    }
+
+    public async Task<IEnumerable<WeeklyRequest>> RequestWeeklyReport(DateTime fromDate, DateTime toDate)
+    {
+        var weeklyReport = new List<WeeklyRequest>();
+        for (var currentDate = fromDate; currentDate <= toDate; currentDate = currentDate.AddDays(1))
+        {
+            var count = await _unitOfWork.RepairRequests.CountAsync(r =>
+                r.CreatedAt.Date == currentDate);
+            weeklyReport.Add(new WeeklyRequest()
+            {
+                Name = currentDate.ToString("dd/MM"),
+                Quantity = count
+            });
+        }
+        return weeklyReport;
+    }
+
+    public async Task<IEnumerable<MonthlyRequestByState>> StatusesMonthlyReport(int year, int month)
+    {
+        var statuses = await _unitOfWork.RequestStatuses.GetAllAsync();
+        var monthlyReport = new List<MonthlyRequestByState>();
+        foreach (var status in statuses)
+        {
+            var count = await _unitOfWork.RepairRequests.CountAsync(r =>
+                r.StatusId == status.Id && r.CreatedAt.Year == year && r.CreatedAt.Month == month);
+            monthlyReport.Add(new MonthlyRequestByState
+            {
+                Name = status.Name,
+                Quantity = count
+            });
+        }
+
+        return monthlyReport;
     }
 }

@@ -1,4 +1,4 @@
-namespace Application.Contracts.Status;
+namespace Application.Contracts.Status.DTOs;
 
 public class GetStatus
 {

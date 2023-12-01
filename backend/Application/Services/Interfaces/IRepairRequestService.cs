@@ -1,5 +1,5 @@
 using Application.Contracts.RepairRequest.DTOs;
-using Application.Contracts.Status;
+using Application.Contracts.Status.DTOs;
 using Domain.Base;
 using Domain.Entities;
 
@@ -15,4 +15,6 @@ public interface IRepairRequestService
 
     Task<IEnumerable<GetRepairRequest>> GetRequestsWithFilters(string? status, string? clientId, DateTime? fromDate,
         DateTime? toDate, int? limit);
+    Task<IEnumerable<WeeklyRequest>> RequestWeeklyReport(DateTime fromDate, DateTime toDate);
+    Task<IEnumerable<MonthlyRequestByState>> StatusesMonthlyReport(int year, int month);
 }

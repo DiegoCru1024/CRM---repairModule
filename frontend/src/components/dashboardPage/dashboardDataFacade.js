@@ -13,38 +13,33 @@ class DashboardDataFacade {
     }
 
 
-    getBarChartData() {
-        return [
-            {
-                name: '05/10',
-                quantity: 7,
-            },
-            {
-                name: '06/10',
-                quantity: 12,
-            },
-            {
-                name: '07/10',
-                quantity: 8,
-            },
-            {
-                name: '08/10',
-                quantity: 4,
-            },
-            {
-                name: '09/10',
-                quantity: 7,
-            },
-            {
-                name: '10/10',
-                quantity: 7,
-            },
-            {
-                name: '11/10',
-                quantity: 9,
-            },
-        ]
+    async getBarChartData() {
+        const currentDate = new Date();
+
+        // Función para formatear la fecha como mm-dd-aaaa
+        const formatDate = (date) => {
+            const month = (date.getMonth() + 1).toString().padStart(2, '0');
+            const day = date.getDate().toString().padStart(2, '0');
+            const year = date.getFullYear();
+            return `${month}-${day}-${year}`;
+        };
+
+        const startDate = new Date(currentDate);
+        startDate.setDate(startDate.getDate() - 7);
+
+        try {
+            const formattedStartDate = formatDate(startDate);
+            const formattedCurrentDate = formatDate(currentDate);
+
+            const url = `/api/RepairRequest/Report/Weekly?fromDate=${formattedStartDate}&toDate=${formattedCurrentDate}`;
+            const response = await axiosJWT.get(url);
+            console.log(response.data);
+            return response.data;
+        } catch (error) {
+            console.log(error);
+        }
     }
+
 
     async getPieChartData() {
         try {

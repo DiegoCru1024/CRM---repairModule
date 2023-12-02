@@ -9,6 +9,7 @@ export default function DashboardPage() {
     const dataFacade = new DashboardDataFacade();
     const [lastRequests, setLastRequests] = useState([]);
     const [statusData, setStatusData] = useState([])
+    const [weekData, setWeekData] = useState([])
     const [dataLoaded, setDataLoaded] = useState(false);
 
     useEffect(() => {
@@ -20,6 +21,10 @@ export default function DashboardPage() {
             setStatusData(data)
         })
 
+        dataFacade.getBarChartData().then((data) => {
+            setWeekData(data)
+        })
+
         setDataLoaded(true);
     }, []);
 
@@ -29,7 +34,7 @@ export default function DashboardPage() {
             <div className={styles.dashboardContainer}>
                 {dataLoaded && (
                     <>
-                        <BarChartComponent data={dataFacade.getBarChartData()}/>
+                        <BarChartComponent data={weekData}/>
                         <PieChartComponent data={statusData}/>
                     </>
                 )}

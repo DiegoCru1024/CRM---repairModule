@@ -3,7 +3,6 @@ import SideBar from "../sideBarComponent/sideBar"
 import styles from "./repairRequest.module.scss"
 import axiosJWT from "../../axios/axiosInstance"
 import axios from 'axios'
-import TextInput from "../../ui/TextInput"
 import MessageMediator from "../../mediators/messageMediator"
 import {useNavigate} from "react-router-dom";
 
@@ -170,11 +169,22 @@ const RepairRequest = () => {
                                 </div>
                             </div>
                             <div className={styles.userDataInput}>
-                                <TextInput name={'nombres'} label={'Nombres:'} value={clientData.firstName}/>
-                                <TextInput name={'apellidos'} label={'Apellidos:'} value={clientData.lastName}/>
-                                <TextInput name={'fechanac'} label={'Fecha de Nacimiento:'}
-                                           value={clientData.bornDate}/>
-                                <TextInput name={'correo'} label={'Correo de Contacto:'} value={clientData.email}/>
+                                <div>
+                                    <label className={'form-label'}>Nombres:</label>
+                                    <input className={'form-control'} value={clientData.firstName} readOnly={true}/>
+                                </div>
+                                <div>
+                                    <label className={'form-label'}>Apellidos:</label>
+                                    <input className={'form-control'} value={clientData.lastName} readOnly={true}/>
+                                </div>
+                                <div>
+                                    <label className={'form-label'}>Fecha de Nacimiento:</label>
+                                    <input className={'form-control'} value={clientData.bornDate} readOnly={true}/>
+                                </div>
+                                <div>
+                                    <label className={'form-label'}>Correo de Contacto:</label>
+                                    <input className={'form-control'} value={clientData.email} readOnly={true}/>
+                                </div>
                             </div>
                         </div>
                         <div>
@@ -197,14 +207,26 @@ const RepairRequest = () => {
                                 </select>
                             </div>
                             <div className={styles.userDataInput}>
-                                <TextInput name={'producto'} label={'Producto:'}
-                                           value={orderDetailsData.id_producto || ''}/>
-                                <TextInput name={'precio'} label={'Precio de Equipo:'}
-                                           value={orderDetailsData.coste_total || ''}/>
-                                <TextInput name={'garantia'} label={'Garantía:'}
-                                           value={orderDetailsData.id_garantia || ''}/>
-                                <TextInput name={'fecha'} label={'Tiempo de Garantía:'}
-                                           value={orderDetailsData.tipo || ''}/>
+                                <div>
+                                    <label className={'form-label'}>Producto:</label>
+                                    <input className={'form-control'} value={orderDetailsData.id_producto || ''}
+                                           readOnly={true}/>
+                                </div>
+                                <div>
+                                    <label className={'form-label'}>Precio de Equipo:</label>
+                                    <input className={'form-control'} value={orderDetailsData.coste_total || ''}
+                                           readOnly={true}/>
+                                </div>
+                                <div>
+                                    <label className={'form-label'}>Garantía:</label>
+                                    <input className={'form-control'} value={orderDetailsData.id_garantia || ''}
+                                           readOnly={true}/>
+                                </div>
+                                <div>
+                                    <label className={'form-label'}>Tipo de Producto:</label>
+                                    <input className={'form-control'} value={orderDetailsData.tipo}
+                                           readOnly={true}/>
+                                </div>
                             </div>
                         </div>
                     </div>

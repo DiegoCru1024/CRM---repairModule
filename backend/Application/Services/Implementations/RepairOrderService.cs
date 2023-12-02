@@ -179,4 +179,22 @@ public class RepairOrderService : IRepairOrderService
         await _unitOfWork.RepairOrders.UpdateAsync(repairOder);
         await _unitOfWork.CommitAsync();
     }
+
+    public async Task ToReady(Guid id)
+    {
+        var repairOder = await _unitOfWork.RepairOrders.GetWithDetails(id);
+        if (repairOder == null)
+        {
+            throw new NotFoundException(nameof(repairOder), id);
+        }
+        if (repairOder.StatusId != new OrderStatusFactory().CreateStatus(OrderStatuses.InRepair).Id)
+        {
+            throw new AppException("No se puede actualizar una orden de reparación que no esté en reparación");
+        }
+        repairOder.StatusId = new OrderStatusFactory().CreateStatus(OrderStatuses.Ready).Id;
+        repairOder.RepairRequest.StatusId = new RequestStatusFactory().CreateStatus(RequestStatuses.Solved).Id;
+
+        await _unitOfWork.RepairOrders.UpdateAsync(repairOder);
+        await _unitOfWork.CommitAsync();
+    }
 }

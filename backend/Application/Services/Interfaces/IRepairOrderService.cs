@@ -17,4 +17,5 @@ public interface IRepairOrderService
     Task<IEnumerable<MonthlyOrderByState>> StatusesMonthlyReport(int year, int month);
     Task<IEnumerable<GetStatus>> GetOrderStatuses();
     Task ResolveConfirmation(Guid id, bool nextStep);
+    Task ToReady(Guid id);
 }

@@ -83,4 +83,11 @@ public class RepairOrderController : ControllerBase
         await _repairOrderService.ResolveConfirmation(id, nextStep);
         return Ok();
     }
+
+    [HttpPut("{id}/Ready")]
+    public async Task<IActionResult> ToReady(Guid id)
+    {
+        await _repairOrderService.ToReady(id);
+        return Ok();
+    }
 }

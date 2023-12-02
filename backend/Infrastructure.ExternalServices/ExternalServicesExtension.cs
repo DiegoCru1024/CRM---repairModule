@@ -15,7 +15,7 @@ public static class ExternalServicesExtension
         {
             client.BaseAddress = new Uri(configuration["SalesModule:Url"]);
         });
-        services.AddScoped<IEmailService, EmailService>();
+        services.AddTransient<IEmailService, EmailService>();
 
         return services;
     }

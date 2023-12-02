@@ -20,7 +20,7 @@ public class EmailService : IEmailService
         };
     }
 
-    public void SendEmail(List<string> to, string subject, string content)
+    public async Task SendEmail(List<string> to, string subject, string content)
     {
         var mailMessage = new MailMessage()
         {
@@ -35,7 +35,7 @@ public class EmailService : IEmailService
             mailMessage.To.Add(email);
         }
 
-        _smtpClient.Send(mailMessage);
+        await _smtpClient.SendMailAsync(mailMessage);
         _smtpClient.Dispose();
     }
 }

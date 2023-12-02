@@ -15,12 +15,10 @@ namespace WebApi.Controllers;
 public class RepairOrderController : ControllerBase
 {
     private readonly IRepairOrderService _repairOrderService;
-    private readonly IEmailService _emailService;
 
-    public RepairOrderController(IRepairOrderService repairOrderService, IEmailService emailService)
+    public RepairOrderController(IRepairOrderService repairOrderService)
     {
         _repairOrderService = repairOrderService;
-        _emailService = emailService;
     }
 
     [HttpGet("{id}")]
@@ -148,13 +146,5 @@ public class RepairOrderController : ControllerBase
         stream.Position = 0;
         var fileName = $"RepairOrders_{DateTime.Now:yyyyMMddHHmmssfff}.xlsx";
         return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
-    }
-
-    [HttpGet("SendTestEmail")]
-    public void SendTestEmail()
-    {
-        var recipients = new List<string> { "diegoafggg@gmail.com" };
-        _emailService.SendEmail(recipients, "Orden de reparación",
-            "Su orden de reparación ha sido diagnosticada");
     }
 }

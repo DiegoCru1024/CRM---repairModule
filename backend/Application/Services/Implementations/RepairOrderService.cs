@@ -5,6 +5,7 @@ using Application.Contracts.Status.DTOs;
 using Application.Enums;
 using Application.Exceptions;
 using Application.Factories.StatusFactory.Implementations;
+using Application.Helpers;
 using Application.Proxies.RepairOrderProxy;
 using Application.Repositories;
 using Application.Services.Interfaces;
@@ -72,15 +73,17 @@ public class RepairOrderService : IRepairOrderService
         await UpdateSparePartsStock(model.Diagnoses);
         var recipients = new List<string> { repairRequest.ContactEmailInfo };
 
+        var offeredServices = model.Diagnoses.Select(x => x.OfferedService).ToList();
         var content = $"<p>Estimado(a): </p>" +
                       $"<p>Se ha diagnosticado su orden de reparación con código {order.Id}.</p>" +
-                      $"<p>El coste total de su reparación será: {order.Total}. Cubriendo los siguientes servicios: </p>" +
+                      $"<p>El coste total de su reparación será: S/. {order.Total.ToString("0.00")}, teniendo como fecha estimada de culminación el día {order.DeadLine}. Cubriendo los siguientes servicios: </p>" +
+                      TemplateHtmlHelper.GetListTemplate(offeredServices) +
                       $"<p>En caso desee proceder o cancelar la reparación, responda a este correo con su respuesta por favor.</p>" +
                       $"<p>Atentamente,</p>" +
                       $"<p>El equipo de Soporte Técnico</p>";
 
-        _emailService.SendEmail(recipients, "Orden de reparación",
-            "Su orden de reparación ha sido diagnosticada");
+        await _emailService.SendEmail(recipients, "Orden de reparación",
+            content);
         await _unitOfWork.CommitAsync();
 
         return _mapper.Map<GetRepairOrder>(order);

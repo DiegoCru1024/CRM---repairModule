@@ -15,10 +15,12 @@ namespace WebApi.Controllers;
 public class RepairOrderController : ControllerBase
 {
     private readonly IRepairOrderService _repairOrderService;
+    private readonly IEmailService _emailService;
 
-    public RepairOrderController(IRepairOrderService repairOrderService)
+    public RepairOrderController(IRepairOrderService repairOrderService, IEmailService emailService)
     {
         _repairOrderService = repairOrderService;
+        _emailService = emailService;
     }
 
     [HttpGet("{id}")]
@@ -99,7 +101,8 @@ public class RepairOrderController : ControllerBase
     public async Task<IActionResult> DownloadAsExcel([FromQuery] string? status, [FromQuery] string? clientId,
         [FromQuery] DateTime? fromDate, [FromQuery] DateTime? toDate, [FromQuery] int? limit)
     {
-        var orders = (await _repairOrderService.GetRepairOrdersWithFilters(status, clientId, fromDate, toDate, limit)).ToList();
+        var orders = (await _repairOrderService.GetRepairOrdersWithFilters(status, clientId, fromDate, toDate, limit))
+            .ToList();
 
         var dataTable = new DataTable("Reporte de Ordenes de Reparación");
         dataTable.Columns.AddRange(new[]
@@ -117,7 +120,7 @@ public class RepairOrderController : ControllerBase
             new DataColumn("EstadoDeOrden")
         });
 
-foreach (var order in orders)
+        foreach (var order in orders)
         {
             var row = dataTable.NewRow();
             row["Id"] = order.Id;
@@ -145,5 +148,13 @@ foreach (var order in orders)
         stream.Position = 0;
         var fileName = $"RepairOrders_{DateTime.Now:yyyyMMddHHmmssfff}.xlsx";
         return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+    }
+
+    [HttpGet("SendTestEmail")]
+    public void SendTestEmail()
+    {
+        var recipients = new List<string> { "diegoafggg@gmail.com" };
+        _emailService.SendEmail(recipients, "Orden de reparación",
+            "Su orden de reparación ha sido diagnosticada");
     }
 }

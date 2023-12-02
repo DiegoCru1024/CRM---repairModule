@@ -24,6 +24,7 @@ public class RepairOrderRepository : GenericRepository<RepairOrder>, IRepairOrde
     {
         return await DbSet.Include(x => x.Status)
             .Include(x => x.RepairRequest)
+            .ThenInclude(x => x.Status)
             .ToListAsync();
     }
 

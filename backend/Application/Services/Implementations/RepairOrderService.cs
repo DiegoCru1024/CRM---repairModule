@@ -18,12 +18,15 @@ public class RepairOrderService : IRepairOrderService
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     private readonly IRetrieveRepairOrder _retrieveRepairOrder;
+    private readonly IEmailService _emailService;
 
-    public RepairOrderService(IUnitOfWork unitOfWork, IMapper mapper, IRetrieveRepairOrder retrieveRepairOrder)
+    public RepairOrderService(IUnitOfWork unitOfWork, IMapper mapper, IRetrieveRepairOrder retrieveRepairOrder,
+        IEmailService emailService)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
         _retrieveRepairOrder = retrieveRepairOrder;
+        _emailService = emailService;
     }
 
     public async Task<GetRepairOrder> GetRepairOrder(Guid orderId, bool includeDetails)
@@ -67,6 +70,17 @@ public class RepairOrderService : IRepairOrderService
         await _unitOfWork.RepairOrders.UpdateAsync(order);
         await _unitOfWork.RepairRequests.UpdateAsync(repairRequest);
         await UpdateSparePartsStock(model.Diagnoses);
+        var recipients = new List<string> { repairRequest.ContactEmailInfo };
+
+        var content = $"<p>Estimado(a): </p>" +
+                      $"<p>Se ha diagnosticado su orden de reparación con código {order.Id}.</p>" +
+                      $"<p>El coste total de su reparación será: {order.Total}. Cubriendo los siguientes servicios: </p>" +
+                      $"<p>En caso desee proceder o cancelar la reparación, responda a este correo con su respuesta por favor.</p>" +
+                      $"<p>Atentamente,</p>" +
+                      $"<p>El equipo de Soporte Técnico</p>";
+
+        _emailService.SendEmail(recipients, "Orden de reparación",
+            "Su orden de reparación ha sido diagnosticada");
         await _unitOfWork.CommitAsync();
 
         return _mapper.Map<GetRepairOrder>(order);
@@ -112,6 +126,7 @@ public class RepairOrderService : IRepairOrderService
                 Quantity = count
             });
         }
+
         return weeklyReport;
     }
 
@@ -161,7 +176,8 @@ public class RepairOrderService : IRepairOrderService
         {
             throw new NotFoundException(nameof(repairOder), id);
         }
-        if(repairOder.StatusId != new OrderStatusFactory().CreateStatus(OrderStatuses.InConfirmation).Id)
+
+        if (repairOder.StatusId != new OrderStatusFactory().CreateStatus(OrderStatuses.InConfirmation).Id)
         {
             throw new AppException("No se puede actualizar una orden de reparación que no esté en confirmación");
         }
@@ -188,10 +204,12 @@ public class RepairOrderService : IRepairOrderService
         {
             throw new NotFoundException(nameof(repairOder), id);
         }
+
         if (repairOder.StatusId != new OrderStatusFactory().CreateStatus(OrderStatuses.InRepair).Id)
         {
             throw new AppException("No se puede actualizar una orden de reparación que no esté en reparación");
         }
+
         repairOder.StatusId = new OrderStatusFactory().CreateStatus(OrderStatuses.Ready).Id;
         repairOder.RepairRequest.StatusId = new RequestStatusFactory().CreateStatus(RequestStatuses.Solved).Id;
 

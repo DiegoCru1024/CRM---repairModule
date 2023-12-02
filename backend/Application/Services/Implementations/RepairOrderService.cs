@@ -75,10 +75,13 @@ public class RepairOrderService : IRepairOrderService
 
         var offeredServices = model.Diagnoses.Select(x => x.OfferedService).ToList();
         var content = $"<p>Estimado(a): </p>" +
+                      $"<br/>" +
                       $"<p>Se ha diagnosticado su orden de reparación con código {order.Id}.</p>" +
                       $"<p>El coste total de su reparación será: S/. {order.Total.ToString("0.00")}, teniendo como fecha estimada de culminación el día {order.DeadLine}. Cubriendo los siguientes servicios: </p>" +
                       TemplateHtmlHelper.GetListTemplate(offeredServices) +
+                      $"<br/>" +
                       $"<p>En caso desee proceder o cancelar la reparación, responda a este correo con su respuesta por favor.</p>" +
+                      $"<br/>" +
                       $"<p>Atentamente,</p>" +
                       $"<p>El equipo de Soporte Técnico</p>";
 
@@ -215,6 +218,17 @@ public class RepairOrderService : IRepairOrderService
 
         repairOder.StatusId = new OrderStatusFactory().CreateStatus(OrderStatuses.Ready).Id;
         repairOder.RepairRequest.StatusId = new RequestStatusFactory().CreateStatus(RequestStatuses.Solved).Id;
+
+        var recipients = new List<string> { repairOder.RepairRequest.ContactEmailInfo };
+        var content = $"<p>Estimado(a): </p>" +
+                      $"<br/>" +
+                      $"<p>Se ha reparado su orden de reparación con código {repairOder.Id}.</p>" +
+                      $"<p>En caso desee recoger su equipo, acérquese a nuestras instalaciones.</p>" +
+                      $"<br/>" +
+                      $"<p>Atentamente,</p>" +
+                      $"<p>El equipo de Soporte Técnico</p>";
+        await _emailService.SendEmail(recipients, "Orden de reparación",
+            content);
 
         await _unitOfWork.RepairOrders.UpdateAsync(repairOder);
         await _unitOfWork.CommitAsync();

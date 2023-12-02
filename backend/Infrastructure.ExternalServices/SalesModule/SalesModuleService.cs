@@ -45,32 +45,32 @@ public class SalesModuleService : ISalesModuleService
             throw new NotFoundException("Sell", sellId);
         }
 
-         var details = await this.GetSellDetailBySellId(sellId);
+        var details = await this.GetSellDetailBySellId(sellId);
 
-         if (details == null)
-         {
-             throw new NotFoundException("SellDetail", nameof(sellId), sellId);
-         }
+        if (details == null)
+        {
+            throw new NotFoundException("SellDetail", nameof(sellId), sellId);
+        }
 
-         var productDetail = details.FirstOrDefault(x => x.ProductId == productId);
+        var productDetail = details.FirstOrDefault(x => x.ProductId == productId);
 
-         if(productDetail == null)
-         {
-             throw new NotFoundException("SellDetail", nameof(productId), productId);
-         }
+        if (productDetail == null)
+        {
+            throw new NotFoundException("SellDetail", nameof(productId), productId);
+        }
 
-         var warranty = await this.GetWarrantyById(productDetail.WarrantyId);
+        var warranty = await this.GetWarrantyById(productDetail.WarrantyId);
 
-         if(warranty == null)
-         {
-             throw new NotFoundException("Warranty", productDetail.WarrantyId);
-         }
+        if (warranty == null)
+        {
+            throw new NotFoundException("Warranty", productDetail.WarrantyId);
+        }
 
-         if(sell.Date.AddMonths(productDetail.WarrantyTime) < DateTime.Now)
-         {
-             warranty.IsExpired = true;
-         }
+        if (sell.Date.AddMonths(productDetail.WarrantyTime) < DateTime.Now)
+        {
+            warranty.IsExpired = true;
+        }
 
-         return await this.GetWarrantyById(productDetail.WarrantyId);
+        return await this.GetWarrantyById(productDetail.WarrantyId);
     }
 }

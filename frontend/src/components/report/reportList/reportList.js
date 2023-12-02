@@ -1,18 +1,7 @@
-import styles from "./listComponent.module.scss";
+import styles from "./reportListStyles.module.scss";
 import React from "react";
-import {useNavigate} from "react-router-dom";
-import {FaEye, FaPencil} from "react-icons/fa6";
 
-export default function ListComponent({data}) {
-    const navigate = useNavigate()
-    const showDetails = (guid) => {
-        navigate(`/requestList/view/${guid}`)
-    }
-
-    const editRequest = (guid) => {
-        navigate(`/requestList/edit/${guid}`)
-    }
-
+export default function ReportList({data}) {
     const getStatusStyle = (status) => {
         switch (status) {
             case 'Cancelado':
@@ -40,7 +29,6 @@ export default function ListComponent({data}) {
                     <th>Producto</th>
                     <th>Fecha de Creación</th>
                     <th>Estado</th>
-                    <th>Acciones</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -55,17 +43,10 @@ export default function ListComponent({data}) {
                                 {item.status}
                             </p>
                         </td>
-                        <td className={styles.menuAcciones}>
-                            <button onClick={() => showDetails(item.id)} className={styles.buttonDetails}><FaEye/>
-                            </button>
-                            {item.status === 'Pendiente' &&
-                                <button onClick={() => editRequest(item.id)} className={styles.buttonEdit}><FaPencil/>
-                                </button>}
-                        </td>
                     </tr>
                 ))}
                 </tbody>
             </table>
         </div>
-    );
+    )
 }

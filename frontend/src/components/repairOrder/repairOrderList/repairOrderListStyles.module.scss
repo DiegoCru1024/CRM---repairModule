@@ -1,0 +1,107 @@
+.mainContainer {
+  display: flex;
+  height: 100vh;
+}
+
+.repairListContainer {
+  width: 85vw;
+  padding: 50px;
+  box-sizing: border-box;
+}
+
+.tableContainer {
+  height: 80vh;
+  border-radius: 10px;
+  overflow-y: scroll;
+}
+
+.menuAcciones {
+  text-align: center;
+
+  .buttonDetails {
+    color: white;
+    font-size: 20px;
+    background: #0157ae;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 0 5px;
+    width: 30px;
+    height: 30px;
+    transition: ease-in-out 0.25s;
+
+    &:hover {
+      background: #0580fd;
+      transition: ease-in-out 0.25s;
+    }
+  }
+}
+
+.cancelado {
+  color: #808080;
+  background: #dfdfdf;
+}
+
+.pendiente {
+  color: #FF8042;
+  background: #fedfcf;
+}
+
+.progreso {
+  color: #FFBB28;
+  background: #ffedc9;
+}
+
+.resuelto {
+  color: #00C49F;
+  background: #b0fff0;
+}
+
+.notificado {
+  color: #AC6CFF;
+  background: #eadaff;
+}
+
+.estadoButton {
+  border: none;
+  cursor: default;
+  border-radius: 20px;
+  text-align: center;
+  padding: 10px 20px;
+}
+
+.buttonEdit {
+  color: white;
+  font-size: 20px;
+  background: #dd7c03;
+  border: none;
+  border-radius: 5px;
+  padding: 5px;
+  margin: 0 5px;
+  width: 30px;
+  height: 30px;
+  transition: ease-in-out 0.25s;
+
+  &:hover {
+    background: #fca130;
+    transition: ease-in-out 0.25s;
+  }
+}
+
+.buttonConfirm {
+  color: white;
+  font-size: 20px;
+  background: #00C49F;
+  border: none;
+  border-radius: 5px;
+  padding: 5px;
+  margin: 0 5px;
+  width: 30px;
+  height: 30px;
+  transition: ease-in-out 0.25s;
+
+  &:hover {
+    background: #13ffd2;
+    transition: ease-in-out 0.25s;
+  }
+}

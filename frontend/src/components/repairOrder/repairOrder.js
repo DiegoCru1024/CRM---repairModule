@@ -2,7 +2,7 @@ import SideBar from "../sideBarComponent/sideBar";
 import styles from './repairOrder.module.scss'
 import {useEffect, useState} from "react";
 import axios from "../../axios/axiosInstance";
-import ListOrderComponent from "./listComponent/listOrderComponent";
+import ListOrderComponent from "./listOrderComponent/listOrderComponent";
 
 export default function RepairOrder() {
     const [requestArray, setRequestArray] = useState([])

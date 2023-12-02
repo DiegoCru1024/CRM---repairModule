@@ -1,9 +1,10 @@
 import styles from './sideBar.module.scss'
-import {HiClipboardList, HiCog, HiHome, HiInformationCircle} from "react-icons/hi";
+import {HiClipboardList, HiCog, HiCollection, HiHome, HiInformationCircle} from "react-icons/hi";
 import {HiUserCircle} from "react-icons/hi2";
 import {Link, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {clearUser} from "../../redux/userSlice";
+import {FaFileAlt} from "react-icons/fa";
 
 export default function SideBar() {
     const userData = useSelector((state) => state.userData)
@@ -41,10 +42,20 @@ export default function SideBar() {
                     )}
 
                     {userRole === 'Technician' && (
-                        <li><Link to={'/repairOrder'}>
-                            <HiCog className={styles.navBarIcon}/> Diagnóstico</Link>
-                        </li>
+                        <>
+                            <li><Link to={'/repairOrder'}>
+                                <HiCog className={styles.navBarIcon}/> Diagnóstico</Link>
+                            </li>
+
+                            <li><Link to={'/repairOrderList'}>
+                                <HiCollection className={styles.navBarIcon}/> Lista de Diagnósticos</Link>
+                            </li>
+                        </>
                     )}
+
+                    <li><Link to={'/report'}>
+                        <FaFileAlt className={styles.navBarIcon}/> Reporte</Link>
+                    </li>
                 </ul>
             </div>
 

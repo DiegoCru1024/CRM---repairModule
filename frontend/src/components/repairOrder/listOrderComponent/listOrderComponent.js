@@ -16,9 +16,9 @@ export default function ListOrderComponent({data}) {
                 return styles.cancelado;
             case 'Pendiente':
                 return styles.pendiente;
-            case 'Resuelto':
+            case 'Solventado':
                 return styles.resuelto;
-            case 'En Progreso':
+            case 'En progreso':
                 return styles.progreso;
             case 'Notificado':
                 return styles.notificado;

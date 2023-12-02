@@ -1,0 +1,29 @@
+.mainContainer {
+  display: flex;
+  height: 100vh;
+}
+
+.repairRequestContainer {
+  width: 85vw;
+  padding: 50px;
+  box-sizing: border-box;
+}
+
+.filterContainer {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  column-gap: 25px;
+  margin-bottom: 25px;
+}
+
+.excelButton {
+  margin-top: 25px;
+  background: #087443;
+  border: 1px solid #444444;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 10px 25px;
+  transition: ease-in-out 0.25s;
+}

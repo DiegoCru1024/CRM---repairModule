@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const instance = axios.create({
     baseURL: 'https://repair-module-crm.application.ryonadev.me',
-    timeout: 5000
+    timeout: 10000
 });
 
 instance.interceptors.request.use(

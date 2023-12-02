@@ -8,6 +8,9 @@ import RequestUpdate from "./components/repairRequest/requestUpdate/requestUpdat
 import RepairOrder from "./components/repairOrder/repairOrder";
 import CreateRepairOrder from "./components/repairOrder/createRepairOrder/createRepairOrder";
 import "./assets/scss/app.scss";
+import RepairOrderList from "./components/repairOrder/repairOrderList/repairOrderList";
+import RepairOrderDetails from "./components/repairOrder/repairOrderDetails/repairOrderDetails";
+import ReportComponent from "./components/report/reportComponent";
 
 function App() {
     return (
@@ -20,8 +23,10 @@ function App() {
                 <Route path={"/requestList/edit/:guid"} element={<RequestUpdate/>}/>
                 <Route path={"/repairRequest"} element={<RepairRequest/>}/>
                 <Route path={"/repairOrder"} element={<RepairOrder/>}/>
+                <Route path={"/repairOrder/view/:guid"} element={<RepairOrderDetails/>}/>
+                <Route path={"/repairOrderList"} element={<RepairOrderList/>}/>
                 <Route path={"/repairOrder/submit/:guid"} element={<CreateRepairOrder/>}/>
-
+                <Route path={"/report"} element={<ReportComponent/>}/>
             </Routes>
         </BrowserRouter>
     )

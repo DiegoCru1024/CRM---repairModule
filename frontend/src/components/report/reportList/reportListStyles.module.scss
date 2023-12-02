@@ -1,10 +1,8 @@
 .tableContainer {
-  display: flex;
-  justify-content: center;
   border: 1px solid #D6D6D6;
   border-radius: 20px;
   overflow-y: scroll;
-  height: 80vh;
+  height: 70vh;
 
   table {
     border-collapse: collapse;
@@ -66,6 +64,24 @@
 
     &:hover {
       background: #0580fd;
+      transition: ease-in-out 0.25s;
+    }
+  }
+
+  .buttonEdit {
+    color: white;
+    font-size: 20px;
+    background: #dd7c03;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 0 5px;
+    width: 30px;
+    height: 30px;
+    transition: ease-in-out 0.25s;
+
+    &:hover {
+      background: #fca130;
       transition: ease-in-out 0.25s;
     }
   }

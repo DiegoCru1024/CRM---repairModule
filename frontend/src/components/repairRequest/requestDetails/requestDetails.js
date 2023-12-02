@@ -4,6 +4,8 @@ import SideBar from "../../sideBarComponent/sideBar";
 import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import RepairDataFacade from "../repairDataFacade";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 
 export default function RequestDetails() {
     const {guid} = useParams()
@@ -35,11 +37,26 @@ export default function RequestDetails() {
         })
     }, [guid])
 
+    const savePDF = () => {
+        const input = document.getElementById('pdfContent');
+        input.style.padding = '25px'
+
+        html2canvas(input)
+            .then((canvas) => {
+                const imgData = canvas.toDataURL('image/png');
+                const pdf = new jsPDF();
+                const imgWidth = 210;
+                const imgHeight = (canvas.height * imgWidth) / canvas.width; // Ajuste de altura para mantener la relación de aspecto
+                pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+                pdf.save(`${guid}.pdf`);
+            });
+    }
+
     return (
         <div className={styles.mainContainer}>
             <SideBar/>
             <div className={styles.repairRequestContainer}>
-                <form>
+                <form id={'pdfContent'}>
                     <h1>Detalles de Solicitud</h1>
                     <div className={styles.mainDataContainer}>
                         <div>
@@ -150,6 +167,7 @@ export default function RequestDetails() {
                         navigate(-1)
                     }}>Volver
                     </button>
+                    <button type={"button"} onClick={savePDF} className={styles.pdfButton}>Guardar PDF</button>
                 </form>
             </div>
         </div>

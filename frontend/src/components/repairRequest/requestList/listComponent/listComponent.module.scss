@@ -17,15 +17,29 @@
   }
 }
 
-.anaranjado {
-  background-color: #ffecd7;
-  color: #ffa834;
-
+.cancelado {
+  color: #808080;
+  background: #dfdfdf;
 }
 
-.verde {
-  background-color: #cbe8ba;
-  color: #629c44;
+.pendiente {
+  color: #FF8042;
+  background: #fedfcf;
+}
+
+.progreso {
+  color: #FFBB28;
+  background: #ffedc9;
+}
+
+.resuelto {
+  color: #00C49F;
+  background: #b0fff0;
+}
+
+.notificado {
+  color: #AC6CFF;
+  background: #eadaff;
 }
 
 .estadoButton {

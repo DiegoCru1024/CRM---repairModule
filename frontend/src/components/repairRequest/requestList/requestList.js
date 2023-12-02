@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import SideBar from '../sideBarComponent/sideBar';
+import SideBar from '../../sideBarComponent/sideBar';
 import styles from './requestList.module.scss';
-import axios from '../../axios/axiosInstance'
+import axios from '../../../axios/axiosInstance'
 import ListComponent from "./listComponent/listComponent";
 
 export default function RequestList() {

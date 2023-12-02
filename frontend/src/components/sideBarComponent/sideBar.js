@@ -1,5 +1,5 @@
 import styles from './sideBar.module.scss'
-import {HiClipboardList, HiHome, HiInformationCircle} from "react-icons/hi";
+import {HiClipboardList, HiCog, HiHome, HiInformationCircle} from "react-icons/hi";
 import {HiUserCircle} from "react-icons/hi2";
 import {Link, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
@@ -13,7 +13,7 @@ export default function SideBar() {
         dispatch(clearUser())
         navigate('/')
     }
- 
+    const userRole = useSelector((state) => state.userData.role)
     return (
         <div className={styles.sideBarContainer}>
             <div>
@@ -34,9 +34,17 @@ export default function SideBar() {
                         <HiClipboardList className={styles.navBarIcon}/> Lista de Solicitudes</Link>
                     </li>
 
-                    <li><Link to={'/repairRequest'}>
-                        <HiInformationCircle className={styles.navBarIcon}/> Solucitud por Plataforma</Link>
-                    </li>
+                    {userRole === 'Advisor' && (
+                        <li><Link to={'/repairRequest'}>
+                            <HiInformationCircle className={styles.navBarIcon}/> Solucitud por Plataforma</Link>
+                        </li>
+                    )}
+
+                    {userRole === 'Technician' && (
+                        <li><Link to={'/repairOrder'}>
+                            <HiCog className={styles.navBarIcon}/> Diagnóstico</Link>
+                        </li>
+                    )}
                 </ul>
             </div>
 

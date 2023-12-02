@@ -1,0 +1,17 @@
+.mainContainer {
+  display: flex;
+  height: 100vh;
+}
+
+.repairOrderContainer {
+  width: 85vw;
+  padding: 50px;
+  box-sizing: border-box;
+}
+
+.tableContainer {
+  height: 80vh;
+  border-radius: 10px;
+  overflow-y: scroll;
+}
+

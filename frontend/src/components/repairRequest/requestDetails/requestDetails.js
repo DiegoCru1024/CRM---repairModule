@@ -1,10 +1,9 @@
-import styles from "../repairRequestPlatform/repairRequestPlatform.module.scss";
-import SideBar from "../sideBarComponent/sideBar";
-import TextInput from "../../ui/TextInput";
+import styles from "../repairRequest.module.scss";
+import SideBar from "../../sideBarComponent/sideBar";
+import TextInput from "../../../ui/TextInput";
 import React, {useEffect, useState} from "react";
-import axios from "axios";
-import axiosJWT from "../../axios/axiosInstance"
 import {useNavigate, useParams} from "react-router-dom";
+import RepairDataFacade from "../repairDataFacade";
 
 export default function RequestDetails() {
     const {guid} = useParams()
@@ -13,45 +12,28 @@ export default function RequestDetails() {
     const [requestData, setRequestData] = useState({})
 
     const navigate = useNavigate()
+    const repairDataFacade = new RepairDataFacade()
 
     useEffect(() => {
-        const getRequestData = async () => {
-            try {
-                const url = `/api/RepairRequest/${guid}`
-                const response = await axiosJWT.get(url)
-                setRequestData(response.data)
-            } catch (error) {
-                console.log(error)
-            }
+        const fetchData = async () => {
+            setClientData(await repairDataFacade.getClientData(requestData.clientId))
+            setOrderData(await repairDataFacade.getOrderData(requestData.purchaseOrderId))
         }
 
-        getRequestData().then(() => {
+        if (requestData.clientId && requestData.purchaseOrderId) {
+            fetchData().then(() => {
+            })
+        }
+    }, [requestData])
+
+    useEffect(() => {
+        const fetchData = async () => {
+            setRequestData(await repairDataFacade.getRequestData(guid))
+        }
+
+        fetchData().then(() => {
         })
     }, [guid])
-
-    useEffect(() => {
-        const getClientData = async () => {
-            const url = `https://clientemodulocrm.onrender.com/clientes/buscarPorDNI/${requestData.clientId}`
-            const clientResponse = await axios.get(url)
-            setClientData(clientResponse.data)
-        }
-
-        const getOrderData = async () => {
-            try {
-                const url = `https://modulo-ventas.onrender.com/getselldetails/${requestData.purchaseOrderId}`;
-                const detailsResponse = await axios.get(url);
-                setOrderData(detailsResponse.data[0])
-            } catch (error) {
-                console.log(error);
-            }
-        }
-
-        getClientData().then(() => {
-        })
-
-        getOrderData().then(() => {
-        })
-    }, [requestData])
 
     return (
         <div className={styles.mainContainer}>

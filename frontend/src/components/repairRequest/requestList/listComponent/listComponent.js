@@ -6,7 +6,28 @@ import {FaEye, FaPencil} from "react-icons/fa6";
 export default function ListComponent({data}) {
     const navigate = useNavigate()
     const showDetails = (guid) => {
-        navigate(`/requestList/${guid}`)
+        navigate(`/requestList/view/${guid}`)
+    }
+
+    const editRequest = (guid) => {
+        navigate(`/requestList/edit/${guid}`)
+    }
+
+    const getStatusStyle = (status) => {
+        switch (status) {
+            case 'Cancelado':
+                return styles.cancelado;
+            case 'Pendiente':
+                return styles.pendiente;
+            case 'Resuelto':
+                return styles.resuelto;
+            case 'En Progreso':
+                return styles.progreso;
+            case 'Notificado':
+                return styles.notificado;
+            default:
+                return '';
+        }
     }
 
     return (
@@ -30,12 +51,16 @@ export default function ListComponent({data}) {
                         <td>{item.productId}</td>
                         <td>{item.createdAt}</td>
                         <td>
-                            <p className={`${styles.estadoButton} ${styles.anaranjado}`}>{item.status}</p>
+                            <p className={`${styles.estadoButton} ${getStatusStyle(item.status)}`}>
+                                {item.status}
+                            </p>
                         </td>
                         <td className={styles.menuAcciones}>
                             <button onClick={() => showDetails(item.id)} className={styles.buttonDetails}><FaEye/>
                             </button>
-                            <button className={styles.buttonEdit}><FaPencil/></button>
+                            {item.status === 'Pendiente' &&
+                                <button onClick={() => editRequest(item.id)} className={styles.buttonEdit}><FaPencil/>
+                                </button>}
                         </td>
                     </tr>
                 ))}

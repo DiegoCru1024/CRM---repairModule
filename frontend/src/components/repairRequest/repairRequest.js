@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from "react"
 import SideBar from "../sideBarComponent/sideBar"
-import styles from "./repairRequestPlatform.module.scss"
+import styles from "./repairRequest.module.scss"
 import axiosJWT from "../../axios/axiosInstance"
 import axios from 'axios'
 import TextInput from "../../ui/TextInput"
 import MessageMediator from "../../mediators/messageMediator"
 import {useNavigate} from "react-router-dom";
 
-const RepairRequestPlatform = () => {
+const RepairRequest = () => {
     const navigate = useNavigate()
     const messageMediator = new MessageMediator()
     const [requestData, setRequestData] = useState({
@@ -243,4 +243,4 @@ const RepairRequestPlatform = () => {
     )
 }
 
-export default RepairRequestPlatform
+export default RepairRequest

@@ -1,0 +1,85 @@
+.mainContainer {
+  display: flex;
+  height: 100vh;
+}
+
+.repairOrderContainer {
+  width: 85vw;
+  height: 100vh;
+  padding: 50px;
+  box-sizing: border-box;
+  overflow-y: scroll;
+}
+
+.tableContainer {
+  height: 80vh;
+  border-radius: 10px;
+  overflow-y: scroll;
+}
+
+.userDataInput {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+
+  column-gap: 50px;
+  row-gap: 25px;
+  padding-top: 25px;
+
+  textarea {
+    resize: none;
+    height: 150px;
+  }
+}
+
+.diagnosisButton {
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 100%;
+  color: #808080;
+  background: #dfdfdf;
+  margin-right: 10px;
+  transition: ease-in-out 0.25s;
+
+  &:hover {
+    color: white;
+    background: #909090;
+    transition: ease-in-out 0.25s;
+  }
+}
+
+.componentButton {
+  border: none;
+  border-radius: 10px;
+  margin-right: 10px;
+  padding: 10px 20px;
+}
+
+.diagnosisContainer {
+  h2 {
+    margin: 0;
+  }
+
+  background: #dfdfdf;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 25px;
+}
+
+.spareContainer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 50px;
+  margin-bottom: 25px;
+}
+
+.sendButton {
+  background: #2e5ed2;
+  border: 1px solid #2e5ed2;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 10px 50px;
+  transition: ease-in-out 0.25s;
+}

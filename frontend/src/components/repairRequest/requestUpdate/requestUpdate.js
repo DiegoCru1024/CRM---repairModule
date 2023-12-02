@@ -1,6 +1,5 @@
 import styles from "../repairRequest.module.scss";
 import SideBar from "../../sideBarComponent/sideBar";
-import TextInput from "../../../ui/TextInput";
 import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import RepairDataFacade from "../repairDataFacade";
@@ -87,14 +86,28 @@ export default function RequestUpdate() {
                                        readOnly/>
                             </div>
                             <div className={styles.userDataInput}>
-                                <TextInput name={'nombres'} label={'Nombres:'}
-                                           value={clientData.nombre ? clientData.nombre : ''}/>
-                                <TextInput name={'apellidos'} label={'Apellidos:'}
-                                           value={clientData.apellido ? clientData.apellido : ''}/>
-                                <TextInput name={'fechanac'} label={'Fecha de Nacimiento:'}
-                                           value={clientData.fechanac ? clientData.fechanac : ''}/>
-                                <TextInput name={'correo'} label={'Correo de Contacto:'}
-                                           value={clientData.correo ? clientData.correo : ''}/>
+                                <div>
+                                    <label className={'form-label'}>Nombres:</label>
+                                    <input className={'form-control'} value={clientData.nombre ? clientData.nombre : ''}
+                                           readOnly={true}/>
+                                </div>
+                                <div>
+                                    <label className={'form-label'}>Apellidos:</label>
+                                    <input className={'form-control'}
+                                           value={clientData.apellido ? clientData.apellido : ''}
+                                           readOnly={true}/>
+                                </div>
+                                <div>
+                                    <label className={'form-label'}>Fecha de Nacimiento:</label>
+                                    <input className={'form-control'}
+                                           value={clientData.fechanac ? clientData.fechanac : ''}
+                                           readOnly={true}/>
+                                </div>
+                                <div>
+                                    <label className={'form-label'}>Correo de Contacto:</label>
+                                    <input className={'form-control'} value={clientData.correo ? clientData.correo : ''}
+                                           readOnly={true}/>
+                                </div>
                             </div>
                         </div>
                         <div>
@@ -106,14 +119,29 @@ export default function RequestUpdate() {
                                        readOnly/>
                             </div>
                             <div className={styles.userDataInput}>
-                                <TextInput name={'producto'} label={'Producto:'}
-                                           value={orderData.id_producto ? orderData.id_producto : ''}/>
-                                <TextInput name={'precio'} label={'Precio de Equipo:'}
-                                           value={orderData.coste_total ? orderData.coste_total : ''}/>
-                                <TextInput name={'garantia'} label={'Garantía:'}
-                                           value={orderData.id_garantia ? orderData.id_garantia : ''}/>
-                                <TextInput name={'fecha'} label={'Tiempo de Garantía:'}
-                                           value={orderData.tipo ? orderData.tipo : ''}/>
+                                <div>
+                                    <label className={'form-label'}>Producto:</label>
+                                    <input className={'form-control'}
+                                           value={orderData.id_producto ? orderData.id_producto : ''}
+                                           readOnly={true}/>
+                                </div>
+                                <div>
+                                    <label className={'form-label'}>Precio de Equipo:</label>
+                                    <input className={'form-control'}
+                                           value={orderData.coste_total ? orderData.coste_total : ''}
+                                           readOnly={true}/>
+                                </div>
+                                <div>
+                                    <label className={'form-label'}>Garantía:</label>
+                                    <input className={'form-control'}
+                                           value={orderData.id_garantia ? orderData.id_garantia : ''}
+                                           readOnly={true}/>
+                                </div>
+                                <div>
+                                    <label className={'form-label'}>Tipo de Producto:</label>
+                                    <input className={'form-control'} value={orderData.tipo ? orderData.tipo : ''}
+                                           readOnly={true}/>
+                                </div>
                             </div>
                         </div>
                     </div>

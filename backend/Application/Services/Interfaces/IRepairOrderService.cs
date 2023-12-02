@@ -16,4 +16,5 @@ public interface IRepairOrderService
     Task<IEnumerable<WeeklyOrder>> OrdersWeeklyReport(DateTime fromDate, DateTime toDate);
     Task<IEnumerable<MonthlyOrderByState>> StatusesMonthlyReport(int year, int month);
     Task<IEnumerable<GetStatus>> GetOrderStatuses();
+    Task ResolveConfirmation(Guid id, bool nextStep);
 }

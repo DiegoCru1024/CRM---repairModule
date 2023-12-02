@@ -152,4 +152,31 @@ public class RepairOrderService : IRepairOrderService
             await _unitOfWork.SpareParts.UpdateAsync(sparePart);
         }
     }
+
+    public async Task ResolveConfirmation(Guid id, bool nextStep)
+    {
+        var repairOder = await _unitOfWork.RepairOrders.GetWithDetails(id);
+        if (repairOder == null)
+        {
+            throw new NotFoundException(nameof(repairOder), id);
+        }
+        if(repairOder.StatusId != new OrderStatusFactory().CreateStatus(OrderStatuses.InConfirmation).Id)
+        {
+            throw new AppException("No se puede actualizar una orden de reparación que no esté en confirmación");
+        }
+
+        if (nextStep)
+        {
+            repairOder.StatusId = new OrderStatusFactory().CreateStatus(OrderStatuses.InRepair).Id;
+            repairOder.RepairRequest.StatusId = new RequestStatusFactory().CreateStatus(RequestStatuses.InProgress).Id;
+        }
+        else
+        {
+            repairOder.StatusId = new OrderStatusFactory().CreateStatus(OrderStatuses.Cancelled).Id;
+            repairOder.RepairRequest.StatusId = new RequestStatusFactory().CreateStatus(RequestStatuses.Cancelled).Id;
+        }
+
+        await _unitOfWork.RepairOrders.UpdateAsync(repairOder);
+        await _unitOfWork.CommitAsync();
+    }
 }

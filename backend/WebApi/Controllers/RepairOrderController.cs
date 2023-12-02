@@ -76,4 +76,11 @@ public class RepairOrderController : ControllerBase
         var report = await _repairOrderService.StatusesMonthlyReport(year, month);
         return Ok(report);
     }
+
+    [HttpPut("{id}/Confirmation")]
+    public async Task<IActionResult> ResolveConfirmation(Guid id, [FromQuery] bool nextStep)
+    {
+        await _repairOrderService.ResolveConfirmation(id, nextStep);
+        return Ok();
+    }
 }

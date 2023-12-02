@@ -1,0 +1,53 @@
+.mainContainer {
+  display: flex;
+  height: 100vh;
+}
+
+.repairOrderContainer {
+  width: 85vw;
+  padding: 50px;
+  box-sizing: border-box;
+}
+
+.tableContainer {
+  height: 80vh;
+  border-radius: 10px;
+  overflow-y: scroll;
+}
+
+.userDataInput {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+
+  column-gap: 50px;
+  row-gap: 25px;
+
+  textarea {
+    resize: none;
+    height: 150px;
+  }
+}
+
+.cancelButton {
+  background: #444444;
+  border: 1px solid #444444;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 10px 50px;
+  margin-top: 25px;
+  transition: ease-in-out 0.25s;
+}
+
+.pdfButton {
+  background: #990505;
+  border: 1px solid #444444;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 10px 25px;
+  margin-left: 25px;
+  transition: ease-in-out 0.25s;
+}

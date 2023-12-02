@@ -9,9 +9,11 @@ export default function PieChartComponent({data}) {
                 <PieChart width={400} height={400}>
                     <Pie data={data} cx="50%" cy="50%" outerRadius={120} innerRadius={80} paddingAngle={5}
                          dataKey="quantity">
-                        <Cell key={'cell-0'} fill={'#FF8042'}/>
-                        <Cell key={'cell-1'} fill={'#00C49F'}/>
+                        <Cell key={'cell-0'} fill={'#808080'}/>
+                        <Cell key={'cell-1'} fill={'#FF8042'}/>
                         <Cell key={'cell-2'} fill={'#FFBB28'}/>
+                        <Cell key={'cell-3'} fill={'#00C49F'}/>
+                        <Cell key={'cell-4'} fill={'#AC6CFF'}/>
                     </Pie>
                     <Tooltip/>
                     <Legend/>

@@ -1,9 +1,9 @@
-import styles from "./loginPage.module.css";
+import styles from "./loginPage.module.scss";
 import logo from "../../assets/images/backgroundVector.png";
 import vector from "../../assets/images/backgroundVector.png";
 import {BiUserCircle, BiLock} from "react-icons/bi";
 import {useState} from "react";
-import axios from "axios";
+import axios from "../../axios/axiosInstance";
 import jwtDecode from "jwt-decode";
 import {useDispatch} from "react-redux";
 import {setUser} from "../../redux/userSlice";
@@ -37,7 +37,7 @@ export default function LoginPage() {
         try {
             setWaitingResponse(true);
             const url =
-                "https://reapir-module-crm-230927095955.azurewebsites.net/api/User/Login";
+                "/api/User/Login";
             const response = await axios.post(url, loginData);
             const payload = jwtDecode(response.data.token);
             const userData = {

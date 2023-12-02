@@ -1,0 +1,14 @@
+.mainContainer {
+  display: flex;
+  overflow: hidden;
+  height: 100vh;
+}
+
+.requestListContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 85vw;
+  overflow: hidden;
+}

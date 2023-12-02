@@ -86,8 +86,9 @@ public class RepairOrderService : IRepairOrderService
             order.SubTotal += sparePart.Price * diagnosisSparePart.Quantity;
         }
 
-        var igv = order.SubTotal * 0.18f;
-        order.Total = order.SubTotal * (1 - order.Discount) + igv;
+        var discount = order.SubTotal * order.Discount / 100;
+        var igv = (order.SubTotal - discount) * 0.18f;
+        order.Total = order.SubTotal + igv;
 
         return order;
     }

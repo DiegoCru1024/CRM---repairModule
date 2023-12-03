@@ -16,6 +16,7 @@ public class RepairOrder
     public Guid RepairRequestId { get; set; }
     public RepairRequest RepairRequest { get; set; }
     public IEnumerable<Diagnosis> Diagnoses { get; set; }
+
     public RepairOrder(float discount, bool warrantyEligible, Guid statusId)
     {
         CreatedAt = DateTime.Now;
@@ -23,5 +24,15 @@ public class RepairOrder
         WarrantyEligible = warrantyEligible;
         StatusId = statusId;
         Diagnoses = new List<Diagnosis>();
+    }
+
+    public void CalculateTotals()
+    {
+        foreach (var diagnosisSparePart in Diagnoses.SelectMany(diagnosis => diagnosis.DiagnosisSpareParts))
+        {
+            SubTotal += diagnosisSparePart.SparePart.Price * diagnosisSparePart.Quantity;
+        }
+
+        Total = SubTotal - Discount * SubTotal;
     }
 }

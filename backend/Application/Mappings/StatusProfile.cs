@@ -1,4 +1,4 @@
-using Application.Contracts.Status;
+using Application.Contracts.Status.DTOs;
 using AutoMapper;
 using Domain.Base;
 using Domain.Entities;

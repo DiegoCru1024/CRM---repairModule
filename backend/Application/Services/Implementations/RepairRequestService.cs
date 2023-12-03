@@ -1,5 +1,5 @@
 using Application.Contracts.RepairRequest.DTOs;
-using Application.Contracts.Status;
+using Application.Contracts.Status.DTOs;
 using Application.Enums;
 using Application.Exceptions;
 using Application.Factories.StatusFactory.Implementations;
@@ -34,11 +34,16 @@ public class RepairRequestService : IRepairRequestService
         repairRequest.CreatedAt = DateTime.Now;
         repairRequest.StatusId = new RequestStatusFactory().CreateStatus(RequestStatuses.Pending).Id;
         repairRequest.CreatedById = createdById;
-        var warranty = await _salesModuleService.GetWarrantyByProductIdAndSellId(Guid.Parse(model.ProductId), Guid.Parse(model.PurchaseOrderId));
+        var warranty =
+            await _salesModuleService.GetWarrantyByProductIdAndSellId(Guid.Parse(model.ProductId),
+                Guid.Parse(model.PurchaseOrderId));
         repairRequest.WarrantyId = warranty?.Id.ToString();
 
         var repairOrderStatus = (OrderStatus)new OrderStatusFactory().CreateStatus(OrderStatuses.WaitingForDiagnosis);
-        var repairOrder = new RepairOrder(0, false, repairOrderStatus.Id);
+
+        var repairOrder = warranty is not null
+            ? new RepairOrder(warranty.Percentage, !warranty.IsExpired, repairOrderStatus.Id)
+            : new RepairOrder(0, false, repairOrderStatus.Id);
 
         repairRequest.RepairOrder = repairOrder;
         var createdRequest = await _unitOfWork.RepairRequests.AddAsync(repairRequest);
@@ -65,7 +70,7 @@ public class RepairRequestService : IRepairRequestService
         return _mapper.Map<List<GetRepairRequest>>(repairRequests);
     }
 
-    public async Task<RepairRequest> UpdateRequest(Guid id, UpdateRepairRequest model)
+    public async Task<GetRepairRequest> UpdateRequest(Guid id, UpdateRepairRequest model)
     {
         _validationObjectService.EnsureValid(model);
         var repairRequest = await _unitOfWork.RepairRequests.GetByIdAsync(id);
@@ -83,7 +88,7 @@ public class RepairRequestService : IRepairRequestService
         await _unitOfWork.RepairRequests.UpdateAsync(repairRequest);
         await _unitOfWork.CommitAsync();
 
-        return repairRequest;
+        return _mapper.Map<GetRepairRequest>(repairRequest);
     }
 
     public async Task<IEnumerable<GetStatus>> GetRequestStatuses()
@@ -92,9 +97,45 @@ public class RepairRequestService : IRepairRequestService
         return _mapper.Map<IEnumerable<GetStatus>>(statuses);
     }
 
-    public async Task<IEnumerable<GetRepairRequest>> GetRequestsWithFilters(string? status, string? clientId)
+    public async Task<IEnumerable<GetRepairRequest>> GetRequestsWithFilters(string? status, string? clientId,
+        DateTime? fromDate, DateTime? toDate, int? limit)
     {
-        var repairRequests = await _unitOfWork.RepairRequests.GetWithFiltersAsync(status, clientId);
+        var repairRequests =
+            await _unitOfWork.RepairRequests.GetWithFiltersAsync(status, clientId, fromDate, toDate, limit);
         return _mapper.Map<IEnumerable<GetRepairRequest>>(repairRequests);
+    }
+
+    public async Task<IEnumerable<WeeklyRequest>> RequestWeeklyReport(DateTime fromDate, DateTime toDate)
+    {
+        var weeklyReport = new List<WeeklyRequest>();
+        for (var currentDate = fromDate; currentDate <= toDate; currentDate = currentDate.AddDays(1))
+        {
+            var count = await _unitOfWork.RepairRequests.CountAsync(r =>
+                r.CreatedAt.Date == currentDate);
+            weeklyReport.Add(new WeeklyRequest()
+            {
+                Name = currentDate.ToString("dd/MM"),
+                Quantity = count
+            });
+        }
+        return weeklyReport;
+    }
+
+    public async Task<IEnumerable<MonthlyRequestByState>> StatusesMonthlyReport(int year, int month)
+    {
+        var statuses = await _unitOfWork.RequestStatuses.GetAllAsync();
+        var monthlyReport = new List<MonthlyRequestByState>();
+        foreach (var status in statuses)
+        {
+            var count = await _unitOfWork.RepairRequests.CountAsync(r =>
+                r.StatusId == status.Id && r.CreatedAt.Year == year && r.CreatedAt.Month == month);
+            monthlyReport.Add(new MonthlyRequestByState
+            {
+                Name = status.Name,
+                Quantity = count
+            });
+        }
+
+        return monthlyReport;
     }
 }

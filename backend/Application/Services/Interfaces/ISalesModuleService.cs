@@ -9,4 +9,5 @@ public interface ISalesModuleService
     Task<IEnumerable<GetSellDetail>?> GetSellDetailBySellId(Guid sellId);
     Task<GetWarranty?> GetWarrantyById(int id);
     Task<GetWarranty?> GetWarrantyByProductIdAndSellId(Guid productId, Guid sellId);
+    Task<GetSell?> GetSellById(Guid sellId);
 }

@@ -11,6 +11,7 @@ import "./assets/scss/app.scss";
 import RepairOrderList from "./components/repairOrder/repairOrderList/repairOrderList";
 import RepairOrderDetails from "./components/repairOrder/repairOrderDetails/repairOrderDetails";
 import ReportComponent from "./components/report/reportComponent";
+import AppRqs from "./components/rqsModulo/AppRqs";
 
 function App() {
     return (
@@ -27,6 +28,7 @@ function App() {
                 <Route path={"/repairOrderList"} element={<RepairOrderList/>}/>
                 <Route path={"/repairOrder/submit/:guid"} element={<CreateRepairOrder/>}/>
                 <Route path={"/report"} element={<ReportComponent/>}/>
+                <Route path={"/modulorqs/*"} element={<AppRqs />}/>
             </Routes>
         </BrowserRouter>
     )

@@ -56,6 +56,9 @@ export default function SideBar() {
                     <li><Link to={'/report'}>
                         <FaFileAlt className={styles.navBarIcon}/> Reporte</Link>
                     </li>
+                    <li><Link to={'/modulorqs/'}>
+                        <HiInformationCircle className={styles.navBarIcon}/> Reclamos y Solicitudes</Link>
+                    </li>
                 </ul>
             </div>
 
